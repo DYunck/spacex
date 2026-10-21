@@ -45,6 +45,25 @@ def bs_greeks(S, K, T, iv, kind, r=RATE):
     return {"delta": delta, "theta": theta, "gamma": gamma, "vega": vega}
 
 
+def implied_vol(price, S, K, T, kind):
+    """Back out implied volatility from an option price (bisection). None if impossible."""
+    if price is None or price <= 0 or T <= 0:
+        return None
+    intrinsic = max(0.0, (S - K) if kind == "call" else (K - S))
+    if price <= intrinsic + 0.005:
+        return None
+    lo, hi = 0.01, 5.0
+    if bs_price(S, K, T, hi, kind) < price:
+        return None
+    for _ in range(60):
+        mid = (lo + hi) / 2
+        if bs_price(S, K, T, mid, kind) > price:
+            hi = mid
+        else:
+            lo = mid
+    return (lo + hi) / 2
+
+
 def prepare_chain(chain: pd.DataFrame, spot: float, today: dt.date) -> pd.DataFrame:
     if chain is None or chain.empty:
         return pd.DataFrame()
@@ -53,7 +72,10 @@ def prepare_chain(chain: pd.DataFrame, spot: float, today: dt.date) -> pd.DataFr
         c[col] = pd.to_numeric(c.get(col), errors="coerce").fillna(0)
     c["dte"] = c["expiry"].map(lambda e: (dt.date.fromisoformat(e) - today).days)
     c["mid"] = np.where((c["bid"] > 0) & (c["ask"] > 0), (c["bid"] + c["ask"]) / 2, c["lastPrice"])
-    c["spread_pct"] = np.where(c["mid"] > 0, (c["ask"] - c["bid"]) / c["mid"] * 100, np.nan)
+    c["spread_pct"] = np.where((c["bid"] > 0) & (c["mid"] > 0), (c["ask"] - c["bid"]) / c["mid"] * 100, np.nan)
+    # Yahoo's own IV is unreliable outside market hours, so calculate it from the option's price.
+    own = [implied_vol(r.mid, spot, r.strike, max(r.dte, 0.5) / 365, r.type) for r in c.itertuples()]
+    c["impliedVolatility"] = [o if o is not None else (y if y > 0.05 else 0.0) for o, y in zip(own, c["impliedVolatility"])]
     g = [bs_greeks(spot, r.strike, max(r.dte, 0.5) / 365, r.impliedVolatility, r.type) for r in c.itertuples()]
     for k in ("delta", "theta", "gamma", "vega"):
         c[k] = [x[k] for x in g]

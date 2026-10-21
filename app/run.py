@@ -118,7 +118,7 @@ def main():
     chain = opt.prepare_chain(data["chain"], spot, today)
     iv, iv_exp = opt.atm_iv(chain, spot)
     iv_hist = _load_json(OUT / "iv_history.json", [])
-    if iv and not a.sample:
+    if iv and not a.sample and mode == "intraday":  # only record IV from live market prices
         iv_hist = [h for h in iv_hist if h["date"] != today.isoformat()] + [{"date": today.isoformat(), "iv": round(iv, 4)}]
         iv_hist = iv_hist[-400:]
     hist_vals = [h["iv"] for h in iv_hist[-252:]]
