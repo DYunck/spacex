@@ -1,5 +1,5 @@
-# Option positions you currently hold, so the app can tell you when to SELL.
-# The app never trades — it only watches these and sends alerts.
+# Option positions you currently hold, so the dashboard can flag when it may be time to SELL.
+# The app never trades and never sends messages — warnings appear on the dashboard only.
 #
 # Add one entry per position, for example:
 #

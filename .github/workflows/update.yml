@@ -3,12 +3,12 @@ name: Update SPCX signals
 on:
   schedule:
     # Every hour at :40 past, 13:40–21:40 UTC, Monday–Friday.
-    # Covers US market hours (9:30–4:00 ET) all year, plus one after-close run for the daily summary.
+    # Covers US market hours (9:30–4:00 ET) all year, plus one run after the close.
     - cron: "40 13-21 * * 1-5"
   workflow_dispatch:
     inputs:
       mode:
-        description: "auto, intraday or summary"
+        description: "auto, intraday or summary (summary = after-close run)"
         default: auto
   push:
     branches: [main]
@@ -39,17 +39,10 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-      - name: Fetch data, analyze, send alerts
-        env:
-          DASHBOARD_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
-          SMTP_HOST: ${{ secrets.SMTP_HOST }}
-          SMTP_PORT: ${{ secrets.SMTP_PORT }}
-          SMTP_USER: ${{ secrets.SMTP_USER }}
-          SMTP_PASS: ${{ secrets.SMTP_PASS }}
-          ALERT_EMAIL_TO: ${{ secrets.ALERT_EMAIL_TO }}
+      - name: Fetch data and analyze
         run: python -m app.run --mode "${{ github.event.inputs.mode || 'auto' }}"
 
-      - name: Save history (alerts, IV history) back to the repo
+      - name: Save history (signals, IV history) back to the repo
         run: |
           git config user.name "spcx-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

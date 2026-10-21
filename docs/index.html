@@ -73,7 +73,7 @@
       <p class="note">Picked for liquidity (tight bid/ask, real open interest) and a delta near the target in settings. "Max loss" is the whole cost of one contract. "Decay/day" is roughly how much one contract loses each day if nothing else changes.</p>
     </section>
 
-    <section class="card span6">
+    <section class="card span12">
       <h2>Your positions</h2>
       <div class="scroll"><table id="positions"></table></div>
     </section>
@@ -84,16 +84,16 @@
     </section>
 
     <section class="card span6">
-      <h2>Options activity</h2>
-      <dl class="kv" id="flow"></dl>
-      <div class="scroll" style="margin-top:10px"><table id="unusual"></table></div>
-    </section>
-
-    <section class="card span6">
       <h2>Market context</h2>
       <div class="scroll"><table id="context"></table></div>
       <h2 style="margin-top:16px">Key price levels</h2>
       <div class="chips" id="levels"></div>
+    </section>
+
+    <section class="card span12">
+      <h2>Options activity</h2>
+      <dl class="kv" id="flow"></dl>
+      <div class="scroll" style="margin-top:10px"><table id="unusual"></table></div>
     </section>
 
     <section class="card span12">
@@ -103,14 +103,14 @@
     </section>
 
     <section class="card span12">
-      <h2>Alert history &amp; results</h2>
+      <h2>Strong-signal history &amp; results</h2>
       <div id="track" class="chips" style="margin-bottom:10px"></div>
-      <div class="scroll"><table id="alerts"></table></div>
+      <div class="scroll"><table id="signals"></table></div>
     </section>
   </div>
 
   <footer>
-    <p><strong>This is an information tool, not financial advice.</strong> It never places trades. Signals are based on past price patterns and can be wrong; options can lose 100% of what you pay. Always make your own decision.</p>
+    <p><strong>This is an information tool, not financial advice.</strong> It never places trades. It sends no messages. Signals are based on past price patterns and can be wrong; options can lose 100% of what you pay. Always make your own decision.</p>
     <p id="footsrc"></p>
   </footer>
 </div>

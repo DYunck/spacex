@@ -46,7 +46,7 @@
 <div class="guide">
   <a class="back" href="./">← Back to the dashboard</a>
   <h1>How to use SPCX Signals</h1>
-  <p class="lede">A 10-minute walkthrough: what each part of the dashboard means, a simple daily routine, and how to set up email alerts and track the options you own.</p>
+  <p class="lede">A 10-minute walkthrough: what each part of the dashboard means, a simple daily routine, and how to track the options you own. The app never sends messages; everything is on the dashboard.</p>
 
   <div class="callout warn"><strong>Read this first</strong>This app gives you information, not instructions. It never buys or sells anything. Its signals come from past price patterns, and in testing so far they've been right only about half the time. Options can lose 100% of what you pay. Every decision is yours.</div>
 
@@ -57,7 +57,6 @@
       <li><a href="#tour">Tour of the dashboard</a></li>
       <li><a href="#routine">A simple daily routine</a></li>
       <li><a href="#example">Worked example</a></li>
-      <li><a href="#alerts">Set up email alerts</a></li>
       <li><a href="#positions">Track options you own</a></li>
       <li><a href="#settings">Change events and settings</a></li>
       <li><a href="#mistakes">Common mistakes to avoid</a></li>
@@ -90,7 +89,7 @@
   <p>Shows SPCX's latest price, today's change and when the data was last updated. Updates run every hour while the market is open, and prices can be about 15 minutes behind. A yellow banner appears if the data is more than a day old.</p>
 
   <h3>"What conditions favor right now" (the main box)</h3>
-  <p>This is the summary. The big colored headline is the app's read on the situation, and the sentence below explains it. The bar underneath shows the <strong>direction score</strong>, from −100 to +100:</p>
+  <p>This is the summary box. The big colored headline is the app's read on the situation, and the sentence below explains it. The bar underneath shows the <strong>direction score</strong>, from −100 to +100:</p>
   <div class="scorebar">
     <div style="background:var(--down);color:#fff">−100 to −40<br>Bearish</div>
     <div style="background:var(--down-bg);color:var(--down)">−39 to −20<br>Leaning bearish</div>
@@ -98,7 +97,7 @@
     <div style="background:var(--up-bg);color:var(--up)">+20 to +39<br>Leaning bullish</div>
     <div style="background:var(--up);color:#fff">+40 to +100<br>Bullish</div>
   </div>
-  <p>The score adds up points from the daily chart, adds a smaller weight from the hourly chart, and gives a bonus when the two agree. Alerts go out only when it reaches <strong>±40</strong>.</p>
+  <p>The score adds up points from the daily chart, adds a smaller weight from the hourly chart, and gives a bonus when the two agree. A score of <strong>±40</strong> or more counts as a <strong>strong signal</strong>.</p>
   <p>The headline combines direction with option prices:</p>
   <div class="matrix">
     <div class="h"></div><div class="h">Options cheap or fair</div><div class="h">Options expensive</div>
@@ -160,7 +159,7 @@
   <p>These are starting points to look up at your broker, not recommendations.</p>
 
   <h3>"Your positions"</h3>
-  <p>Empty until you list your options (see <a href="#positions">section 6</a>). Then it shows each one's current value, profit or loss, days left and daily decay.</p>
+  <p>Empty until you list your options (see <a href="#positions">section 5</a>). Then it shows each one's current value, profit or loss, days left and daily decay.</p>
 
   <h3>"Upcoming events"</h3>
   <p>Earnings, lockup expirations (when insiders are allowed to sell shares), Fed meetings and monthly options expirations. Items marked <em>(unconfirmed)</em> are estimates, so check them before relying on the date.</p>
@@ -177,17 +176,17 @@
   <h3>"How has this signal done?"</h3>
   <p>A test of the scoring rules on SPCX's past prices. <strong>Right direction</strong> is how often the stock moved the way the signal said. Around 50% is no better than a coin flip, and that's roughly where it stands today. Check this table occasionally. If a signal type stays near 50% after a few more months of data, give it little weight.</p>
 
-  <h3>"Alert history &amp; results"</h3>
-  <p>Every alert the app sends, with how SPCX moved 1, 5 and 10 trading days later. Green means the alert was right; red means it was wrong. Over time this is the most honest measure of whether the app is helping.</p>
+  <h3>"Strong-signal history &amp; results"</h3>
+  <p>Every time the score crosses ±40, it's logged here with how SPCX moved 1, 5 and 10 trading days later. Green means the signal was right; red means it was wrong. Over time this is the most honest measure of whether the app is helping.</p>
 
   <!-- ------------------------------------------------------------ -->
   <h2 id="routine">3. A simple daily routine</h2>
-  <div class="step"><div class="n">1</div><div><h3>Read the after-close summary (evening)</h3><p>Once alerts are set up, a summary arrives after each trading day. If it says "No clear signal — wait," you're done.</p></div></div>
+  <div class="step"><div class="n">1</div><div><h3>Open the dashboard (once a day is enough)</h3><p>It updates every hour during market hours. After the close is a calm time to look. If the headline says "No clear signal — wait," you're done.</p></div></div>
   <div class="step"><div class="n">2</div><div><h3>Check the main box and "Why"</h3><p>Is the score past ±40? Are the top reasons from the daily chart, and do daily and hourly agree?</p></div></div>
   <div class="step"><div class="n">3</div><div><h3>Check option prices</h3><p>Look at "Are options cheap or expensive?" and the events list. Expensive options or an event in the next few days means caution.</p></div></div>
   <div class="step"><div class="n">4</div><div><h3>Look at the suggested contracts</h3><p>Note the cost, breakeven and decay per day. Ask yourself: "Is a move past the breakeven before expiration realistic, given the expected move?"</p></div></div>
   <div class="step"><div class="n">5</div><div><h3>Decide, then trade at your broker</h3><p>If you trade, use a <strong>limit order</strong> (set your own price) near the mid price rather than a market order. Decide in advance how much you're willing to lose.</p></div></div>
-  <div class="step"><div class="n">6</div><div><h3>Log what you bought</h3><p>Add the position to <code>data/positions.yaml</code> so the app can tell you when to sell.</p></div></div>
+  <div class="step"><div class="n">6</div><div><h3>Log what you bought</h3><p>Add the position to <code>data/positions.yaml</code> so the dashboard can flag when it may be time to sell.</p></div></div>
   <div class="callout tip"><strong>Waiting is a valid choice</strong>Most days won't have a strong signal. Buying options without a reason costs money every day through time decay.</div>
 
   <!-- ------------------------------------------------------------ -->
@@ -200,32 +199,10 @@
     <li>Options <strong>fair</strong>: IV 58.5% versus 61.3% actual volatility.</li>
     <li>Events: a lockup tranche the next day, with insiders allowed to sell more shares.</li>
   </ul>
-  <p><strong>How to read it:</strong> The trend is up, but the stock just leapt 10% and the hourly chart says it's stretched. A lockup the next day could add selling pressure. The score is short of the ±40 alert level. A reasonable reading is "positive, but don't chase the jump; wait to see if it holds after the lockup." If your friend already owned calls from before earnings, the dashboard's mix of a big gain, a stretched price and an upcoming lockup would make taking some profit worth considering.</p>
+  <p><strong>How to read it:</strong> The trend is up, but the stock just leapt 10% and the hourly chart says it's stretched. A lockup the next day could add selling pressure. The score is short of the ±40 strong-signal level. A reasonable reading is "positive, but don't chase the jump; wait to see if it holds after the lockup." If your friend already owned calls from before earnings, the dashboard's mix of a big gain, a stretched price and an upcoming lockup would make taking some profit worth considering.</p>
 
   <!-- ------------------------------------------------------------ -->
-  <h2 id="alerts">5. Set up email alerts (about 5 minutes)</h2>
-  <p>Alerts arrive by email. A Gmail account works well for sending them; the repo owner does this once.</p>
-  <div class="step"><div class="n">1</div><div><h3>Create a Gmail app password</h3><p>In the Gmail account that will <em>send</em> alerts, turn on 2-Step Verification, then create an <a href="https://myaccount.google.com/apppasswords">app password</a>. Copy the 16-character code. This is not your normal password.</p></div></div>
-  <div class="step"><div class="n">2</div><div><h3>Add five secrets on GitHub</h3><p>Open <a href="https://github.com/DYunck/spacex/settings/secrets/actions">Settings → Secrets and variables → Actions</a>, click <strong>New repository secret</strong>, and add each of these:</p>
-  <table>
-    <tr><th>Name</th><th>Secret</th></tr>
-    <tr><td><code>SMTP_HOST</code></td><td><code>smtp.gmail.com</code></td></tr>
-    <tr><td><code>SMTP_PORT</code></td><td><code>587</code></td></tr>
-    <tr><td><code>SMTP_USER</code></td><td>The sending Gmail address</td></tr>
-    <tr><td><code>SMTP_PASS</code></td><td>The app password from step 1</td></tr>
-    <tr><td><code>ALERT_EMAIL_TO</code></td><td>The email address that should receive alerts</td></tr>
-  </table></div></div>
-  <div class="step"><div class="n">3</div><div><h3>Check that it works</h3><p>Run <a href="https://github.com/DYunck/spacex/actions/workflows/update.yml">Actions → Update SPCX signals → Run workflow</a> after 4 p.m. ET and a daily summary email should arrive within a few minutes. Check the spam folder the first time.</p></div></div>
-  <p>You'll get three kinds of emails:</p>
-  <ul>
-    <li><strong>Signal alerts</strong> when the score crosses ±40. You won't get repeats until the signal fades and returns.</li>
-    <li><strong>Position alerts</strong> about options you own.</li>
-    <li><strong>A daily summary</strong> after the close.</li>
-  </ul>
-  <p>Each email includes a link to the dashboard.</p>
-
-  <!-- ------------------------------------------------------------ -->
-  <h2 id="positions">6. Track options you own (for sell alerts)</h2>
+  <h2 id="positions">5. Track options you own (for sell warnings)</h2>
   <p>Open <a href="https://github.com/DYunck/spacex/edit/main/data/positions.yaml">data/positions.yaml</a> on GitHub (you need edit access to the repo), replace <code>positions: []</code> with your options, and click <strong>Commit changes</strong>:</p>
 <pre><code>positions:
   - type: call
@@ -239,7 +216,7 @@
     expiry: "2026-12-18"
     contracts: 1
     cost_per_contract: 610</code></pre>
-  <p>Keep the spacing exactly as shown. Indentation matters in this file. The app will alert you when a position:</p>
+  <p>Keep the spacing exactly as shown. Indentation matters in this file. The <strong>Heads-up</strong> column in "Your positions" will flag a position when it:</p>
   <ul>
     <li>is up <strong>50%</strong> (consider taking profit)</li>
     <li>is down <strong>40%</strong> (your stop-loss level)</li>
@@ -247,23 +224,23 @@
     <li>has <strong>21 days or fewer</strong> left, when time decay speeds up</li>
     <li>is about to be held through earnings or a lockup</li>
   </ul>
-  <p>When you sell, delete that position from the file so the alerts stop.</p>
+  <p>When you sell, delete that position from the file.</p>
 
   <!-- ------------------------------------------------------------ -->
-  <h2 id="settings">7. Change events and settings</h2>
+  <h2 id="settings">6. Change events and settings</h2>
   <p>Both files can be edited on GitHub with the pencil icon. The dashboard updates a few minutes after you commit.</p>
   <h3><a href="https://github.com/DYunck/spacex/edit/main/data/events.yaml">data/events.yaml</a></h3>
   <p>Add Starship launches, the next earnings date once SpaceX announces it, or anything else that could move the stock. Change <code>verified: false</code> to <code>true</code> once you've confirmed a date at <a href="https://ir.spacex.com">ir.spacex.com</a>.</p>
   <h3><a href="https://github.com/DYunck/spacex/edit/main/config.yaml">config.yaml</a></h3>
   <ul>
-    <li><code>alert_min_score: 40</code>: raise it to 50 or 60 for fewer, stronger alerts; lower it for more.</li>
-    <li><code>take_profit_pct</code>, <code>stop_loss_pct</code>, <code>min_days_left</code>: your sell-alert rules.</li>
+    <li><code>signal_min_score: 40</code>: raise it to 50 or 60 so only the strongest signals count; lower it for more.</li>
+    <li><code>take_profit_pct</code>, <code>stop_loss_pct</code>, <code>min_days_left</code>: your sell-warning rules.</li>
     <li><code>min_days_to_expiry</code> / <code>max_days_to_expiry</code>: how far out suggested contracts expire.</li>
   </ul>
   <p>To refresh immediately instead of waiting for the hour: <a href="https://github.com/DYunck/spacex/actions/workflows/update.yml">Actions → Update SPCX signals</a> → <strong>Run workflow</strong>.</p>
 
   <!-- ------------------------------------------------------------ -->
-  <h2 id="mistakes">8. Common mistakes to avoid</h2>
+  <h2 id="mistakes">7. Common mistakes to avoid</h2>
   <ul>
     <li><strong>Buying right before earnings.</strong> Volatility crush can wipe out gains even when you guess the direction right.</li>
     <li><strong>Buying very short-dated options.</strong> Contracts expiring this week are cheap because they usually expire worthless.</li>
@@ -275,7 +252,7 @@
   </ul>
 
   <!-- ------------------------------------------------------------ -->
-  <h2 id="glossary">9. Glossary</h2>
+  <h2 id="glossary">8. Glossary</h2>
   <dl class="gloss">
     <dt>Bid / ask / mid</dt><dd>The bid is the highest price buyers offer, the ask is the lowest price sellers accept, and the mid is halfway between.</dd>
     <dt>Breakeven</dt><dd>The stock price at expiration where you neither make nor lose money: strike plus the price paid for a call, strike minus the price paid for a put.</dd>

@@ -1,8 +1,7 @@
-"""Main job: fetch data, analyze, write dashboard data, send alerts.
+"""Main job: fetch data, analyze, write dashboard data. Sends nothing to anyone.
 
-    python -m app.run              # live data, decides intraday vs. after-close summary by the clock
-    python -m app.run --sample     # fake data for testing, sends nothing
-    python -m app.run --mode summary --no-alerts
+    python -m app.run              # live data
+    python -m app.run --sample     # fake data for testing
 """
 from __future__ import annotations
 
@@ -15,7 +14,7 @@ from pathlib import Path
 import pandas as pd
 import yaml
 
-from . import alerts, backtest, fetch, indicators as ind, options as opt, signals
+from . import backtest, fetch, indicators as ind, options as opt, signals
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "data"
@@ -82,14 +81,12 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--sample", action="store_true")
     ap.add_argument("--mode", choices=["auto", "intraday", "summary"], default="auto")
-    ap.add_argument("--no-alerts", action="store_true")
     a = ap.parse_args()
 
     cfg = yaml.safe_load((ROOT / "config.yaml").read_text())
     now = pd.Timestamp.now(tz=NY)
     today = now.date()
     OUT.mkdir(parents=True, exist_ok=True)
-    send_alerts = not (a.no_alerts or a.sample)
 
     mode = a.mode
     if mode == "auto":
@@ -138,8 +135,8 @@ def main():
     calls = opt.suggest(chain, "call", cfg, events, today)
     puts = opt.suggest(chain, "put", cfg, events, today)
 
-    # ---- positions
-    pos_out, pos_alerts = [], []
+    # ---- positions (warnings are shown on the dashboard only; nothing is sent)
+    pos_out = []
     rules = cfg["exit_rules"]
     for p in load_positions():
         try:
@@ -148,7 +145,8 @@ def main():
             m = chain[(chain["expiry"] == exp) & (chain["strike"] == k) & (chain["type"] == typ)] if not chain.empty else chain
             dte = (dt.date.fromisoformat(exp) - today).days
             item = {"contract": f"SPCX {exp} ${k:g} {typ}", "contracts": int(p.get("contracts", 1)),
-                    "cost_per_contract": float(p["cost_per_contract"]), "dte": dte}
+                    "cost_per_contract": float(p["cost_per_contract"]), "dte": dte, "warnings": []}
+            w = item["warnings"]
             if m is not None and not m.empty:
                 r = m.iloc[0]
                 val = r["mid"] * 100
@@ -157,25 +155,24 @@ def main():
                          "pl_dollars": round((val - item["cost_per_contract"]) * item["contracts"], 0),
                          "delta": _num(r["delta"]), "theta_per_day": _num(r["theta"] * 100)}
                 if pl >= rules["take_profit_pct"]:
-                    pos_alerts.append((item["contract"], "profit", f"{item['contract']} is up {pl:.0f}% — consider taking profit"))
+                    w.append(f"Up {pl:.0f}%: profit target reached")
                 if pl <= rules["stop_loss_pct"]:
-                    pos_alerts.append((item["contract"], "loss", f"{item['contract']} is down {pl:.0f}% — your stop-loss level"))
-                against = (typ == "call" and direction["score"] <= -40) or (typ == "put" and direction["score"] >= 40)
-                if against:
-                    pos_alerts.append((item["contract"], "against", f"Signals have turned against {item['contract']} ({direction['label']})"))
+                    w.append(f"Down {pl:.0f}%: stop-loss level reached")
+                if (typ == "call" and direction["score"] <= -40) or (typ == "put" and direction["score"] >= 40):
+                    w.append(f"Signals have turned against it ({direction['label']})")
             else:
                 item["note"] = "Contract not found in downloaded chain"
             if dte <= rules["min_days_left"]:
-                pos_alerts.append((item["contract"], "decay", f"{item['contract']} has {dte} days left — time decay speeds up from here"))
+                w.append(f"{dte} days left: time decay speeds up from here")
             if next_big and dt.date.fromisoformat(next_big["date"]) <= dt.date.fromisoformat(exp) and days_to_big is not None and days_to_big <= 3:
-                pos_alerts.append((item["contract"], "event", f"{item['contract']} will be held through: {next_big['title']}"))
+                w.append(f"Will be held through: {next_big['title'].split(' — ')[0]}")
             pos_out.append(item)
         except Exception as e:
-            pos_out.append({"contract": str(p), "note": f"Couldn't read this position: {e}"})
+            pos_out.append({"contract": str(p), "note": f"Couldn't read this position: {e}", "warnings": []})
 
-    # ---- alert log + outcomes
+    # ---- strong-signal log + outcomes (recorded for the dashboard; nothing is sent)
     state = _load_json(OUT / "state.json", {})
-    log = _load_json(OUT / "alerts.json", [])
+    log = _load_json(OUT / "signals.json", [])
     closes = daily["Close"]
     for e in log:
         if e.get("price") and e.get("direction"):
@@ -187,48 +184,21 @@ def main():
                     e[key] = round(ch, 2)
                     e[f"right_{n}d"] = (ch > 0) == (e["direction"] == "up")
 
-    fired = []
     score, label = direction["score"], direction["label"]
-    strong = abs(score) >= cfg["alert_min_score"]
-    if mode == "intraday" and strong and state.get("last_signal_label") != label:
-        title = f"SPCX {label} signal ({score:+d}) — ${spot:.2f}"
-        reasons = "\n".join(f"• {r['text']}" for r in direction["reasons"][:6])
-        vn = "\n".join(f"• {n}" for n in vol["notes"])
-        top = (calls if score > 0 else puts)[:1]
-        sug = f"\nContract to look at: {top[0]['contract']} ~${top[0]['cost']:.0f}, breakeven ${top[0]['breakeven']}" if top else ""
-        body = f"{stance['action']}\n{stance['detail']}\n\nWhy:\n{reasons}\n\nOption prices: {vol['verdict']}\n{vn}{sug}\n\nNot financial advice — you decide."
-        fired.append({"kind": "signal", "title": title, "body": body, "direction": "up" if score > 0 else "down"})
+    strong = abs(score) >= cfg["signal_min_score"]
+    new_signal = False
+    if mode == "intraday" and strong and state.get("last_signal_label") != label and not a.sample:
+        log.append({"time": now.isoformat(timespec="minutes"), "label": label, "score": score,
+                    "price": round(spot, 2), "direction": "up" if score > 0 else "down",
+                    "headline": stance["action"]})
         state["last_signal_label"] = label
-    if not strong and abs(score) < cfg["alert_min_score"] * 0.5:
+        new_signal = True
+    if not strong and abs(score) < cfg["signal_min_score"] * 0.5:
         state["last_signal_label"] = None  # re-arm once things calm down
-
-    sent_pos = state.setdefault("position_alerts", {})
-    for contract, kind, text in pos_alerts:
-        key = f"{contract}|{kind}"
-        if sent_pos.get(key) != today.isoformat() and (kind in ("decay", "event") or key not in sent_pos):
-            fired.append({"kind": "position", "title": f"SPCX position: {text}", "body": text + "\n\nNot financial advice — you decide."})
-            sent_pos[key] = today.isoformat()
-
-    if mode == "summary" and state.get("last_summary") != today.isoformat():
-        chg = (spot / prev_close - 1) * 100
-        nxt = f"Next big event: {next_big['title']} in {days_to_big} day(s)" if next_big else ""
-        body = (f"Close ${spot:.2f} ({chg:+.1f}%)\nSignal: {label} ({score:+d})\n{stance['action']}\n"
-                f"Option prices: {vol['verdict']}" + (f", IV {iv*100:.0f}%" if iv else "") +
-                (f", IV/actual {vol['iv_rv_ratio']}" if vol['iv_rv_ratio'] else "") + f"\n{nxt}")
-        fired.append({"kind": "summary", "title": f"SPCX daily summary — {label}", "body": body + "\n\nNot financial advice."})
-        state["last_summary"] = today.isoformat()
-
-    for f in fired:
-        channels = alerts.send(f["title"], f["body"]) if send_alerts else []
-        if f["kind"] != "summary":
-            log.append({"time": now.isoformat(timespec="minutes"), "kind": f["kind"], "title": f["title"],
-                        "label": label, "score": score, "price": round(spot, 2),
-                        "direction": f.get("direction"), "sent_via": channels})
     log = log[-300:]
 
-    # ---- signal track record from the alert log
     graded = [e for e in log if e.get("right_5d") is not None]
-    track = {"alerts": len([e for e in log if e["kind"] == "signal"]), "graded_5d": len(graded),
+    track = {"signals": len(log), "graded_5d": len(graded),
              "right_5d_pct": round(sum(e["right_5d"] for e in graded) / len(graded) * 100) if graded else None}
 
     # ---- context
@@ -261,18 +231,18 @@ def main():
                    if (dt.date.fromisoformat(e["date"]) - today).days >= -7],
         "next_big_event": next_big | {"days": days_to_big} if next_big else None,
         "positions": pos_out, "context": ctx,
-        "backtest": backtest.all_tests(daily, hourly, cfg["alert_min_score"]),
-        "track_record": track, "alert_min_score": cfg["alert_min_score"],
+        "backtest": backtest.all_tests(daily, hourly, cfg["signal_min_score"]),
+        "track_record": track, "signal_min_score": cfg["signal_min_score"],
         "daily": bars(daily, False), "hourly": bars(hourly.tail(7 * 30), True) if not hourly.empty else [],
         "iv_history": iv_hist[-252:],
     }
 
     (OUT / "latest.json").write_text(json.dumps(result, separators=(",", ":")))
     if not a.sample:
-        (OUT / "alerts.json").write_text(json.dumps(log, indent=1))
+        (OUT / "signals.json").write_text(json.dumps(log, indent=1))
         (OUT / "state.json").write_text(json.dumps(state, indent=1))
         (OUT / "iv_history.json").write_text(json.dumps(iv_hist))
-    print(f"{mode}: ${spot:.2f}  {label} ({score:+d})  options {vol['verdict']}  alerts fired: {len(fired)}")
+    print(f"{mode}: ${spot:.2f}  {label} ({score:+d})  options {vol['verdict']}  new strong signal: {new_signal}")
 
 
 if __name__ == "__main__":

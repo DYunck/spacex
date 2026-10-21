@@ -37,7 +37,7 @@ function render() {
   $("stance").className = "stance " + (s >= 20 ? "up" : s <= -20 ? "down" : "");
   $("detail").textContent = d.stance.detail;
   $("needle").style.left = `${(s + 100) / 2}%`;
-  $("scoreTxt").innerHTML = `<b>${d.direction.label} ${s > 0 ? "+" : ""}${s}</b> · alerts at ±${d.alert_min_score}`;
+  $("scoreTxt").innerHTML = `<b>${d.direction.label} ${s > 0 ? "+" : ""}${s}</b> · strong at ±${d.signal_min_score}`;
 
   const v = d.volatility;
   const chips = [
@@ -90,12 +90,13 @@ function render() {
   renderSugg();
 
   // positions
-  table($("positions"), [["Contract", 0], ["Qty", 1], ["Paid", 1], ["Worth now", 1], ["P/L", 1], ["Days left", 1], ["Decay/day", 1]],
+  table($("positions"), [["Contract", 0], ["Qty", 1], ["Paid", 1], ["Worth now", 1], ["P/L", 1], ["Days left", 1], ["Decay/day", 1], ["Heads-up", 0]],
     d.positions.map((p) => [esc(p.contract) + (p.note ? `<br><span class="muted">${esc(p.note)}</span>` : ""), p.contracts ?? "—",
       money(p.cost_per_contract, 0), money(p.value_per_contract, 0),
       p.pl_pct == null ? "—" : `<span class="${cls(p.pl_pct)}">${pct(p.pl_pct, 0)} (${money(p.pl_dollars, 0)})</span>`,
-      p.dte ?? "—", p.theta_per_day == null ? "—" : money(p.theta_per_day)]),
-    `No positions entered. Add them in <code>data/positions.yaml</code> on GitHub to get sell alerts.`);
+      p.dte ?? "—", p.theta_per_day == null ? "—" : money(p.theta_per_day),
+      (p.warnings || []).map((w) => `<span class="chip warn">${esc(w)}</span>`).join(" ")]),
+    `No positions entered. Add them in <code>data/positions.yaml</code> on GitHub to see sell warnings here.`);
 
   // events
   const evColor = { earnings: "var(--accent)", lockup: "var(--down)", macro: "var(--warn)", opex: "var(--muted)" };
@@ -128,16 +129,17 @@ function render() {
       r.worst_pct == null ? "—" : pct(r.worst_pct, 2), r.best_pct == null ? "—" : pct(r.best_pct, 2)]));
   $("btnote").textContent = `${bt.note} Tested over ${bt.trading_days} trading days at a score of ±${bt.threshold} (single timeframe). "Avg move" is the stock's move in the signal's direction.`;
 
-  // alerts
+  // strong-signal history
   const t = d.track_record;
-  $("track").innerHTML = `<span class="chip">${t.alerts} signal alerts sent</span>` +
-    (t.right_5d_pct != null ? `<span class="chip ${t.right_5d_pct >= 50 ? "up" : "down"}">Right after 5 days: ${t.right_5d_pct}% of ${t.graded_5d}</span>` : `<span class="chip">Results appear 5 trading days after each alert</span>`);
-  fetch("data/alerts.json?ts=" + Date.now()).then((r) => r.ok ? r.json() : []).catch(() => []).then((log) => {
+  $("track").innerHTML = `<span class="chip">${t.signals} strong signals logged</span>` +
+    (t.right_5d_pct != null ? `<span class="chip ${t.right_5d_pct >= 50 ? "up" : "down"}">Right after 5 days: ${t.right_5d_pct}% of ${t.graded_5d}</span>` : `<span class="chip">Results appear 5 trading days after each signal</span>`);
+  fetch("data/signals.json?ts=" + Date.now()).then((r) => r.ok ? r.json() : []).catch(() => []).then((log) => {
     const res = (x, ok) => x == null ? "—" : `<span class="${ok ? "pos" : "neg"}">${pct(x, 1)}</span>`;
-    table($("alerts"), [["When", 0], ["Alert", 0], ["Price", 1], ["After 1 day", 1], ["After 5 days", 1], ["After 10 days", 1]],
-      log.slice().reverse().slice(0, 50).map((a) => [new Date(a.time).toLocaleString([], { dateStyle: "short", timeStyle: "short" }), esc(a.title),
+    table($("signals"), [["When", 0], ["Signal", 0], ["Price", 1], ["After 1 day", 1], ["After 5 days", 1], ["After 10 days", 1]],
+      log.slice().reverse().slice(0, 50).map((a) => [new Date(a.time).toLocaleString([], { dateStyle: "short", timeStyle: "short" }),
+        `<span class="${a.direction === "up" ? "pos" : "neg"}">${esc(a.label)} (${a.score > 0 ? "+" : ""}${a.score})</span>`,
         money(a.price), res(a.after_1d, a.right_1d), res(a.after_5d, a.right_5d), res(a.after_10d, a.right_10d)]),
-      "No alerts yet. They'll be listed here with how the stock moved afterward.");
+      "No strong signals yet. Each time the score crosses ±40 it's logged here with how the stock moved afterward.");
   });
 
   $("footsrc").textContent = `Data: ${d.source}. Prices may be delayed ~15 minutes. Updates hourly during market hours.`;

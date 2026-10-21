@@ -136,7 +136,7 @@ def stance(dir_score: float, vol: str) -> dict:
                 "detail": "Trend and momentum point down. If you hold calls, consider selling them; puts are a way to bet on a drop."}
     if lab == "Leaning bullish":
         return {"action": "Leaning bullish — wait for confirmation",
-                "detail": "Some signals point up but not enough agree yet. Watch for the score to reach the alert level."}
+                "detail": "Some signals point up but not enough agree yet. Watch for the score to reach ±40 (a strong signal)."}
     if lab == "Leaning bearish":
         return {"action": "Leaning bearish — consider protecting gains",
                 "detail": "Some signals point down. If you hold calls that are profitable, consider taking some profit."}

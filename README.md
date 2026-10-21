@@ -1,17 +1,17 @@
 # SpaceX (SPCX) Options Signals
 
-A dashboard and alert system that watches SpaceX stock (Nasdaq: **SPCX**) and its options. It tells you when conditions favor **buying or selling options**, and explains why.
+A dashboard that watches SpaceX stock (Nasdaq: **SPCX**) and its options. It tells you when conditions favor **buying or selling options**, and explains why.
 
 **Open the dashboard:** https://dyunck.github.io/spacex/
 **New here? Read the tutorial:** https://dyunck.github.io/spacex/guide.html
 
-> This tool never places trades. It only analyzes and sends alerts. You make every decision and place every trade yourself at your broker. It is not financial advice. Signals can be wrong, and options can lose 100% of what you pay.
+> This tool never places trades and never sends messages. It only analyzes and shows results on the dashboard. You make every decision and place every trade yourself at your broker. It is not financial advice. Signals can be wrong, and options can lose 100% of what you pay.
 
 ---
 
 ## What it does
 
-Every hour during market hours (Mon–Fri), GitHub runs the analysis automatically:
+Every hour during market hours (Mon–Fri), GitHub runs the analysis automatically and updates the dashboard:
 
 1. **Downloads data:** SPCX daily prices since the IPO, hourly prices for the last 60 days, and option chains for the nearest 6 expirations. It also pulls the Nasdaq-100 (QQQ), the VIX and Tesla for market context.
 2. **Calculates indicators on both daily and hourly charts:** moving averages (20 and 50), RSI, MACD, Bollinger bands, average true range, volume compared with normal, and actual volatility.
@@ -19,31 +19,16 @@ Every hour during market hours (Mon–Fri), GitHub runs the analysis automatical
 4. **Checks whether options are cheap or expensive.** It compares implied volatility (what options assume) with the stock's actual movement, and tracks IV rank over time.
 5. **Watches upcoming events:** earnings, lockup expirations, Fed meetings and monthly options expirations. It warns about *volatility crush*, the sharp drop in option prices that often follows earnings.
 6. **Suggests contracts to look at.** Only liquid contracts make the list (tight bid/ask, real open interest). Each one shows its breakeven, max loss and daily time decay.
-7. **Watches your positions,** if you list them, and alerts you when it may be time to **sell**: profit target hit, stop-loss hit, signals turned against you, under 21 days left, or an earnings date ahead.
-8. **Sends email alerts**, plus a daily summary after the close.
-9. **Keeps score.** Every alert is logged along with how the stock moved 1, 5 and 10 days later, so you can see how reliable the signals have been. A backtest runs on SPCX's price history too.
-
-## Get email alerts (optional)
-
-Alerts go by email. Without this setup the app still updates the dashboard; it just doesn't send anything.
-
-On GitHub, go to **Settings → Secrets and variables → Actions → New repository secret** and add these five secrets:
-
-| Name | Value |
-|---|---|
-| `SMTP_HOST` | `smtp.gmail.com` |
-| `SMTP_PORT` | `587` |
-| `SMTP_USER` | the Gmail address that sends the alerts |
-| `SMTP_PASS` | a [Gmail app password](https://myaccount.google.com/apppasswords) (not your normal password; needs 2-Step Verification turned on) |
-| `ALERT_EMAIL_TO` | the address that receives the alerts |
+7. **Watches your positions,** if you list them, and flags on the dashboard when it may be time to **sell**: profit target hit, stop-loss hit, signals turned against you, under 21 days left, or an earnings date ahead.
+8. **Keeps score.** Every strong signal (score past ±40) is logged along with how the stock moved 1, 5 and 10 days later, so you can see how reliable the signals have been. A backtest runs on SPCX's price history too.
 
 ## Customize it (all editable right on GitHub)
 
 | File | What to change |
 |---|---|
-| `data/positions.yaml` | Options you own, so you get **sell** alerts |
+| `data/positions.yaml` | Options you own, so the dashboard shows **sell** warnings |
 | `data/events.yaml` | Earnings dates, lockups, Starship launches and other events |
-| `config.yaml` | Alert sensitivity (`alert_min_score`), profit target, stop-loss, which contracts get suggested |
+| `config.yaml` | What counts as a strong signal (`signal_min_score`), profit target, stop-loss, which contracts get suggested |
 
 Click the file, then the pencil icon, edit, and **Commit changes**. The dashboard updates within a few minutes.
 
@@ -64,10 +49,9 @@ app/indicators.py   RSI, MACD, moving averages, Bollinger bands, volatility
 app/options.py      Greeks, expected move, put/call ratio, contract picks
 app/signals.py      direction score + "options cheap or expensive" + plain-English stance
 app/backtest.py     how the score did on past data
-app/alerts.py       email alerts
 app/run.py          runs everything, writes docs/data/latest.json
 docs/               the dashboard (GitHub Pages)
 .github/workflows/  the hourly schedule
 ```
 
-Run locally: `pip install -r requirements.txt`, then `python -m app.run --no-alerts`. Use `--sample` for fake data without internet access.
+Run locally: `pip install -r requirements.txt`, then `python -m app.run`. Use `--sample` for fake data without internet access.
