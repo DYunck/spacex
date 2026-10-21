@@ -219,7 +219,7 @@ def main():
         state["last_summary"] = today.isoformat()
 
     for f in fired:
-        channels = alerts.send(f["title"], f["body"], "high" if f["kind"] == "signal" else "default") if send_alerts else []
+        channels = alerts.send(f["title"], f["body"]) if send_alerts else []
         if f["kind"] != "summary":
             log.append({"time": now.isoformat(timespec="minutes"), "kind": f["kind"], "title": f["title"],
                         "label": label, "score": score, "price": round(spot, 2),

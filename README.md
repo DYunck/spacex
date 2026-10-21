@@ -20,18 +20,22 @@ Every hour during market hours (Mon–Fri), GitHub runs the analysis automatical
 5. **Watches upcoming events:** earnings, lockup expirations, Fed meetings and monthly options expirations. It warns about *volatility crush*, the sharp drop in option prices that often follows earnings.
 6. **Suggests contracts to look at.** Only liquid contracts make the list (tight bid/ask, real open interest). Each one shows its breakeven, max loss and daily time decay.
 7. **Watches your positions,** if you list them, and alerts you when it may be time to **sell**: profit target hit, stop-loss hit, signals turned against you, under 21 days left, or an earnings date ahead.
-8. **Sends alerts** to your phone and/or email, plus a daily summary after the close.
+8. **Sends email alerts**, plus a daily summary after the close.
 9. **Keeps score.** Every alert is logged along with how the stock moved 1, 5 and 10 days later, so you can see how reliable the signals have been. A backtest runs on SPCX's price history too.
 
-## Get alerts on your phone (free, 2 minutes)
+## Get email alerts (optional)
 
-1. Install the **ntfy** app ([iPhone](https://apps.apple.com/app/ntfy/id1625396347) / [Android](https://play.google.com/store/apps/details?id=io.heckel.ntfy)).
-2. In the app, tap **+** and subscribe to a topic with a hard-to-guess name, for example `spcx-alerts-k7q2m9`. Anyone who knows the name can read it, so make it random.
-3. On GitHub, go to **Settings → Secrets and variables → Actions → New repository secret**. Set **Name** to `NTFY_TOPIC` and **Secret** to the same topic name.
+Alerts go by email. Without this setup the app still updates the dashboard; it just doesn't send anything.
 
-That's it. The next hourly run will send alerts when a strong signal appears.
+On GitHub, go to **Settings → Secrets and variables → Actions → New repository secret** and add these five secrets:
 
-**Email (optional):** add these secrets as well: `SMTP_HOST` (e.g. `smtp.gmail.com`), `SMTP_PORT` (`587`), `SMTP_USER` (your Gmail address), `SMTP_PASS` (a [Gmail app password](https://myaccount.google.com/apppasswords), not your normal password) and `ALERT_EMAIL_TO`.
+| Name | Value |
+|---|---|
+| `SMTP_HOST` | `smtp.gmail.com` |
+| `SMTP_PORT` | `587` |
+| `SMTP_USER` | the Gmail address that sends the alerts |
+| `SMTP_PASS` | a [Gmail app password](https://myaccount.google.com/apppasswords) (not your normal password; needs 2-Step Verification turned on) |
+| `ALERT_EMAIL_TO` | the address that receives the alerts |
 
 ## Customize it (all editable right on GitHub)
 
@@ -60,7 +64,7 @@ app/indicators.py   RSI, MACD, moving averages, Bollinger bands, volatility
 app/options.py      Greeks, expected move, put/call ratio, contract picks
 app/signals.py      direction score + "options cheap or expensive" + plain-English stance
 app/backtest.py     how the score did on past data
-app/alerts.py       phone push (ntfy) and email
+app/alerts.py       email alerts
 app/run.py          runs everything, writes docs/data/latest.json
 docs/               the dashboard (GitHub Pages)
 .github/workflows/  the hourly schedule
