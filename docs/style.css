@@ -66,3 +66,5 @@ tr:last-child td { border-bottom: 0; }
 footer { margin-top: 28px; font-size: 13px; color: var(--muted); }
 footer a, .card a { color: var(--accent); }
 .empty { color: var(--muted); font-size: 14px; padding: 8px 0; }
+.guide-link { font-size: 13px; font-weight: 600; color: var(--accent); background: var(--accent-bg); padding: 4px 10px; border-radius: 999px; text-decoration: none; white-space: nowrap; }
+.guide-link:hover { text-decoration: underline; }

@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to Use SPCX Signals</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+<link rel="stylesheet" href="style.css">
+<style>
+  .guide { max-width: 780px; margin: 0 auto; padding: 20px 16px 60px; }
+  .guide h1 { font-size: 28px; letter-spacing: -.02em; margin: 8px 0 6px; }
+  .guide .lede { color: var(--muted); font-size: 17px; margin: 0 0 22px; }
+  .guide h2 { font-size: 21px; margin: 40px 0 10px; letter-spacing: -.01em; scroll-margin-top: 16px; }
+  .guide h3 { font-size: 16px; margin: 22px 0 6px; }
+  .guide p, .guide li { font-size: 16px; line-height: 1.65; }
+  .guide ol, .guide ul { padding-left: 22px; }
+  .guide li { margin: 4px 0; }
+  .guide code { font-family: var(--mono); font-size: 13.5px; background: var(--accent-bg); color: var(--accent); padding: 1px 6px; border-radius: 5px; }
+  .guide pre { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font: 13.5px/1.55 var(--mono); }
+  .guide pre code { background: none; color: var(--ink); padding: 0; }
+  .back { font-size: 14px; color: var(--accent); text-decoration: none; }
+  .toc { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 18px; }
+  .toc ol { margin: 6px 0 0; } .toc a { color: var(--accent); text-decoration: none; }
+  .callout { border-radius: 12px; padding: 12px 16px; margin: 14px 0; font-size: 15px; }
+  .callout.warn { background: var(--warn-bg); color: var(--warn); }
+  .callout.tip { background: var(--up-bg); color: var(--up); }
+  .callout.info { background: var(--accent-bg); color: var(--accent); }
+  .callout strong { display: block; margin-bottom: 2px; }
+  .step { display: grid; grid-template-columns: 34px 1fr; gap: 12px; margin: 16px 0; }
+  .step .n { width: 30px; height: 30px; border-radius: 50%; background: var(--ink); color: var(--card); display: grid; place-items: center; font-weight: 700; font-size: 14px; }
+  .step h3 { margin: 4px 0 4px; }
+  .step p { margin: 0 0 6px; }
+  .matrix { display: grid; grid-template-columns: auto 1fr 1fr; gap: 6px; font-size: 14.5px; margin: 12px 0; }
+  .matrix div { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; }
+  .matrix .h { background: transparent; border: 0; font-weight: 700; color: var(--muted); font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; align-self: end; }
+  .matrix .rowh { font-weight: 700; display: flex; align-items: center; }
+  .scorebar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin: 10px 0 4px; font-size: 13px; text-align: center; }
+  .scorebar div { padding: 8px 4px; border-radius: 6px; font-weight: 600; }
+  dl.gloss dt { font-weight: 700; margin-top: 12px; }
+  dl.gloss dd { margin: 2px 0 0; color: var(--muted); font-size: 15.5px; line-height: 1.6; }
+  .guide table { margin: 10px 0; } .guide td, .guide th { white-space: normal; vertical-align: top; } .guide p, .guide li, .guide dd { overflow-wrap: anywhere; }
+  @media (max-width: 560px) { .matrix { grid-template-columns: 1fr; } .matrix .h:first-child { display: none; } .scorebar { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="guide">
+  <a class="back" href="./">← Back to the dashboard</a>
+  <h1>How to use SPCX Signals</h1>
+  <p class="lede">A 10-minute walkthrough: what each part of the dashboard means, a simple daily routine, and how to set up alerts and track the options you own.</p>
+
+  <div class="callout warn"><strong>Read this first</strong>This app gives you information, not instructions. It never buys or sells anything. Its signals come from past price patterns, and in testing so far they've been right only about half the time. Options can lose 100% of what you pay. Every decision is yours.</div>
+
+  <nav class="toc">
+    <strong>Contents</strong>
+    <ol>
+      <li><a href="#basics">Options in two minutes</a></li>
+      <li><a href="#tour">Tour of the dashboard</a></li>
+      <li><a href="#routine">A simple daily routine</a></li>
+      <li><a href="#example">Worked example</a></li>
+      <li><a href="#alerts">Set up phone alerts</a></li>
+      <li><a href="#positions">Track options you own</a></li>
+      <li><a href="#settings">Change events and settings</a></li>
+      <li><a href="#mistakes">Common mistakes to avoid</a></li>
+      <li><a href="#glossary">Glossary</a></li>
+    </ol>
+  </nav>
+
+  <!-- ------------------------------------------------------------ -->
+  <h2 id="basics">1. Options in two minutes</h2>
+  <p>An option is a contract that gives you the right to buy or sell 100 shares of SPCX at a set price (the <strong>strike</strong>) until a set date (the <strong>expiration</strong>).</p>
+  <ul>
+    <li><strong>Call:</strong> profits if SPCX goes <em>up</em> past the strike.</li>
+    <li><strong>Put:</strong> profits if SPCX goes <em>down</em> below the strike.</li>
+    <li>Prices are quoted per share, so multiply by 100. An option quoted at <code>$3.25</code> costs <strong>$325</strong> per contract.</li>
+    <li>If you buy an option, the most you can lose is what you paid.</li>
+  </ul>
+  <p>Three things decide whether an option makes money. Being right about the direction is only one of them:</p>
+  <ol>
+    <li><strong>Direction:</strong> did the stock move the way you bet?</li>
+    <li><strong>Timing:</strong> did it move before time ran out? Options lose a little value every day (<em>time decay</em>), and the loss speeds up in the final three weeks.</li>
+    <li><strong>Price paid:</strong> were options cheap or expensive when you bought? If you buy when options are pricey, you can be right about direction and still lose money.</li>
+  </ol>
+  <p>The dashboard is built around these three questions.</p>
+
+  <!-- ------------------------------------------------------------ -->
+  <h2 id="tour">2. Tour of the dashboard</h2>
+  <p>Open the <a href="./">dashboard</a> and follow along from top to bottom.</p>
+
+  <h3>The top bar</h3>
+  <p>Shows SPCX's latest price, today's change and when the data was last updated. Updates run every hour while the market is open, and prices can be about 15 minutes behind. A yellow banner appears if the data is more than a day old.</p>
+
+  <h3>"What conditions favor right now" (the main box)</h3>
+  <p>This is the summary. The big colored headline is the app's read on the situation, and the sentence below explains it. The bar underneath shows the <strong>direction score</strong>, from −100 to +100:</p>
+  <div class="scorebar">
+    <div style="background:var(--down);color:#fff">−100 to −40<br>Bearish</div>
+    <div style="background:var(--down-bg);color:var(--down)">−39 to −20<br>Leaning bearish</div>
+    <div style="background:var(--line)">−19 to +19<br>Neutral</div>
+    <div style="background:var(--up-bg);color:var(--up)">+20 to +39<br>Leaning bullish</div>
+    <div style="background:var(--up);color:#fff">+40 to +100<br>Bullish</div>
+  </div>
+  <p>The score adds up points from the daily chart, adds a smaller weight from the hourly chart, and gives a bonus when the two agree. Alerts go out only when it reaches <strong>±40</strong>.</p>
+  <p>The headline combines direction with option prices:</p>
+  <div class="matrix">
+    <div class="h"></div><div class="h">Options cheap or fair</div><div class="h">Options expensive</div>
+    <div class="rowh">Bullish</div><div>"Conditions favor buying calls"</div><div>"Bullish, but options are pricey": consider a call spread, or wait</div>
+    <div class="rowh">Bearish</div><div>"Conditions favor buying puts / selling calls you own"</div><div>"Bearish, but options are pricey": a good time to take profits on calls</div>
+    <div class="rowh">Neutral</div><div>"No clear signal — wait"</div><div>"No clear direction; options expensive": not a time to buy</div>
+  </div>
+
+  <h3>"At a glance"</h3>
+  <p>Colored tags sum up direction, option prices and the next major event. Below them:</p>
+  <ul>
+    <li><strong>Daily score / hourly score:</strong> if these point in opposite directions, the signal is weaker.</li>
+    <li><strong>Expected move:</strong> how far the options market thinks SPCX could move by a given date. For example, <code>±$7.88 (±4.8%)</code> means option prices assume roughly a 4.8% swing either way. To profit from buying an option, the stock usually needs to move <em>more</em> than this.</li>
+  </ul>
+
+  <h3>The chart</h3>
+  <p>Switch between <strong>Daily</strong> (one candle per day since the IPO) and <strong>Hourly</strong> (the last 30 trading days). Each candle is green if the price rose during that period and red if it fell.</p>
+  <ul>
+    <li><strong>Blue line:</strong> 20-period average, the short-term trend. Price above it is a good sign; below it is a weak one.</li>
+    <li><strong>Orange line:</strong> 50-period average, the longer-term trend. Blue above orange means an uptrend.</li>
+    <li><strong>Gray dotted lines (Bollinger bands):</strong> the normal price range. When price pushes outside them it's stretched and often snaps back.</li>
+    <li><strong>Dashed horizontal lines:</strong> support (where buyers stepped in before) and resistance (where sellers did). The blue "IPO" line marks $135, a level traders watch.</li>
+    <li><strong>Bars at the bottom:</strong> trading volume. Big moves on big volume matter more.</li>
+    <li><strong>Purple line below the chart (RSI):</strong> above 70 is overbought and a pullback is more likely; below 30 is oversold and a bounce is more likely.</li>
+  </ul>
+
+  <h3>"Why — signals behind the score"</h3>
+  <p>Every point in the score, in plain English and sorted by importance. Green numbers push toward bullish, red toward bearish. <strong>Read this before trusting the headline.</strong> If the biggest reasons are all hourly, the signal is short-term. If daily and hourly disagree, be cautious.</p>
+
+  <h3>"Daily vs. hourly"</h3>
+  <p>The same indicators side by side for both timeframes. The two lines worth checking most:</p>
+  <ul>
+    <li><strong>Volume vs. normal:</strong> <code>4.7×</code> means more than four times the usual trading, so something is happening.</li>
+    <li><strong>Actual volatility:</strong> how much SPCX has really been moving, which you'll compare with option prices in the next box.</li>
+  </ul>
+
+  <h3>"Are options cheap or expensive?"</h3>
+  <p>This box is often more useful than the direction score.</p>
+  <ul>
+    <li><strong>Implied volatility (IV):</strong> how much movement option prices assume, as a yearly percentage.</li>
+    <li><strong>Actual volatility:</strong> how much the stock really moved over the last 20 days.</li>
+    <li><strong>Implied ÷ actual:</strong> above <code>1.3×</code> means you're overpaying for options. Below <code>0.9×</code> means options are relatively cheap.</li>
+    <li><strong>IV rank:</strong> where today's IV sits compared with SPCX's own history (0 is the cheapest it's been, 100 the most expensive). It needs 20 trading days of collected data before it appears.</li>
+  </ul>
+  <div class="callout info"><strong>Volatility crush</strong>Option prices swell before earnings because everyone expects a big move. Right after the announcement they often collapse, even when the stock moves the way you bet. When the box warns about an event within a few days, buying options to hold through it is risky.</div>
+
+  <h3>"Contracts worth a look"</h3>
+  <p>Up to three specific options for calls and three for puts. Use the tabs to switch. They're chosen to be easy to trade (small gap between buy and sell prices, plenty of open contracts) and about 45% likely to finish profitable (a delta near 0.45). Columns:</p>
+  <table>
+    <tr><th>Column</th><th>What it tells you</th></tr>
+    <tr><td>Price (mid)</td><td>The middle of the buy and sell prices, per share</td></tr>
+    <tr><td>Cost / max loss</td><td>What one contract costs, which is also the most you can lose</td></tr>
+    <tr><td>Breakeven</td><td>Where SPCX must be at expiration for you to break even</td></tr>
+    <tr><td>Delta</td><td>About how much the option moves per $1 move in SPCX, and a rough chance of finishing profitable</td></tr>
+    <tr><td>Decay/day</td><td>Roughly what one contract loses each day if nothing else changes</td></tr>
+    <tr><td>Spread</td><td>The gap between buy and sell prices. Under 5% is good; above 10% is costly</td></tr>
+    <tr><td>Heads-up</td><td>Events (earnings, lockups) before this contract expires. Hover to see which</td></tr>
+  </table>
+  <p>These are starting points to look up at your broker, not recommendations.</p>
+
+  <h3>"Your positions"</h3>
+  <p>Empty until you list your options (see <a href="#positions">section 6</a>). Then it shows each one's current value, profit or loss, days left and daily decay.</p>
+
+  <h3>"Upcoming events"</h3>
+  <p>Earnings, lockup expirations (when insiders are allowed to sell shares), Fed meetings and monthly options expirations. Items marked <em>(unconfirmed)</em> are estimates, so check them before relying on the date.</p>
+
+  <h3>"Options activity"</h3>
+  <ul>
+    <li><strong>Put/call ratio:</strong> below 0.7 means traders are mostly betting up; above 1.0 means mostly betting down or buying protection.</li>
+    <li><strong>Unusual activity:</strong> contracts trading far more than their existing open contracts. This can be a big trader making a bet. Contracts expiring today are usually just day-traders.</li>
+  </ul>
+
+  <h3>"Market context" and "Key price levels"</h3>
+  <p>The Nasdaq-100, the VIX (the market's fear gauge; rising means nervous markets) and Tesla, along with how closely Tesla moves with SPCX. If the whole market is falling, a bullish SPCX signal is less reliable.</p>
+
+  <h3>"How has this signal done?"</h3>
+  <p>A test of the scoring rules on SPCX's past prices. <strong>Right direction</strong> is how often the stock moved the way the signal said. Around 50% is no better than a coin flip, and that's roughly where it stands today. Check this table occasionally. If a signal type stays near 50% after a few more months of data, give it little weight.</p>
+
+  <h3>"Alert history &amp; results"</h3>
+  <p>Every alert the app sends, with how SPCX moved 1, 5 and 10 trading days later. Green means the alert was right; red means it was wrong. Over time this is the most honest measure of whether the app is helping.</p>
+
+  <!-- ------------------------------------------------------------ -->
+  <h2 id="routine">3. A simple daily routine</h2>
+  <div class="step"><div class="n">1</div><div><h3>Read the after-close summary (evening)</h3><p>Once alerts are set up, a summary arrives after each trading day. If it says "No clear signal — wait," you're done.</p></div></div>
+  <div class="step"><div class="n">2</div><div><h3>Check the main box and "Why"</h3><p>Is the score past ±40? Are the top reasons from the daily chart, and do daily and hourly agree?</p></div></div>
+  <div class="step"><div class="n">3</div><div><h3>Check option prices</h3><p>Look at "Are options cheap or expensive?" and the events list. Expensive options or an event in the next few days means caution.</p></div></div>
+  <div class="step"><div class="n">4</div><div><h3>Look at the suggested contracts</h3><p>Note the cost, breakeven and decay per day. Ask yourself: "Is a move past the breakeven before expiration realistic, given the expected move?"</p></div></div>
+  <div class="step"><div class="n">5</div><div><h3>Decide, then trade at your broker</h3><p>If you trade, use a <strong>limit order</strong> (set your own price) near the mid price rather than a market order. Decide in advance how much you're willing to lose.</p></div></div>
+  <div class="step"><div class="n">6</div><div><h3>Log what you bought</h3><p>Add the position to <code>data/positions.yaml</code> so the app can tell you when to sell.</p></div></div>
+  <div class="callout tip"><strong>Waiting is a valid choice</strong>Most days won't have a strong signal. Buying options without a reason costs money every day through time decay.</div>
+
+  <!-- ------------------------------------------------------------ -->
+  <h2 id="example">4. Worked example</h2>
+  <p>Here's how to read a real snapshot from October 21, 2026, the morning after SpaceX's Q3 earnings:</p>
+  <ul>
+    <li>SPCX at <strong>$163.66</strong>, up 10.7% after earnings.</li>
+    <li>Score <strong>+24, "Leaning bullish — wait for confirmation."</strong> Daily +17, hourly −3.</li>
+    <li>Top reasons: price above its 20-day average, a daily uptrend, and a jump on 4.6× normal volume. Against those: hourly RSI 76 (overbought) and price above the upper hourly band (stretched).</li>
+    <li>Options <strong>fair</strong>: IV 58.5% versus 61.3% actual volatility.</li>
+    <li>Events: a lockup tranche the next day, with insiders allowed to sell more shares.</li>
+  </ul>
+  <p><strong>How to read it:</strong> The trend is up, but the stock just leapt 10% and the hourly chart says it's stretched. A lockup the next day could add selling pressure. The score is short of the ±40 alert level. A reasonable reading is "positive, but don't chase the jump; wait to see if it holds after the lockup." If your friend already owned calls from before earnings, the dashboard's mix of a big gain, a stretched price and an upcoming lockup would make taking some profit worth considering.</p>
+
+  <!-- ------------------------------------------------------------ -->
+  <h2 id="alerts">5. Set up phone alerts (free, about 2 minutes)</h2>
+  <div class="step"><div class="n">1</div><div><h3>Install ntfy</h3><p>Get the free <strong>ntfy</strong> app for <a href="https://apps.apple.com/app/ntfy/id1625396347">iPhone</a> or <a href="https://play.google.com/store/apps/details?id=io.heckel.ntfy">Android</a>.</p></div></div>
+  <div class="step"><div class="n">2</div><div><h3>Subscribe to a private topic</h3><p>Tap <strong>+</strong> and enter a hard-to-guess name like <code>spcx-alerts-k7q2m9</code>. Anyone who knows the name can read the alerts, so make it random.</p></div></div>
+  <div class="step"><div class="n">3</div><div><h3>Give the name to GitHub</h3><p>The repo owner opens <a href="https://github.com/DYunck/spacex/settings/secrets/actions">Settings → Secrets and variables → Actions</a> and clicks <strong>New repository secret</strong>. Set <strong>Name</strong> to <code>NTFY_TOPIC</code>, set <strong>Secret</strong> to the topic name, and save.</p></div></div>
+  <p>You'll get three kinds of messages:</p>
+  <ul>
+    <li><strong>Signal alerts</strong> (high priority) when the score crosses ±40. You won't get repeats until the signal fades and returns.</li>
+    <li><strong>Position alerts</strong> about options you own.</li>
+    <li><strong>A daily summary</strong> after the close.</li>
+  </ul>
+  <p>Tapping an alert opens the dashboard. For email alerts as well, see the <a href="https://github.com/DYunck/spacex#get-alerts-on-your-phone-free-2-minutes">README</a>.</p>
+
+  <!-- ------------------------------------------------------------ -->
+  <h2 id="positions">6. Track options you own (for sell alerts)</h2>
+  <p>Open <a href="https://github.com/DYunck/spacex/edit/main/data/positions.yaml">data/positions.yaml</a> on GitHub (you need edit access to the repo), replace <code>positions: []</code> with your options, and click <strong>Commit changes</strong>:</p>
+<pre><code>positions:
+  - type: call
+    strike: 165
+    expiry: "2026-11-20"
+    contracts: 2
+    cost_per_contract: 478   # price paid x 100
+
+  - type: put
+    strike: 150
+    expiry: "2026-12-18"
+    contracts: 1
+    cost_per_contract: 610</code></pre>
+  <p>Keep the spacing exactly as shown. Indentation matters in this file. The app will alert you when a position:</p>
+  <ul>
+    <li>is up <strong>50%</strong> (consider taking profit)</li>
+    <li>is down <strong>40%</strong> (your stop-loss level)</li>
+    <li>has signals turn strongly against it</li>
+    <li>has <strong>21 days or fewer</strong> left, when time decay speeds up</li>
+    <li>is about to be held through earnings or a lockup</li>
+  </ul>
+  <p>When you sell, delete that position from the file so the alerts stop.</p>
+
+  <!-- ------------------------------------------------------------ -->
+  <h2 id="settings">7. Change events and settings</h2>
+  <p>Both files can be edited on GitHub with the pencil icon. The dashboard updates a few minutes after you commit.</p>
+  <h3><a href="https://github.com/DYunck/spacex/edit/main/data/events.yaml">data/events.yaml</a></h3>
+  <p>Add Starship launches, the next earnings date once SpaceX announces it, or anything else that could move the stock. Change <code>verified: false</code> to <code>true</code> once you've confirmed a date at <a href="https://ir.spacex.com">ir.spacex.com</a>.</p>
+  <h3><a href="https://github.com/DYunck/spacex/edit/main/config.yaml">config.yaml</a></h3>
+  <ul>
+    <li><code>alert_min_score: 40</code>: raise it to 50 or 60 for fewer, stronger alerts; lower it for more.</li>
+    <li><code>take_profit_pct</code>, <code>stop_loss_pct</code>, <code>min_days_left</code>: your sell-alert rules.</li>
+    <li><code>min_days_to_expiry</code> / <code>max_days_to_expiry</code>: how far out suggested contracts expire.</li>
+  </ul>
+  <p>To refresh immediately instead of waiting for the hour: <a href="https://github.com/DYunck/spacex/actions/workflows/update.yml">Actions → Update SPCX signals</a> → <strong>Run workflow</strong>.</p>
+
+  <!-- ------------------------------------------------------------ -->
+  <h2 id="mistakes">8. Common mistakes to avoid</h2>
+  <ul>
+    <li><strong>Buying right before earnings.</strong> Volatility crush can wipe out gains even when you guess the direction right.</li>
+    <li><strong>Buying very short-dated options.</strong> Contracts expiring this week are cheap because they usually expire worthless.</li>
+    <li><strong>Ignoring the spread.</strong> A 15% gap between buy and sell prices means you start 15% behind.</li>
+    <li><strong>Using market orders.</strong> Use limit orders near the mid price.</li>
+    <li><strong>Holding into the last three weeks.</strong> Decay speeds up sharply, so sell or roll earlier.</li>
+    <li><strong>Betting too much on one signal.</strong> With about a 50% hit rate so far, size each trade so a total loss is fine.</li>
+    <li><strong>Treating the app as an oracle.</strong> It organizes the numbers; you still make the call.</li>
+  </ul>
+
+  <!-- ------------------------------------------------------------ -->
+  <h2 id="glossary">9. Glossary</h2>
+  <dl class="gloss">
+    <dt>Bid / ask / mid</dt><dd>The bid is the highest price buyers offer, the ask is the lowest price sellers accept, and the mid is halfway between.</dd>
+    <dt>Breakeven</dt><dd>The stock price at expiration where you neither make nor lose money: strike plus the price paid for a call, strike minus the price paid for a put.</dd>
+    <dt>Call / Put</dt><dd>A call profits when the stock rises; a put profits when it falls.</dd>
+    <dt>Call spread / put spread</dt><dd>Buying one option and selling another further out. It costs less and limits both gains and losses. Useful when options are expensive.</dd>
+    <dt>Delta</dt><dd>How much the option's price moves for a $1 move in the stock. It also serves as a rough chance of finishing in the money.</dd>
+    <dt>Expiration</dt><dd>The last day the option exists. After that it's worth either its intrinsic value or nothing.</dd>
+    <dt>Implied volatility (IV)</dt><dd>The amount of future movement baked into option prices. Higher IV means pricier options.</dd>
+    <dt>IV rank</dt><dd>Today's IV compared with its own past range, from 0 to 100.</dd>
+    <dt>Lockup expiration</dt><dd>The date when insiders and employees become allowed to sell shares they held before the IPO. It can add selling pressure.</dd>
+    <dt>MACD</dt><dd>A momentum indicator. When it crosses up, momentum is turning positive; when it crosses down, negative.</dd>
+    <dt>Moving average</dt><dd>The average price over the last N periods, which smooths out noise to show the trend.</dd>
+    <dt>Open interest</dt><dd>How many contracts currently exist for that option. Higher means easier to trade.</dd>
+    <dt>RSI</dt><dd>A 0–100 momentum gauge. Above 70 is overbought; below 30 is oversold.</dd>
+    <dt>Strike</dt><dd>The price at which the option lets you buy (call) or sell (put) the shares.</dd>
+    <dt>Support / resistance</dt><dd>Price levels where the stock has repeatedly stopped falling (support) or rising (resistance).</dd>
+    <dt>Theta / time decay</dt><dd>The value an option loses each day just from time passing.</dd>
+    <dt>Volatility crush</dt><dd>The sharp drop in option prices right after a big expected event like earnings.</dd>
+  </dl>
+
+  <footer>
+    <p><a href="./">← Back to the dashboard</a></p>
+    <p>This is an information tool, not financial advice.</p>
+  </footer>
+</div>
+</body>
+</html>

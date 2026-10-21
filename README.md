@@ -3,6 +3,7 @@
 A dashboard and alert system that watches SpaceX stock (Nasdaq: **SPCX**) and its options. It tells you when conditions favor **buying or selling options**, and explains why.
 
 **Open the dashboard:** https://dyunck.github.io/spacex/
+**New here? Read the tutorial:** https://dyunck.github.io/spacex/guide.html
 
 > This tool never places trades. It only analyzes and sends alerts. You make every decision and place every trade yourself at your broker. It is not financial advice. Signals can be wrong, and options can lose 100% of what you pay.
 
