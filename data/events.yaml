@@ -1,0 +1,42 @@
+# Upcoming events that can move SPCX or its option prices.
+# Edit freely. Dates are YYYY-MM-DD. "verified: false" means double-check the
+# date against SpaceX investor relations (ir.spacex.com) or SEC filings.
+# Monthly options expiration days (third Fridays) are added automatically.
+#
+# type: earnings | lockup | macro | company | index | related
+
+events:
+  - date: "2026-10-20"
+    type: earnings
+    title: SpaceX Q3 2026 results (after close)
+    verified: true
+
+  - date: "2026-10-21"
+    type: related
+    title: Tesla Q3 2026 results (after close)
+    verified: true
+
+  - date: "2026-10-22"
+    type: lockup
+    title: Lockup tranche tied to Q3 report (~28% of locked shares) — estimated, check prospectus
+    verified: false
+
+  - date: "2026-10-28"
+    type: macro
+    title: Fed rate decision (FOMC)
+    verified: false
+
+  - date: "2026-12-08"
+    type: lockup
+    title: Standard 180-day IPO lockup ends
+    verified: true
+
+  - date: "2026-12-09"
+    type: macro
+    title: Fed rate decision (FOMC)
+    verified: false
+
+  - date: "2027-06-12"
+    type: index
+    title: 1 year since IPO — earliest S&P 500 eligibility; Musk lockup ends around now
+    verified: false

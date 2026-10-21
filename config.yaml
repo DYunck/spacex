@@ -1,0 +1,33 @@
+# Settings for the SPCX options signal app.
+# Edit these on GitHub (pencil icon) — the next scheduled run picks them up.
+
+ticker: SPCX
+ipo_date: "2026-06-12"
+ipo_price: 135.0
+
+# Market context tickers shown on the dashboard
+context_tickers:
+  QQQ: Nasdaq-100 ETF
+  "^VIX": VIX (market fear index)
+  TSLA: Tesla
+
+# How many option expirations to download (nearest first)
+option_expirations: 6
+
+# Alerts fire only when the direction score reaches this size (0-100).
+# Higher = fewer, stronger alerts.
+alert_min_score: 40
+
+# Contract suggestions
+suggest:
+  min_days_to_expiry: 21
+  max_days_to_expiry: 75
+  target_delta: 0.45        # roughly "slightly out of the money"
+  max_spread_pct: 12        # skip contracts whose bid/ask gap is wider than this % of the mid price
+  min_open_interest: 100
+
+# Rules for positions listed in data/positions.yaml
+exit_rules:
+  take_profit_pct: 50       # alert when a position is up this much
+  stop_loss_pct: -40        # alert when a position is down this much
+  min_days_left: 21         # alert when time decay starts to speed up

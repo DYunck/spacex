@@ -1,0 +1,14 @@
+# Option positions you currently hold, so the app can tell you when to SELL.
+# The app never trades — it only watches these and sends alerts.
+#
+# Add one entry per position, for example:
+#
+#   - type: call            # call or put
+#     strike: 160
+#     expiry: "2026-12-18"  # YYYY-MM-DD
+#     contracts: 2
+#     cost_per_contract: 850  # what you paid per contract in dollars (price x 100)
+#
+# Delete the [] below when you add your first position.
+
+positions: []
