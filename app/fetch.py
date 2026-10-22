@@ -65,15 +65,9 @@ def fetch_live(cfg: dict) -> dict:
 
 # ---------------------------------------------------------------- news & launches
 
-def fetch_news(ticker, limit: int = 8) -> list[dict] | None:
-    """Latest SPCX headlines from Yahoo Finance. Returns None on failure (keep the cached copy)."""
-    try:
-        raw = ticker.news or []
-    except Exception as e:
-        print(f"news failed: {e}")
-        return None
+def _parse_news_items(raw) -> list[dict]:
     out = []
-    for n in raw:
+    for n in raw or []:
         c = n.get("content") if isinstance(n, dict) and isinstance(n.get("content"), dict) else n
         if not isinstance(c, dict):
             continue
@@ -85,7 +79,60 @@ def fetch_news(ticker, limit: int = 8) -> list[dict] | None:
             when = dt.datetime.fromtimestamp(c["providerPublishTime"], dt.timezone.utc).isoformat()
         if title and link and str(link).startswith("http"):
             out.append({"title": title, "url": link, "publisher": pub, "time": when})
-    return out[:limit]
+    return out
+
+
+def _news_rss(symbol: str) -> list[dict]:
+    """Yahoo's per-ticker RSS headline feed (a different service from the yfinance news call)."""
+    import email.utils
+    import xml.etree.ElementTree as ET
+
+    import requests
+    r = requests.get("https://feeds.finance.yahoo.com/rss/2.0/headline",
+                     params={"s": symbol, "region": "US", "lang": "en-US"}, timeout=20,
+                     headers={"User-Agent": "Mozilla/5.0 (spcx-signals dashboard)"})
+    r.raise_for_status()
+    out = []
+    for it in ET.fromstring(r.content).iter("item"):
+        title, link = (it.findtext("title") or "").strip(), (it.findtext("link") or "").strip()
+        when = it.findtext("pubDate")
+        try:
+            when = email.utils.parsedate_to_datetime(when).isoformat() if when else None
+        except Exception:
+            pass
+        src = it.find("source")
+        if title and link.startswith("http"):
+            out.append({"title": title, "url": link, "publisher": (src.text if src is not None and src.text else "Yahoo Finance"), "time": when})
+    return out
+
+
+def fetch_news(ticker, limit: int = 8) -> list[dict] | None:
+    """Latest SPCX headlines. Tries several Yahoo sources; returns None only if all of them fail (keep the cache)."""
+    got_any_response = False
+    attempts = [
+        ("news", lambda: ticker.get_news(count=limit + 6, tab="news")),
+        ("all", lambda: ticker.get_news(count=limit + 6, tab="all")),
+        ("press releases", lambda: ticker.get_news(count=limit + 6, tab="press releases")),
+    ]
+    for name, call in attempts:
+        try:
+            ticker._news = []  # yfinance caches the first answer; clear it between tabs
+            items = _parse_news_items(call())
+            got_any_response = True
+            print(f"news ({name}): {len(items)} headlines")
+            if items:
+                return items[:limit]
+        except Exception as e:
+            print(f"news ({name}) failed: {e}")
+    try:
+        items = _news_rss(ticker.ticker)
+        got_any_response = True
+        print(f"news (rss): {len(items)} headlines")
+        if items:
+            return items[:limit]
+    except Exception as e:
+        print(f"news (rss) failed: {e}")
+    return [] if got_any_response else None
 
 
 def fetch_launches(limit: int = 12) -> list[dict] | None:
