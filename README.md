@@ -23,7 +23,12 @@ Every hour during market hours (Mon–Fri), GitHub runs the analysis automatical
 8. **Has a "what if" payoff calculator.** Pick any contract (or a spread) and see estimated profit or loss at different prices and dates, including the effect of time decay and volatility crush.
 9. **Shows how SPCX moved around past earnings and lockups,** and from now on records how big a move options priced in beforehand.
 10. **Grades each signal** on SPCX's history (Helpful, No edge, Misleading or Too few) so you know which reasons in the score to trust.
-11. **Keeps score.** Every strong signal (score past ±40) is logged along with how the stock moved 1, 5 and 10 days later, so you can see how reliable the signals have been. A backtest runs on SPCX's price history too.
+11. **Explains itself.** Tap any ⓘ for a plain-English definition of that number or section.
+12. **Option chain heat map** of volume or open interest across every strike and expiration.
+13. **Launches, headlines and comparison:** upcoming SpaceX launches (Starship and other big missions added to events), the latest SPCX headlines, and a chart of SPCX vs. Tesla vs. the Nasdaq-100.
+14. **Option prices over time:** implied vs. actual volatility, with earnings and lockups marked.
+15. **Weekly recap page** (`weekly.html`) with one summary card per week.
+16. **Keeps score.** Every strong signal (score past ±40) is logged along with how the stock moved 1, 5 and 10 days later, so you can see how reliable the signals have been. A backtest runs on SPCX's price history too.
 
 ## Put it on your phone's Home Screen
 
@@ -43,7 +48,7 @@ To refresh right away, go to **Actions → Update SPCX signals → Run workflow*
 ## Good to know
 
 - **Short history.** SPCX has only traded since June 12, 2026, so the backtest has few examples. IV rank needs 20 trading days of collected data before it appears; until then the app compares implied volatility with actual volatility instead.
-- **Data source.** Prices come from Yahoo Finance and may be delayed about 15 minutes. Option Greeks (delta, decay) are calculated by the app.
+- **Data sources.** Prices and headlines come from Yahoo Finance and may be delayed about 15 minutes. Launch schedules come from The Space Devs Launch Library (free, rate-limited; the last good copy is kept if a fetch fails). Option Greeks (delta, decay) are calculated by the app.
 - **Timing.** GitHub's scheduled runs can be a few minutes late at busy times.
 - **Public repo.** The dashboard can be seen by anyone with the link. Don't put account numbers or anything private in these files.
 
@@ -57,8 +62,9 @@ app/signals.py      direction score + "options cheap or expensive" + plain-Engli
 app/backtest.py     how the score did on past data, and per-signal grading
 app/eventmoves.py   moves around past earnings and lockups
 app/summary.py      the plain-English daily paragraph
+app/weekly.py       weekly recap data (docs/data/weekly.json)
 app/run.py          runs everything, writes docs/data/latest.json
-docs/               the dashboard (GitHub Pages), payoff calculator (calc.js), app icon and manifest
+docs/               the dashboard (GitHub Pages): calculator (calc.js), heat map, charts and explain popovers (extras.js), weekly recap (weekly.html)
 .github/workflows/  the hourly schedule
 ```
 

@@ -90,7 +90,7 @@
   <p>Open the <a href="./">dashboard</a> and follow along from top to bottom.</p>
 
   <h3>The top bar</h3>
-  <p>Shows SPCX's latest price, today's change and when the data was last updated. Updates run every hour while the market is open, and prices can be about 15 minutes behind. A yellow banner appears if the data is more than a day old.</p>
+  <p>Shows SPCX's latest price, today's change and when the data was last updated. The <strong>📅 Weekly recap</strong> link opens a page with one summary card per week (see below). Tap any small <strong>ⓘ</strong> next to a heading or number for a one-sentence explanation of it. Updates run every hour while the market is open, and prices can be about 15 minutes behind. A yellow banner appears if the data is more than a day old.</p>
 
   <h3>"Today in one paragraph"</h3>
   <p>The quickest read. It's written automatically from the numbers each hour: where SPCX is, the trend, the score with its main caution, whether options are cheap or expensive, how big a move options expect, and what event is coming next. On a busy day, this plus the main box is enough.</p>
@@ -176,6 +176,12 @@
   <p>The <strong>blue line</strong> is the value on your chosen date and the <strong>dashed line</strong> is the value at expiration. The <strong>shaded band</strong> is the typical move options are pricing in by expiration. If the breakeven sits outside that band, you need a bigger-than-usual move to make money.</p>
   <p>Choose <strong>Spread</strong> to also sell a further-out option. It lowers the cost and caps the gain, which can make sense when options are expensive. All numbers are estimates from a standard pricing model; real prices will differ.</p>
 
+  <h3>"Option chain heat map"</h3>
+  <p>Every strike (rows) and expiration (columns) in one grid. Switch between <strong>Calls</strong> and <strong>Puts</strong>, and between <strong>Volume today</strong> (what traded today) and <strong>Open interest</strong> (contracts that already exist). Darker cells mean more contracts, which shows where traders are concentrating their bets. The outlined row is the strike nearest today's price. Tap any cell to load that contract into the calculator.</p>
+
+  <h3>"Option prices over time"</h3>
+  <p>The orange line is implied volatility (how expensive options are) and the gray line is how much SPCX actually moved. Dots mark earnings (E) and lockups (L). Implied volatility usually climbs before earnings and drops right after. The orange line started on Oct 21, 2026 and grows by one point each trading day.</p>
+
   <h3>"Upcoming events"</h3>
   <p>Earnings, lockup expirations (when insiders are allowed to sell shares), Fed meetings and monthly options expirations. Items marked <em>(unconfirmed)</em> are estimates, so check them before relying on the date.</p>
 
@@ -187,6 +193,12 @@
 
   <h3>"Market context" and "Key price levels"</h3>
   <p>The Nasdaq-100, the VIX (the market's fear gauge; rising means nervous markets) and Tesla, along with how closely Tesla moves with SPCX. If the whole market is falling, a bullish SPCX signal is less reliable.</p>
+
+  <h3>"Upcoming SpaceX launches" and "Latest headlines"</h3>
+  <p>SpaceX's next launches, updated hourly. Starship test flights, Falcon Heavy and crewed missions are starred and also added to the events list, because big flights can move the stock. Launch dates slip often. Next to it are the latest SPCX headlines; tap one to read it on the publisher's site.</p>
+
+  <h3>"SPCX vs. Tesla vs. Nasdaq-100"</h3>
+  <p>Percentage change of all three over 1 month, 3 months or since the IPO. If SPCX moves with the Nasdaq-100, the move is probably about the whole market. If it moves alone, something SpaceX-specific is going on, so check the headlines and launches.</p>
 
   <h3>"How SPCX moved around past events"</h3>
   <p>What the stock actually did after each earnings report and lockup date: the next-day move and the 3-day move. From now on, the app also records how big a move options were pricing in just before each event, so you can see whether options tend to overprice SPCX's events. If moves keep coming in smaller than priced in, buying options right before earnings has been a losing bet.</p>
@@ -207,9 +219,12 @@
   <h3>"Strong-signal history &amp; results"</h3>
   <p>Every time the score crosses ±40, it's logged here with how SPCX moved 1, 5 and 10 trading days later. Green means the signal was right; red means it was wrong. Over time this is the most honest measure of whether the app is helping.</p>
 
+  <h3>Weekly recap page</h3>
+  <p>Open it from <strong>📅 Weekly recap</strong> at the top. A bar chart shows each week's gain or loss, followed by a card per week: a short written recap, open and close, the range, best and worst day, volume compared with usual, events, any strong signals with how they turned out, and the daily-chart score at week's end. The current week is marked "In progress." It's a good Friday-evening read for spotting patterns.</p>
+
   <!-- ------------------------------------------------------------ -->
   <h2 id="routine">3. A simple daily routine</h2>
-  <div class="step"><div class="n">1</div><div><h3>Open the dashboard (once a day is enough)</h3><p>It updates every hour during market hours. After the close is a calm time to look. If the headline says "No clear signal — wait," you're done.</p></div></div>
+  <div class="step"><div class="n">1</div><div><h3>Open the dashboard (once a day is enough)</h3><p>It updates every hour during market hours. After the close is a calm time to look. Read "Today in one paragraph" and glance at the headlines. If the headline says "No clear signal — wait," you're done.</p></div></div>
   <div class="step"><div class="n">2</div><div><h3>Check the main box and "Why"</h3><p>Is the score past ±40? Are the top reasons from the daily chart, and do daily and hourly agree? Check "Which signals have actually worked" for the top reasons.</p></div></div>
   <div class="step"><div class="n">3</div><div><h3>Check option prices</h3><p>Look at "Are options cheap or expensive?" and the events list. Expensive options or an event in the next few days means caution.</p></div></div>
   <div class="step"><div class="n">4</div><div><h3>Test a contract in the calculator</h3><p>Tap <strong>Try it</strong> on a suggested contract. Is the breakeven inside the shaded typical-move band? What happens if SPCX doesn't move for two weeks? If earnings are coming, slide volatility down 30% to see the crush.</p></div></div>

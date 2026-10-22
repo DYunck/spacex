@@ -171,3 +171,46 @@ button.try:hover { background: var(--accent-bg); }
   .sp-stars, .sp-stars2, .sp-rocket, .sp-flame, .sp-smoke i, .sp-glow, .sp-bar i { animation: none !important; }
   .sp-text, .sp-skip { animation: none; opacity: 1; }
 }
+
+/* ---- explain-this */
+button.ex { display: inline-grid; place-items: center; width: 17px; height: 17px; margin-left: 4px; padding: 0; vertical-align: 1px;
+  border: 1px solid currentColor; border-radius: 50%; background: transparent; color: var(--muted); opacity: .75;
+  font: italic 700 11px/1 Georgia, "Times New Roman", serif; text-transform: none; letter-spacing: 0; cursor: pointer; }
+button.ex:hover, button.ex:focus-visible { opacity: 1; color: var(--accent); }
+.ex-pop { position: fixed; z-index: 500; background: var(--card); color: var(--ink); border: 1px solid var(--line); border-radius: 12px;
+  padding: 12px 34px 12px 14px; box-shadow: 0 10px 30px rgba(0,0,0,.18); font-size: 14px; line-height: 1.5; }
+.ex-pop[hidden] { display: none; }
+.ex-pop strong { display: block; margin-bottom: 3px; }
+.ex-pop p { margin: 0; color: var(--muted); }
+.ex-close { position: absolute; top: 6px; right: 8px; border: 0; background: none; color: var(--muted); font-size: 20px; cursor: pointer; }
+
+/* ---- header links */
+.top-links { display: inline-flex; gap: 6px; flex-wrap: wrap; }
+
+/* ---- heat map */
+.hm-controls { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
+.hm-controls .seg { min-width: 200px; }
+.hm-scroll { max-height: 520px; overflow: auto; }
+table.heatmap { border-collapse: separate; border-spacing: 2px; font-size: 12.5px; }
+table.heatmap th { position: sticky; background: var(--card); z-index: 1; font-family: var(--mono); font-weight: 600; white-space: nowrap; }
+table.heatmap thead th { top: 0; }
+table.heatmap tbody th { left: 0; text-align: left; color: var(--ink); padding-right: 10px; }
+table.heatmap td { text-align: center; font-family: var(--mono); padding: 6px 4px; min-width: 52px; border: 0; border-radius: 5px; color: var(--ink); }
+table.heatmap td.hm-cell { cursor: pointer; }
+table.heatmap td.hm-cell:hover { outline: 2px solid var(--accent); }
+table.heatmap td.hm-dark { color: #fff; }
+table.heatmap td.hm-empty { background: transparent; }
+table.heatmap tr.hm-atm th { color: var(--accent); }
+table.heatmap tr.hm-atm td { box-shadow: inset 0 2px 0 var(--accent), inset 0 -2px 0 var(--accent); }
+.hm-now { font: 600 10.5px/1 -apple-system, sans-serif; color: var(--accent); }
+
+/* ---- small charts, launches, news */
+.minichart { height: 260px; }
+tr.launch-big td { font-weight: 600; }
+#launches td { white-space: normal; vertical-align: top; }
+ul.news { list-style: none; padding: 0; margin: 0; }
+ul.news li { padding: 8px 0; border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: 2px; }
+ul.news li:last-child { border: 0; }
+ul.news a { color: var(--ink); text-decoration: none; font-weight: 600; line-height: 1.35; }
+ul.news a:hover { color: var(--accent); text-decoration: underline; }
+ul.news .muted { font-size: 12.5px; }

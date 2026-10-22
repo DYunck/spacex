@@ -14,7 +14,7 @@ from pathlib import Path
 import pandas as pd
 import yaml
 
-from . import backtest, eventmoves, fetch, indicators as ind, options as opt, signals, summary
+from . import backtest, eventmoves, fetch, indicators as ind, options as opt, signals, summary, weekly
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "data"
@@ -50,6 +50,38 @@ def load_events(today: dt.date) -> list[dict]:
     for f in _third_fridays(today, 3):
         ev.append({"date": f.isoformat(), "type": "opex", "title": "Monthly options expiration", "verified": True})
     return sorted(ev, key=lambda e: e["date"])
+
+
+def compare_series(daily: pd.DataFrame, context: dict) -> list[dict]:
+    """SPCX, Tesla and Nasdaq-100 closes on SPCX trading days (the page rescales to % change)."""
+    cols = {"s": daily["Close"]}
+    for sym, key in (("TSLA", "tsla"), ("QQQ", "qqq")):
+        c = context.get(sym)
+        if c is not None and not c.empty:
+            cols[key] = c["Close"]
+    df = pd.DataFrame({k: v.groupby(v.index.date).last() for k, v in cols.items()}).dropna(subset=["s"]).ffill()
+    return [{"t": d.isoformat(), **{k: _num(r[k]) for k in df.columns}} for d, r in df.iterrows()]
+
+
+def notable_launch(x: dict) -> bool:
+    text = f"{x.get('name', '')} {x.get('rocket', '')} {x.get('mission_type', '')}".lower()
+    return any(k in text for k in ("starship", "falcon heavy", "crew", "human", "dragon"))
+
+
+def launch_events(launches: list[dict], today: dt.date) -> list[dict]:
+    """Big launches (Starship, Falcon Heavy, crewed) go into the event calendar."""
+    out = []
+    for x in launches:
+        if not notable_launch(x):
+            continue
+        d = pd.Timestamp(x["net"]).tz_convert(NY).date()
+        if (d - today).days > 60:
+            continue
+        name = x["name"].replace(" Block 5", "").replace(" | ", ": ")
+        conf = "" if x.get("status") == "Go" else f" ({x.get('status_name') or 'date not final'})"
+        out.append({"date": d.isoformat(), "type": "launch", "title": f"{name} launch{conf}",
+                    "verified": x.get("status") == "Go"})
+    return out
 
 
 def bars(df: pd.DataFrame, intraday: bool, cols=("sma20", "sma50", "bb_up", "bb_low")) -> list[dict]:
@@ -108,7 +140,21 @@ def main():
     if not hourly.empty and hourly.index[-1].date() == daily.index[-1].date() and len(daily) > 1:
         prev_close = float(daily["Close"].iloc[-2])
 
-    events = load_events(today)
+    # Upcoming SpaceX launches (cached so a failed fetch keeps the last good list)
+    launches = data.get("launches")
+    if launches is None:
+        launches = _load_json(OUT / "launches.json", {}).get("launches", [])
+    elif not a.sample:
+        (OUT / "launches.json").write_text(json.dumps({"fetched": now.isoformat(timespec="minutes"), "launches": launches}, indent=1))
+    launches = [x for x in launches if x.get("net") and pd.Timestamp(x["net"]).tz_convert(NY).date() >= today]
+    news = data.get("news")
+    if news is None:
+        news = _load_json(OUT / "news.json", [])
+    elif news and not a.sample:
+        (OUT / "news.json").write_text(json.dumps(news, indent=1))
+
+    events = load_events(today) + launch_events(launches, today)
+    events.sort(key=lambda e: e["date"])
     upcoming = [e for e in events if e["date"] >= today.isoformat()]
     big = [e for e in upcoming if e["type"] in ("earnings", "lockup")]
     next_big = big[0] if big else None
@@ -212,6 +258,10 @@ def main():
         "daily": bars(daily, False), "hourly": bars(hourly.tail(7 * 30), True) if not hourly.empty else [],
         "iv_history": iv_hist[-252:],
         "signal_grades": backtest.grade_all(daily, hourly),
+        "news": news[:8],
+        "launches": [x | {"notable": notable_launch(x)} for x in launches[:12]],
+        "compare": compare_series(daily, data["context"]),
+        "vol_history": [{"t": ts.strftime("%Y-%m-%d"), "rv": _num(v * 100, 1)} for ts, v in daily["rvol20"].items() if pd.notna(v)],
         "chain": opt.compact_chain(chain, spot), "rate": opt.RATE, "today": today.isoformat(),
     }
     moves = eventmoves.history(daily, events, em_hist, today)
@@ -219,8 +269,11 @@ def main():
     recent = [e | {"days": (dt.date.fromisoformat(e["date"]) - today).days} for e in events
               if e["type"] in ("earnings", "lockup") and -2 <= (dt.date.fromisoformat(e["date"]) - today).days <= 0]
     result["today_paragraph"] = summary.paragraph(result, mode, today, recent[-1] if recent else None)
+    weeks = weekly.build(daily, events, log, iv_hist, today)
 
     (OUT / "latest.json").write_text(json.dumps(result, separators=(",", ":")))
+    (OUT / "weekly.json").write_text(json.dumps({"generated": result["generated"], "source": data["source"],
+                                                  "weeks": weeks}, separators=(",", ":")))
     if not a.sample:
         (OUT / "signals.json").write_text(json.dumps(log, indent=1))
         (OUT / "state.json").write_text(json.dumps(state, indent=1))

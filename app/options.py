@@ -172,7 +172,7 @@ def compact_chain(c: pd.DataFrame, spot: float, width: float = 0.35) -> list[dic
     """Trimmed chain for the payoff calculator: strikes within +/-35% of the price."""
     if c.empty:
         return []
-    f = c[(c["strike"] >= spot * (1 - width)) & (c["strike"] <= spot * (1 + width)) & (c["mid"] > 0)]
+    f = c[(c["strike"] >= spot * (1 - width)) & (c["strike"] <= spot * (1 + width)) & ((c["mid"] > 0) | (c["openInterest"] > 0))]
     return [{"e": r.expiry, "k": float(r.strike), "t": r.type[0], "b": round(r.bid, 2), "a": round(r.ask, 2),
-             "m": round(r.mid, 2), "iv": round(r.impliedVolatility, 4), "oi": int(r.openInterest)}
+             "m": round(r.mid, 2), "iv": round(r.impliedVolatility, 4), "oi": int(r.openInterest), "v": int(r.volume)}
             for r in f.sort_values(["expiry", "type", "strike"]).itertuples()]

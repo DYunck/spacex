@@ -63,21 +63,21 @@
     <span class="price" id="price">—</span>
     <span class="chg" id="chg"></span>
     <span class="updated" id="updated">Loading…</span>
-    <a class="guide-link" href="guide.html">📘 How to use this app</a>
+    <span class="top-links"><a class="guide-link" href="weekly.html">📅 Weekly recap</a> <a class="guide-link" href="guide.html">📘 How to use this app</a></span>
   </header>
   <div id="banners"></div>
   <div id="install" class="banner install" hidden></div>
 
   <div class="grid">
     <section class="card span12 today-card">
-      <h2>Today in one paragraph</h2>
+      <h2>Today in one paragraph <button class="ex" data-ex="today" aria-label="Explain">i</button></h2>
       <p id="today" class="today">—</p>
     </section>
 
     <section class="card span12">
       <div class="hero">
         <div>
-          <h2>What conditions favor right now</h2>
+          <h2>What conditions favor right now <button class="ex" data-ex="score" aria-label="Explain">i</button></h2>
           <div class="stance" id="stance">—</div>
           <p class="detail" id="detail"></p>
           <div class="gauge"><div class="needle" id="needle" style="left:50%"></div></div>
@@ -105,30 +105,37 @@
     </section>
 
     <section class="card span4">
-      <h2>Why — signals behind the score</h2>
+      <h2>Why — signals behind the score <button class="ex" data-ex="why" aria-label="Explain">i</button></h2>
       <ul class="reasons" id="reasons"></ul>
     </section>
 
     <section class="card span6">
-      <h2>Daily vs. hourly</h2>
+      <h2>Daily vs. hourly <button class="ex" data-ex="tf" aria-label="Explain">i</button></h2>
       <div class="scroll"><table id="tf"></table></div>
     </section>
 
     <section class="card span6">
-      <h2>Are options cheap or expensive?</h2>
+      <h2>Are options cheap or expensive? <button class="ex" data-ex="iv" aria-label="Explain">i</button></h2>
       <dl class="kv" id="vol"></dl>
       <div id="volnotes"></div>
     </section>
 
     <section class="card span12">
-      <h2>Contracts worth a look</h2>
+      <h2>Option prices over time <button class="ex" data-ex="ivhist" aria-label="Explain">i</button></h2>
+      <div id="volchart" class="minichart"></div>
+      <div class="legend"><span><i style="background:#e0703a"></i>Implied volatility (what options assume)</span><span><i style="background:#8a95a5"></i>Actual volatility (20-day)</span><span><i style="background:var(--accent)"></i>Earnings</span><span><i style="background:var(--down)"></i>Lockup</span></div>
+      <p class="note" id="volchart-note"></p>
+    </section>
+
+    <section class="card span12">
+      <h2>Contracts worth a look <button class="ex" data-ex="contracts" aria-label="Explain">i</button></h2>
       <div class="tabs"><button data-sg="calls" class="on">Calls (bet on a rise)</button><button data-sg="puts">Puts (bet on a drop)</button></div>
       <div class="scroll"><table id="sugg"></table></div>
       <p class="note">Picked for liquidity (tight bid/ask, real open interest) and a delta near the target in settings. "Max loss" is the whole cost of one contract. "Decay/day" is roughly how much one contract loses each day if nothing else changes. Tap <strong>Try it</strong> to load a contract into the calculator below.</p>
     </section>
 
     <section class="card span12" id="calc-card">
-      <h2>"What if" payoff calculator</h2>
+      <h2>"What if" payoff calculator <button class="ex" data-ex="calc" aria-label="Explain">i</button></h2>
       <p class="note" style="margin-top:0">Pick an option and see roughly what it would be worth at different SPCX prices and dates. Estimates use the Black-Scholes model and today's option prices; real prices will differ.</p>
       <div class="calc-controls">
         <label>Type
@@ -159,39 +166,69 @@
       <p class="note" id="c-note"></p>
     </section>
 
+    <section class="card span12">
+      <h2>Option chain heat map <button class="ex" data-ex="heatmap" aria-label="Explain">i</button></h2>
+      <div class="hm-controls">
+        <div class="seg" id="hm-type"><button data-v="c" class="on">Calls</button><button data-v="p">Puts</button></div>
+        <div class="seg" id="hm-metric"><button data-v="v" class="on">Volume today</button><button data-v="oi">Open interest</button></div>
+      </div>
+      <div class="scroll hm-scroll"><table id="heatmap" class="heatmap"></table></div>
+      <p class="note">Darker cells mean more contracts. The highlighted row is the strike closest to today's price. Tap a cell to load it into the calculator.</p>
+    </section>
+
     <section class="card span6">
-      <h2>Upcoming events</h2>
+      <h2>Upcoming events <button class="ex" data-ex="events" aria-label="Explain">i</button></h2>
       <div class="scroll"><table id="events"></table></div>
     </section>
 
     <section class="card span6">
       <h2>Market context</h2>
       <div class="scroll"><table id="context"></table></div>
-      <h2 style="margin-top:16px">Key price levels</h2>
+      <h2 style="margin-top:16px">Key price levels <button class="ex" data-ex="levels" aria-label="Explain">i</button></h2>
       <div class="chips" id="levels"></div>
     </section>
 
+    <section class="card span6">
+      <h2>Upcoming SpaceX launches <button class="ex" data-ex="launches" aria-label="Explain">i</button></h2>
+      <div class="scroll"><table id="launches"></table></div>
+      <p class="note">From The Space Devs launch library. Starship, Falcon Heavy and crewed missions are highlighted and added to the events list. Dates often slip.</p>
+    </section>
+
+    <section class="card span6">
+      <h2>Latest headlines</h2>
+      <ul class="news" id="news"></ul>
+      <p class="note">From Yahoo Finance. Headlines open on the publisher's site.</p>
+    </section>
+
     <section class="card span12">
-      <h2>How SPCX moved around past events</h2>
+      <h2>SPCX vs. Tesla vs. Nasdaq-100 <button class="ex" data-ex="compare" aria-label="Explain">i</button></h2>
+      <div class="tabs" id="cmp-range"><button data-r="21">1 month</button><button data-r="63" class="on">3 months</button><button data-r="9999">Since IPO</button></div>
+      <div id="cmpchart" class="minichart"></div>
+      <div class="legend"><span><i style="background:#2457d6"></i>SPCX</span><span><i style="background:#e0703a"></i>Tesla</span><span><i style="background:#3aa17e"></i>Nasdaq-100 (QQQ)</span></div>
+      <p class="note" id="cmp-note"></p>
+    </section>
+
+    <section class="card span12">
+      <h2>How SPCX moved around past events <button class="ex" data-ex="eventmoves" aria-label="Explain">i</button></h2>
       <div class="chips" id="em-summary" style="margin-bottom:10px"></div>
       <div class="scroll"><table id="em-table"></table></div>
       <p class="note">Earnings come out after the close, so the move is from that day's close to the next day's close. Lockups take effect at the open, so the move is from the prior close to that day's close. "Priced in" is the move options expected just before the event; it's recorded automatically from now on.</p>
     </section>
 
     <section class="card span12">
-      <h2>Options activity</h2>
+      <h2>Options activity <button class="ex" data-ex="putcall" aria-label="Explain">i</button></h2>
       <dl class="kv" id="flow"></dl>
       <div class="scroll" style="margin-top:10px"><table id="unusual"></table></div>
     </section>
 
     <section class="card span12">
-      <h2>How has this signal done? (backtest on SPCX history)</h2>
+      <h2>How has this signal done? (backtest on SPCX history) <button class="ex" data-ex="backtest" aria-label="Explain">i</button></h2>
       <div class="scroll"><table id="bt"></table></div>
       <p class="note" id="btnote"></p>
     </section>
 
     <section class="card span12">
-      <h2>Which signals have actually worked on SPCX?</h2>
+      <h2>Which signals have actually worked on SPCX? <button class="ex" data-ex="grades" aria-label="Explain">i</button></h2>
       <div class="chips" id="sg-summary" style="margin-bottom:10px"></div>
       <div class="scroll"><table id="sg-table"></table></div>
       <button class="linkbtn" id="sg-more" hidden></button>
@@ -199,7 +236,7 @@
     </section>
 
     <section class="card span12">
-      <h2>Strong-signal history &amp; results</h2>
+      <h2>Strong-signal history &amp; results <button class="ex" data-ex="history" aria-label="Explain">i</button></h2>
       <div id="track" class="chips" style="margin-bottom:10px"></div>
       <div class="scroll"><table id="signals"></table></div>
     </section>
@@ -212,5 +249,7 @@
 </div>
 <script src="app.js"></script>
 <script src="calc.js"></script>
+<script src="extras.js"></script>
+<div id="ex-pop" class="ex-pop" role="dialog" hidden></div>
 </body>
 </html>

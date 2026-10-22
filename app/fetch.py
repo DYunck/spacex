@@ -36,7 +36,7 @@ def fetch_live(cfg: dict) -> dict:
     context = {}
     for c in cfg.get("context_tickers", {}):
         try:
-            context[c] = _clean(yf.Ticker(c).history(period="6mo", interval="1d", auto_adjust=False))
+            context[c] = _clean(yf.Ticker(c).history(start=cfg["ipo_date"], interval="1d", auto_adjust=False))
         except Exception as e:  # context is nice-to-have
             print(f"context {c} failed: {e}")
             context[c] = _clean(None)
@@ -59,7 +59,66 @@ def fetch_live(cfg: dict) -> dict:
             f["expiry"] = exp
             chains.append(f)
     chain = pd.concat(chains, ignore_index=True) if chains else pd.DataFrame()
-    return {"daily": daily, "hourly": hourly, "context": context, "chain": chain, "source": "Yahoo Finance"}
+    return {"daily": daily, "hourly": hourly, "context": context, "chain": chain, "source": "Yahoo Finance",
+            "news": fetch_news(t), "launches": fetch_launches()}
+
+
+# ---------------------------------------------------------------- news & launches
+
+def fetch_news(ticker, limit: int = 8) -> list[dict] | None:
+    """Latest SPCX headlines from Yahoo Finance. Returns None on failure (keep the cached copy)."""
+    try:
+        raw = ticker.news or []
+    except Exception as e:
+        print(f"news failed: {e}")
+        return None
+    out = []
+    for n in raw:
+        c = n.get("content") if isinstance(n, dict) and isinstance(n.get("content"), dict) else n
+        if not isinstance(c, dict):
+            continue
+        title = c.get("title")
+        link = ((c.get("clickThroughUrl") or {}).get("url") or (c.get("canonicalUrl") or {}).get("url") or c.get("link"))
+        pub = (c.get("provider") or {}).get("displayName") or c.get("publisher") or ""
+        when = c.get("pubDate") or c.get("displayTime")
+        if not when and c.get("providerPublishTime"):
+            when = dt.datetime.fromtimestamp(c["providerPublishTime"], dt.timezone.utc).isoformat()
+        if title and link and str(link).startswith("http"):
+            out.append({"title": title, "url": link, "publisher": pub, "time": when})
+    return out[:limit]
+
+
+def fetch_launches(limit: int = 12) -> list[dict] | None:
+    """Upcoming SpaceX launches from The Space Devs Launch Library 2 (free, no key). None on failure."""
+    import requests
+    url = "https://ll.thespacedevs.com/2.3.0/launches/upcoming/"
+    try:
+        r = requests.get(url, params={"lsp__name": "SpaceX", "limit": limit, "mode": "normal"}, timeout=20,
+                         headers={"User-Agent": "spcx-signals-dashboard"})
+        r.raise_for_status()
+        results = r.json().get("results", [])
+    except Exception as e:
+        print(f"launches failed: {e}")
+        return None
+    out = []
+    for x in results:
+        rocket = ((x.get("rocket") or {}).get("configuration") or {})
+        mission = x.get("mission") or {}
+        pad = x.get("pad") or {}
+        status = x.get("status") or {}
+        out.append({
+            "name": x.get("name") or "",
+            "net": x.get("net"),
+            "status": status.get("abbrev") or status.get("name") or "",
+            "status_name": status.get("name") or "",
+            "rocket": rocket.get("name") or rocket.get("full_name") or "",
+            "mission": mission.get("name") or "",
+            "mission_type": mission.get("type") or "",
+            "orbit": ((mission.get("orbit") or {}).get("abbrev")) or "",
+            "pad": pad.get("name") or "",
+            "location": ((pad.get("location") or {}).get("name")) or "",
+        })
+    return out
 
 
 # ---------------------------------------------------------------- sample data
@@ -102,7 +161,7 @@ def fetch_sample(cfg: dict) -> dict:
     context = {}
     for i, c in enumerate(cfg.get("context_tickers", {})):
         base = {"QQQ": 610, "^VIX": 18, "TSLA": 420}.get(c, 100)
-        cd = pd.bdate_range(end - pd.Timedelta(days=180), end).tz_localize(NY)
+        cd = pd.bdate_range(cfg["ipo_date"], end).tz_localize(NY)
         cc = _sample_path(len(cd), base, 0.015, 10 + i)
         context[c] = pd.DataFrame({"Open": cc, "High": cc, "Low": cc, "Close": cc, "Volume": 0}, index=cd)
 
@@ -131,7 +190,20 @@ def fetch_sample(cfg: dict) -> dict:
                     "volume": int(oi * rng.uniform(0.05, 0.6)), "openInterest": oi,
                     "impliedVolatility": iv, "type": kind, "expiry": e.isoformat(),
                 })
-    return {"daily": daily, "hourly": hourly, "context": context, "chain": pd.DataFrame(rows), "source": "SAMPLE DATA (not real)"}
+    now = pd.Timestamp.now(tz="UTC")
+    news = [{"title": f"Sample headline {i + 1} about SpaceX stock (test data)", "url": "https://example.com/",
+             "publisher": ["Reuters", "Bloomberg", "Yahoo Finance"][i % 3], "time": (now - pd.Timedelta(hours=5 * i + 1)).isoformat()}
+            for i in range(6)]
+    launches = [{"name": n, "net": (now + pd.Timedelta(days=d)).isoformat(), "status": st, "status_name": st,
+                 "rocket": r, "mission": n.split(" | ")[-1], "mission_type": mt, "orbit": "LEO", "pad": "SLC-40",
+                 "location": loc}
+                for n, d, st, r, mt, loc in [
+                    ("Falcon 9 Block 5 | Starlink Group 12-3", 1, "Go", "Falcon 9", "Communications", "Cape Canaveral, FL, USA"),
+                    ("Starship | Flight 12", 6, "TBC", "Starship", "Test Flight", "Starbase, TX, USA"),
+                    ("Falcon 9 Block 5 | Transporter-15", 9, "TBD", "Falcon 9", "Dedicated Rideshare", "Vandenberg SFB, CA, USA"),
+                    ("Falcon Heavy | Sample Mission", 18, "TBD", "Falcon Heavy", "Government/Top Secret", "Kennedy Space Center, FL, USA")]]
+    return {"daily": daily, "hourly": hourly, "context": context, "chain": pd.DataFrame(rows), "source": "SAMPLE DATA (not real)",
+            "news": news, "launches": launches}
 
 
 def _third_fridays(start: dt.date, count: int) -> list[dt.date]:

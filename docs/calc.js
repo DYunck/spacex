@@ -239,6 +239,11 @@
 
   let bound = false;
   window.Calc = {
+    load(type, exp, k) {
+      if (!st) return;
+      loadContract(type, exp, k);
+      $("calc-card").scrollIntoView({ behavior: "smooth", block: "start" });
+    },
     init(data) {
       D = data;
       chain = data.chain || [];

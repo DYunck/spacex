@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SPCX Weekly Recap</title>
+<meta name="description" content="Week-by-week recap of SpaceX (SPCX) stock: moves, ranges, events and signals.">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="SPCX">
+<link rel="stylesheet" href="style.css">
+<style>
+  .wk-wrap { max-width: 860px; margin: 0 auto; padding: 20px 16px 60px; }
+  .wk-wrap h1 { font-size: 24px; margin: 10px 0 4px; letter-spacing: -.01em; }
+  .back { font-size: 14px; color: var(--accent); text-decoration: none; }
+  .lede { color: var(--muted); margin: 0 0 16px; }
+  .bars { width: 100%; height: 170px; display: block; }
+  .wk { margin-top: 14px; }
+  .wk-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; margin-bottom: 8px; }
+  .wk-head h2 { font-size: 18px; margin: 0; text-transform: none; letter-spacing: -.01em; color: var(--ink); }
+  .wk-chg { font: 700 20px var(--mono); }
+  .wk-recap { font-size: 15.5px; line-height: 1.6; margin: 0 0 12px; }
+  .wk-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; margin-bottom: 10px; }
+  .wk-stats .stat .v { font-size: 15px; }
+  .wk-list { list-style: none; padding: 0; margin: 6px 0 0; font-size: 14px; }
+  .wk-list li { padding: 5px 0; border-top: 1px solid var(--line); display: flex; gap: 10px; flex-wrap: wrap; }
+  .wk-sub { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 600; margin-top: 10px; }
+</style>
+</head>
+<body>
+<div class="wk-wrap">
+  <a class="back" href="./">← Back to the dashboard</a>
+  <h1>SPCX weekly recap</h1>
+  <p class="lede" id="lede">Loading…</p>
+  <div id="banners"></div>
+  <section class="card">
+    <h2>Weekly change</h2>
+    <svg class="bars" id="bars" role="img" aria-label="Weekly percentage change bar chart"></svg>
+  </section>
+  <div id="weeks"></div>
+  <footer>
+    <p>Information only, not financial advice. The app never trades and sends no messages.</p>
+    <p><a href="./">← Back to the dashboard</a> · <a href="guide.html">How to use this app</a></p>
+  </footer>
+</div>
+<script src="weekly.js"></script>
+</body>
+</html>

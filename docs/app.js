@@ -139,6 +139,7 @@ function render() {
   renderEventMoves(d);
   renderGrades(d);
   if (window.Calc) window.Calc.init(d);
+  if (window.Extras) window.Extras.init(d);
 
   $("footsrc").textContent = `Data: ${d.source}. Prices may be delayed ~15 minutes. Updates hourly during market hours.`;
   drawChart();
