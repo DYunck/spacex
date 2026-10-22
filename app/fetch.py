@@ -106,6 +106,15 @@ def _news_rss(symbol: str) -> list[dict]:
     return out
 
 
+_RELEVANT = ("spacex", "spcx", "starship", "starlink", "falcon", "musk", "space x", "xai")
+
+
+def _rank(items: list[dict]) -> list[dict]:
+    """SpaceX-related headlines first; general market stories after."""
+    rel = [x for x in items if any(k in x["title"].lower() for k in _RELEVANT)]
+    return rel + [x for x in items if x not in rel]
+
+
 def fetch_news(ticker, limit: int = 8) -> list[dict] | None:
     """Latest SPCX headlines. Tries several Yahoo sources; returns None only if all of them fail (keep the cache)."""
     got_any_response = False
@@ -121,7 +130,7 @@ def fetch_news(ticker, limit: int = 8) -> list[dict] | None:
             got_any_response = True
             print(f"news ({name}): {len(items)} headlines")
             if items:
-                return items[:limit]
+                return _rank(items)[:limit]
         except Exception as e:
             print(f"news ({name}) failed: {e}")
     try:
@@ -129,7 +138,7 @@ def fetch_news(ticker, limit: int = 8) -> list[dict] | None:
         got_any_response = True
         print(f"news (rss): {len(items)} headlines")
         if items:
-            return items[:limit]
+            return _rank(items)[:limit]
     except Exception as e:
         print(f"news (rss) failed: {e}")
     return [] if got_any_response else None
