@@ -11,7 +11,7 @@
   // ------------------------------------------------------------ explain-this
   const EX = {
     starship: ["Starship flight tracker", "Every Starship test flight with its result, and how SPCX moved afterward. Flights during market hours are compared with that day's close; flights after the close or on weekends are compared with the next trading day."],
-    lockups: ["Insider selling (lockups)", "Shares held by employees, early investors and Elon Musk can't be sold until set dates after the IPO. Each unlock adds shares that could be sold, which can weigh on the price, though SPCX has often risen on unlock days."],
+    lockups: ["Insider selling (lockups)", "Shares held by employees, early investors and Elon Musk can't be sold until set dates after the IPO. Each unlock adds shares that could be sold, which can weigh on the price, but SPCX's reaction on past unlock days has been mixed."],
     tradable: ["Freely tradable shares", "Shares that anyone can buy or sell today: the shares sold at the IPO plus every lockup tranche already released. The rest are still restricted."],
     analysts: ["Analyst price targets", "Where Wall Street analysts think SPCX will trade in about 12 months. The bar runs from the lowest to the highest target; the marker shows today's price. Targets are opinions and are often wrong."],
     rating: ["Consensus rating", "The average analyst recommendation on a 1–5 scale: 1 = strong buy, 3 = hold, 5 = sell."],

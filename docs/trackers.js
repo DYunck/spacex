@@ -70,7 +70,7 @@
     const chips = [`<span class="chip">Tradable now: ${shares(L.tradable_m)} of ${shares(total)} (${fmt(L.tradable_pct, 0)}%)</span>`,
       `<span class="chip warn">After Dec 8: about ${fmt(L.after_dec8_pct, 0)}% tradable</span>`];
     if (L.past_unlocks) chips.push(`<span class="chip ${L.past_avg_move >= 0 ? "up" : "down"}">Past unlock days: up ${L.past_up} of ${L.past_unlocks}, average ${pct(L.past_avg_move)}</span>`);
-    if (L.yahoo_float_m) chips.push(`<span class="chip dim">Yahoo's float figure: ${shares(L.yahoo_float_m)}</span>`);
+    if (L.yahoo_float_m || L.yahoo_outstanding_m) chips.push(`<span class="chip dim">Yahoo reports ${L.yahoo_float_m ? shares(L.yahoo_float_m) + " float" : ""}${L.yahoo_float_m && L.yahoo_outstanding_m ? " / " : ""}${L.yahoo_outstanding_m ? shares(L.yahoo_outstanding_m) + " outstanding" : ""} (likely one share class)</span>`);
     $("lk-chips").innerHTML = chips.join("");
     table($("lk-table"), [["Date", 0], ["Shares", 1], ["% of company", 1], ["Who", 0], ["Status", 0], ["Move", 1], ["Notes", 0]],
       L.rows.map((r) => [

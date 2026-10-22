@@ -77,8 +77,10 @@ def starship(flights: list[dict], daily: pd.DataFrame, upcoming: list[dict], ipo
 # ---------------------------------------------------------------- insider selling / lockups
 
 def lockups(cfg: dict, shares: dict | None, event_moves: list[dict], today: dt.date) -> dict:
-    total_m = (shares or {}).get("outstanding")
-    total_m = total_m / 1e6 if total_m else float(cfg.get("total_shares_m", 13200))
+    # Yahoo's "shares outstanding" for SPCX appears to cover only one share class, so use the
+    # prospectus-based total from lockups.yaml and show Yahoo's figures separately for reference.
+    total_m = float(cfg.get("total_shares_m", 13200))
+    yahoo_out = (shares or {}).get("outstanding")
     ipo_float = float(cfg.get("ipo_float_m", 0))
     moves = {m["date"]: m for m in event_moves if m.get("type") == "lockup"}
     rows, released, upcoming_std = [], 0.0, 0.0
@@ -105,6 +107,7 @@ def lockups(cfg: dict, shares: dict | None, event_moves: list[dict], today: dt.d
         "total_m": round(total_m, 1), "tradable_m": round(tradable, 1), "tradable_pct": round(tradable / total_m * 100, 1),
         "upcoming_standard_m": round(upcoming_std, 1), "extended_m": round(extended, 1), "other_locked_m": round(locked_other, 1),
         "yahoo_float_m": round(yahoo_float / 1e6, 1) if yahoo_float else None,
+        "yahoo_outstanding_m": round(yahoo_out / 1e6, 1) if yahoo_out else None,
         "next": nxt, "rows": rows,
         "past_unlocks": len(past_moves), "past_up": sum(1 for x in past_moves if x > 0),
         "past_avg_move": round(sum(past_moves) / len(past_moves), 2) if past_moves else None,
