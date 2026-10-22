@@ -214,3 +214,33 @@ ul.news li:last-child { border: 0; }
 ul.news a { color: var(--ink); text-decoration: none; font-weight: 600; line-height: 1.35; }
 ul.news a:hover { color: var(--accent); text-decoration: underline; }
 ul.news .muted { font-size: 12.5px; }
+
+/* ---- Starship / lockups / analysts */
+.callout-row { background: var(--accent-bg); color: var(--ink); border-radius: 10px; padding: 9px 12px; margin-bottom: 10px; font-size: 14.5px; }
+.ss-detail { display: inline-block; white-space: normal; min-width: 220px; max-width: 520px; color: var(--muted); font-size: 13px; line-height: 1.45; }
+.lk-next { display: flex; gap: 14px; align-items: center; background: var(--warn-bg); color: var(--ink); border-radius: 12px; padding: 12px 14px; margin-bottom: 14px; font-size: 14.5px; }
+.lk-next .muted { color: var(--muted); }
+.lk-count { font: 700 18px var(--mono); color: var(--warn); white-space: nowrap; }
+@media (max-width: 560px) { .lk-next { flex-direction: column; align-items: flex-start; gap: 4px; } }
+.lk-bar, .an-mixbar { display: flex; height: 28px; border-radius: 8px; overflow: hidden; gap: 2px; }
+.lk-bar div, .an-mixbar div { display: flex; align-items: center; justify-content: center; min-width: 3px; }
+.lk-bar span, .an-mixbar span { font: 600 12px var(--mono); color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.35); }
+.an-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 22px; }
+@media (max-width: 860px) { .an-grid { grid-template-columns: 1fr; } }
+h3.sub { font-size: 12.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 16px 0 8px; font-weight: 600; }
+.an-grid > div:last-child h3.sub { margin-top: 0; }
+.an-heads { display: flex; flex-wrap: wrap; gap: 10px; }
+.an-big { background: var(--bg); border-radius: 10px; padding: 8px 12px; display: flex; flex-direction: column; min-width: 120px; flex: 1; }
+.an-big span { font-size: 12.5px; }
+.an-big b { font: 700 20px var(--mono); margin: 2px 0; }
+.an-range { position: relative; margin: 26px 8px 50px; }
+.an-track { position: relative; height: 8px; border-radius: 4px; background: var(--line); }
+.an-fill { position: absolute; top: 0; height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--down), var(--warn), var(--up)); opacity: .55; }
+.an-mark { position: absolute; top: -4px; transform: translateX(-50%); }
+.an-mark i { display: block; width: 3px; height: 16px; margin: 0 auto; background: var(--ink); border-radius: 2px; }
+.an-mark span { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); font-size: 11.5px; color: var(--muted); text-align: center; white-space: nowrap; line-height: 1.25; }
+.an-mark span b { color: var(--ink); font-family: var(--mono); }
+.an-mark.lo span { transform: translateX(-20%); } .an-mark.hi span { transform: translateX(-80%); }
+.an-now { position: absolute; top: -9px; transform: translateX(-50%); width: 14px; height: 14px; margin-top: 6px; border-radius: 50%; background: var(--accent); border: 3px solid var(--card); box-shadow: 0 0 0 1px var(--accent); }
+.an-now span { position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%); font: 600 11.5px var(--mono); color: var(--accent); white-space: nowrap; }
+.an-grid > div { min-width: 0; }

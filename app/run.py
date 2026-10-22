@@ -14,7 +14,7 @@ from pathlib import Path
 import pandas as pd
 import yaml
 
-from . import backtest, eventmoves, fetch, indicators as ind, options as opt, signals, summary, weekly
+from . import trackers, backtest, eventmoves, fetch, indicators as ind, options as opt, signals, summary, weekly
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "data"
@@ -153,6 +153,18 @@ def main():
     elif news and not a.sample:
         (OUT / "news.json").write_text(json.dumps(news, indent=1))
 
+    # Starship flight history, analyst targets and share counts (each cached so a failed fetch keeps the last good copy)
+    def cached(key, fname):
+        val = data.get(key)
+        if val is None:
+            return _load_json(OUT / fname, None)
+        if val and not a.sample:
+            (OUT / fname).write_text(json.dumps(val, indent=1))
+        return val
+    starship_flights = cached("starship", "starship.json") or []
+    analyst_raw = cached("analysts", "analysts.json")
+    share_info = cached("shares", "shares.json")
+
     events = load_events(today) + launch_events(launches, today)
     events.sort(key=lambda e: e["date"])
     upcoming = [e for e in events if e["date"] >= today.isoformat()]
@@ -266,6 +278,10 @@ def main():
     }
     moves = eventmoves.history(daily, events, em_hist, today)
     result["event_moves"] = {"rows": moves, "summary": eventmoves.summarize(moves)}
+    result["starship"] = trackers.starship(starship_flights, daily, launches, cfg["ipo_date"])
+    lock_cfg = yaml.safe_load((ROOT / "data" / "lockups.yaml").read_text()) or {}
+    result["lockups"] = trackers.lockups(lock_cfg, share_info, moves, today)
+    result["analysts"] = trackers.analysts(analyst_raw, spot)
     recent = [e | {"days": (dt.date.fromisoformat(e["date"]) - today).days} for e in events
               if e["type"] in ("earnings", "lockup") and -2 <= (dt.date.fromisoformat(e["date"]) - today).days <= 0]
     result["today_paragraph"] = summary.paragraph(result, mode, today, recent[-1] if recent else None)

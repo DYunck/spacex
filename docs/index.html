@@ -201,6 +201,40 @@
     </section>
 
     <section class="card span12">
+      <h2>Starship flight tracker <button class="ex" data-ex="starship" aria-label="Explain">i</button></h2>
+      <div class="chips" id="ss-summary" style="margin-bottom:10px"></div>
+      <div id="ss-next"></div>
+      <div class="scroll"><table id="ss-table"></table></div>
+      <p class="note" id="ss-note">Flight results from The Space Devs launch library. "Reaction" is SPCX's move on the first trading session after the flight; "2-day" adds the following day.</p>
+    </section>
+
+    <section class="card span12">
+      <h2>Insider selling tracker <button class="ex" data-ex="lockups" aria-label="Explain">i</button></h2>
+      <div id="lk-next"></div>
+      <div class="lk-bar" id="lk-bar"></div>
+      <div class="legend" id="lk-legend"></div>
+      <div class="chips" id="lk-chips" style="margin:10px 0"></div>
+      <div class="scroll"><table id="lk-table"></table></div>
+      <p class="note">Schedule from SpaceX's IPO prospectus as summarized by financial news sites; share counts are approximate and editable in <code>data/lockups.yaml</code>. An unlock only means shares <em>can</em> be sold, not that they will be. "Move" is SPCX's change on that day.</p>
+    </section>
+
+    <section class="card span12">
+      <h2>Analyst price targets <button class="ex" data-ex="analysts" aria-label="Explain">i</button></h2>
+      <div class="an-grid">
+        <div>
+          <div id="an-head"></div>
+          <div class="an-range" id="an-range"></div>
+          <div id="an-mix"></div>
+        </div>
+        <div>
+          <h3 class="sub">Recent rating changes</h3>
+          <div class="scroll"><table id="an-changes"></table></div>
+        </div>
+      </div>
+      <p class="note">From Yahoo Finance. Price targets are analysts' 12-month opinions, not predictions you should rely on; they're often revised after big moves.</p>
+    </section>
+
+    <section class="card span12">
       <h2>SPCX vs. Tesla vs. Nasdaq-100 <button class="ex" data-ex="compare" aria-label="Explain">i</button></h2>
       <div class="tabs" id="cmp-range"><button data-r="21">1 month</button><button data-r="63" class="on">3 months</button><button data-r="9999">Since IPO</button></div>
       <div id="cmpchart" class="minichart"></div>
@@ -250,6 +284,7 @@
 <script src="app.js"></script>
 <script src="calc.js"></script>
 <script src="extras.js"></script>
+<script src="trackers.js"></script>
 <div id="ex-pop" class="ex-pop" role="dialog" hidden></div>
 </body>
 </html>

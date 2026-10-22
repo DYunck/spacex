@@ -27,8 +27,11 @@ Every hour during market hours (Mon–Fri), GitHub runs the analysis automatical
 12. **Option chain heat map** of volume or open interest across every strike and expiration.
 13. **Launches, headlines and comparison:** upcoming SpaceX launches (Starship and other big missions added to events), the latest SPCX headlines, and a chart of SPCX vs. Tesla vs. the Nasdaq-100.
 14. **Option prices over time:** implied vs. actual volatility, with earnings and lockups marked.
-15. **Weekly recap page** (`weekly.html`) with one summary card per week.
-16. **Keeps score.** Every strong signal (score past ±40) is logged along with how the stock moved 1, 5 and 10 days later, so you can see how reliable the signals have been. A backtest runs on SPCX's price history too.
+15. **Starship flight tracker:** each test flight's result and how SPCX moved afterward.
+16. **Insider selling tracker:** the lockup unlock schedule, how much of the company is tradable now vs. later, and how SPCX moved on past unlock days (schedule in `data/lockups.yaml`).
+17. **Analyst price targets:** low/average/high targets vs. today's price, consensus rating and recent rating changes.
+18. **Weekly recap page** (`weekly.html`) with one summary card per week.
+19. **Keeps score.** Every strong signal (score past ±40) is logged along with how the stock moved 1, 5 and 10 days later, so you can see how reliable the signals have been. A backtest runs on SPCX's price history too.
 
 ## Put it on your phone's Home Screen
 
@@ -39,6 +42,7 @@ On iPhone, open the dashboard in Safari, tap **Share**, then **Add to Home Scree
 | File | What to change |
 |---|---|
 | `data/events.yaml` | Earnings dates, lockups, Starship launches and other events |
+| `data/lockups.yaml` | The share unlock schedule used by the insider selling tracker |
 | `config.yaml` | What counts as a strong signal (`signal_min_score`) and which contracts get suggested |
 
 Click the file, then the pencil icon, edit, and **Commit changes**. The dashboard updates within a few minutes.

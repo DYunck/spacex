@@ -17,6 +17,21 @@ events:
     title: First lockup expiry (~911.5M shares)
     verified: true
 
+  - date: "2026-08-20"
+    type: lockup
+    title: Lockup tranche (~319M shares)
+    verified: true
+
+  - date: "2026-09-09"
+    type: lockup
+    title: Lockup tranche (~319M shares)
+    verified: true
+
+  - date: "2026-09-24"
+    type: lockup
+    title: Lockup tranche (~328.4M shares)
+    verified: true
+
   - date: "2026-10-09"
     type: lockup
     title: Lockup tranche (~328.4M shares)
@@ -35,8 +50,13 @@ events:
 
   - date: "2026-10-22"
     type: lockup
-    title: Lockup tranche tied to Q3 report (~28% of locked shares) — estimated, check prospectus
-    verified: false
+    title: Lockup tranche after Q3 results (~1.3B shares, 28%)
+    verified: true
+
+  - date: "2026-10-26"
+    type: lockup
+    title: Lockup tranche (~328.4M shares; Oct 24 falls on a Saturday)
+    verified: true
 
   - date: "2026-10-28"
     type: macro
@@ -45,7 +65,7 @@ events:
 
   - date: "2026-12-08"
     type: lockup
-    title: Standard 180-day IPO lockup ends
+    title: Standard 180-day IPO lockup ends (~797.6M shares)
     verified: true
 
   - date: "2026-12-09"

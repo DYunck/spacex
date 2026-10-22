@@ -1,0 +1,28 @@
+# SpaceX (SPCX) share unlock schedule, used by the Insider selling tracker.
+# Share counts are in millions and approximate. Sources: the June 11, 2026 IPO
+# prospectus as summarized by thefinancialsciences.com/spacex-lockup-calendar,
+# everything-pr.com/spacex-lockup-calendar and FXStreet (Oct 20, 2026).
+# Edit if SpaceX announces changes. "group" is standard (employees and early
+# investors, 180-day lockup) or extended (Musk and other named holders).
+
+ipo_float_m: 638.9          # 555.56M sold at the IPO + ~83.3M underwriter option
+total_shares_m: 13200       # used only if Yahoo doesn't report shares outstanding
+
+unlocks:
+  - {date: "2026-08-06", shares_m: 911.5, group: standard, note: "20%, two trading days after Q2 results"}
+  - {date: "2026-08-20", shares_m: 319.0, group: standard, note: "7%, day 70"}
+  - {date: "2026-09-09", shares_m: 319.0, group: standard, note: "7%, day 90"}
+  - {date: "2026-09-10", shares_m: 59.1, group: standard, note: "Company affiliates' earlier releases"}
+  - {date: "2026-09-24", shares_m: 328.4, group: standard, note: "7%, day 105"}
+  - {date: "2026-10-09", shares_m: 328.4, group: standard, note: "7%, day 120"}
+  - {date: "2026-10-22", shares_m: 1300.0, group: standard, note: "28%, second full trading day after Q3 results"}
+  - {date: "2026-10-26", shares_m: 328.4, group: standard, note: "7%, day 135 (Oct 24 is a Saturday)"}
+  - {date: "2026-12-08", shares_m: 797.6, group: standard, note: "Remaining standard lockup ends (day 180)"}
+  - {date: null, label: "After Q4 2026 results", shares_m: null, group: extended, note: "20% of the extended group"}
+  - {date: "2027-03-18", shares_m: null, group: extended, note: "10% of the extended group"}
+  - {date: null, label: "After Q1 2027 results", shares_m: null, group: extended, note: "20% of the extended group"}
+  - {date: "2027-05-17", shares_m: null, group: extended, note: "10% of the extended group"}
+  - {date: "2027-06-12", shares_m: null, group: extended, note: "20% of the extended group; Elon Musk's ~6.4B shares become eligible (366-day lockup)"}
+  - {date: null, label: "After Q2 2027 results", shares_m: null, group: extended, note: "Rest of the extended group"}
+
+extended_group_m: 7800      # Musk and other named holders, released on the extended schedule above

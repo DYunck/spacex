@@ -10,6 +10,11 @@
 
   // ------------------------------------------------------------ explain-this
   const EX = {
+    starship: ["Starship flight tracker", "Every Starship test flight with its result, and how SPCX moved afterward. Flights during market hours are compared with that day's close; flights after the close or on weekends are compared with the next trading day."],
+    lockups: ["Insider selling (lockups)", "Shares held by employees, early investors and Elon Musk can't be sold until set dates after the IPO. Each unlock adds shares that could be sold, which can weigh on the price, though SPCX has often risen on unlock days."],
+    tradable: ["Freely tradable shares", "Shares that anyone can buy or sell today: the shares sold at the IPO plus every lockup tranche already released. The rest are still restricted."],
+    analysts: ["Analyst price targets", "Where Wall Street analysts think SPCX will trade in about 12 months. The bar runs from the lowest to the highest target; the marker shows today's price. Targets are opinions and are often wrong."],
+    rating: ["Consensus rating", "The average analyst recommendation on a 1–5 scale: 1 = strong buy, 3 = hold, 5 = sell."],
     today: ["Today in one paragraph", "A plain-English summary written automatically from the numbers on this page each hour. Nothing in it is a prediction or advice."],
     score: ["Direction score", "Adds up points from about a dozen chart signals, from −100 (bearish) to +100 (bullish). ±40 or more counts as a strong signal. It describes current conditions; it doesn't predict the future."],
     why: ["Why", "Every signal that went into the score, sorted by size. Green numbers push toward bullish, red toward bearish. Check \"Which signals have actually worked\" to see how much to trust each one."],

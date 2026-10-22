@@ -60,7 +60,8 @@ def fetch_live(cfg: dict) -> dict:
             chains.append(f)
     chain = pd.concat(chains, ignore_index=True) if chains else pd.DataFrame()
     return {"daily": daily, "hourly": hourly, "context": context, "chain": chain, "source": "Yahoo Finance",
-            "news": fetch_news(t), "launches": fetch_launches()}
+            "news": fetch_news(t), "launches": fetch_launches(),
+            "starship": fetch_starship_flights(), "analysts": fetch_analysts(t), "shares": fetch_share_info(t)}
 
 
 # ---------------------------------------------------------------- news & launches
@@ -177,6 +178,99 @@ def fetch_launches(limit: int = 12) -> list[dict] | None:
     return out
 
 
+def fetch_starship_flights(since: str = "2025-01-01") -> list[dict] | None:
+    """Past Starship flights from The Space Devs Launch Library 2. None on failure (keep the cache)."""
+    import requests
+    url = "https://ll.thespacedevs.com/2.3.0/launches/previous/"
+    try:
+        r = requests.get(url, params={"search": "Starship", "net__gte": since, "limit": 40, "mode": "detailed",
+                                      "ordering": "-net"}, timeout=25, headers={"User-Agent": "spcx-signals-dashboard"})
+        r.raise_for_status()
+        results = r.json().get("results", [])
+    except Exception as e:
+        print(f"starship flights failed: {e}")
+        return None
+    out = []
+    for x in results:
+        rocket = ((x.get("rocket") or {}).get("configuration") or {})
+        name = x.get("name") or ""
+        if "starship" not in (name + " " + (rocket.get("name") or "")).lower():
+            continue
+        status = x.get("status") or {}
+        mission = x.get("mission") or {}
+        out.append({
+            "name": name, "net": x.get("net"),
+            "status": status.get("abbrev") or status.get("name") or "",
+            "status_name": status.get("name") or "",
+            "failreason": (x.get("failreason") or "").strip(),
+            "mission": mission.get("name") or "",
+            "description": (mission.get("description") or "").strip(),
+        })
+    print(f"starship flights: {len(out)}")
+    return out
+
+
+def _num_or_none(x):
+    try:
+        f = float(x)
+        return None if f != f else f
+    except (TypeError, ValueError):
+        return None
+
+
+def fetch_analysts(ticker) -> dict | None:
+    """Wall Street price targets, rating mix and recent rating changes (Yahoo). None if nothing came back."""
+    out = {}
+    try:
+        pt = ticker.get_analyst_price_targets() or {}
+        out["targets"] = {k: _num_or_none(pt.get(k)) for k in ("low", "mean", "median", "high", "current")}
+    except Exception as e:
+        print(f"analyst targets failed: {e}")
+    try:
+        info = ticker.info or {}
+        out["count"] = info.get("numberOfAnalystOpinions")
+        out["rating_key"] = info.get("recommendationKey")
+        out["rating_mean"] = _num_or_none(info.get("recommendationMean"))
+        t = out.setdefault("targets", {})
+        for k, ik in (("low", "targetLowPrice"), ("mean", "targetMeanPrice"), ("median", "targetMedianPrice"), ("high", "targetHighPrice")):
+            if t.get(k) is None:
+                t[k] = _num_or_none(info.get(ik))
+    except Exception as e:
+        print(f"analyst info failed: {e}")
+    try:
+        rec = ticker.get_recommendations_summary()
+        if rec is not None and len(rec):
+            row = rec.iloc[0]
+            out["mix"] = {k: int(row.get(k, 0) or 0) for k in ("strongBuy", "buy", "hold", "sell", "strongSell")}
+    except Exception as e:
+        print(f"analyst mix failed: {e}")
+    try:
+        ud = ticker.get_upgrades_downgrades()
+        if ud is not None and len(ud):
+            ud = ud.reset_index().sort_values(ud.reset_index().columns[0], ascending=False).head(10)
+            out["changes"] = [{
+                "date": str(r.get("GradeDate", r.iloc[0]))[:10], "firm": r.get("Firm", ""),
+                "to": r.get("ToGrade", ""), "from": r.get("FromGrade", ""), "action": r.get("Action", ""),
+                "target": _num_or_none(r.get("currentPriceTarget")), "prior_target": _num_or_none(r.get("priorPriceTarget")),
+            } for _, r in ud.iterrows()]
+    except Exception as e:
+        print(f"analyst changes failed: {e}")
+    has = any(v is not None for v in (out.get("targets") or {}).values()) or out.get("mix") or out.get("changes")
+    print(f"analysts: {'ok' if has else 'nothing returned'}")
+    return out if has else None
+
+
+def fetch_share_info(ticker) -> dict | None:
+    try:
+        info = ticker.info or {}
+        return {"outstanding": info.get("sharesOutstanding") or info.get("impliedSharesOutstanding"),
+                "float": info.get("floatShares"), "insiders_pct": _num_or_none(info.get("heldPercentInsiders")),
+                "institutions_pct": _num_or_none(info.get("heldPercentInstitutions"))}
+    except Exception as e:
+        print(f"share info failed: {e}")
+        return None
+
+
 # ---------------------------------------------------------------- sample data
 
 def _sample_path(n: int, start: float, vol: float, seed: int) -> np.ndarray:
@@ -259,7 +353,32 @@ def fetch_sample(cfg: dict) -> dict:
                     ("Falcon 9 Block 5 | Transporter-15", 9, "TBD", "Falcon 9", "Dedicated Rideshare", "Vandenberg SFB, CA, USA"),
                     ("Falcon Heavy | Sample Mission", 18, "TBD", "Falcon Heavy", "Government/Top Secret", "Kennedy Space Center, FL, USA")]]
     return {"daily": daily, "hourly": hourly, "context": context, "chain": pd.DataFrame(rows), "source": "SAMPLE DATA (not real)",
-            "news": news, "launches": launches}
+            "news": news, "launches": launches,
+            "starship": _sample_starship(end), "analysts": _sample_analysts(close[-1]),
+            "shares": {"outstanding": 13_200_000_000, "float": 2_900_000_000, "insiders_pct": 0.62, "institutions_pct": 0.21}}
+
+
+def _sample_starship(end) -> list[dict]:
+    rows = [(-98, "Starship | Flight 12", "Success", ""), (-92, "Starship | Flight 12 (scrubbed attempt)", "Failure", "Engines failed to start; launch aborted"),
+            (-60, "Starship | Flight 13", "Partial Failure", "Booster lost on return"), (-25, "Starship | Flight 14", "Success", ""),
+            (-200, "Starship | Flight 11", "Success", "")]
+    def ts(d):
+        t = pd.Timestamp(end) + pd.Timedelta(days=d, hours=18, minutes=30)
+        return (t.tz_localize(NY) if t.tzinfo is None else t).tz_convert("UTC").isoformat()
+    return [{"name": n, "net": ts(d), "status": st,
+             "status_name": st, "failreason": fr, "mission": n.split("| ")[-1], "description": "Sample test flight (not real data)."}
+            for d, n, st, fr in rows]
+
+
+def _sample_analysts(price: float) -> dict:
+    return {"targets": {"low": round(price * 0.6), "mean": round(price * 1.12), "median": round(price * 1.1),
+                        "high": round(price * 1.7), "current": round(price, 2)},
+            "count": 18, "rating_key": "buy", "rating_mean": 2.1,
+            "mix": {"strongBuy": 5, "buy": 7, "hold": 5, "sell": 1, "strongSell": 0},
+            "changes": [{"date": "2026-10-21", "firm": "Sample Securities", "to": "Buy", "from": "Hold", "action": "up",
+                         "target": round(price * 1.25), "prior_target": round(price * 1.05)},
+                        {"date": "2026-10-15", "firm": "Example Capital", "to": "Hold", "from": "Hold", "action": "main",
+                         "target": round(price * 1.0), "prior_target": round(price * 1.1)}]}
 
 
 def _third_fridays(start: dt.date, count: int) -> list[dt.date]:
