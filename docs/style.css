@@ -69,3 +69,45 @@ footer a, .card a { color: var(--accent); }
 .guide-link { font-size: 13px; font-weight: 600; color: var(--accent); background: var(--accent-bg); padding: 4px 10px; border-radius: 999px; text-decoration: none; white-space: nowrap; }
 .guide-link:hover { text-decoration: underline; }
 #events td:nth-child(3) { white-space: normal; min-width: 180px; }
+
+/* ---- today paragraph */
+.today { font-size: 17px; line-height: 1.6; margin: 0; }
+@media (max-width: 600px) { .today { font-size: 16px; } }
+
+/* ---- install hint */
+.banner.install { display: flex; align-items: center; gap: 10px; background: var(--accent-bg); color: var(--accent); }
+.banner.install[hidden] { display: none; }
+.banner.install span { flex: 1; }
+.banner.install button { border: 0; background: transparent; color: inherit; font: inherit; cursor: pointer; }
+.banner.install .inst { background: var(--accent); color: var(--card); padding: 4px 12px; border-radius: 8px; font-weight: 600; }
+.banner.install .x { font-size: 22px; line-height: 1; padding: 0 4px; }
+
+/* ---- Try it buttons */
+button.try { border: 1px solid var(--accent); color: var(--accent); background: transparent; border-radius: 7px; padding: 2px 9px; font: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer; }
+button.try:hover { background: var(--accent-bg); }
+
+/* ---- calculator */
+.calc-controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px 14px; margin: 12px 0; }
+.calc-controls label, .calc-sliders label { display: flex; flex-direction: column; gap: 5px; font-size: 12.5px; color: var(--muted); font-weight: 600; }
+.calc-controls select, .calc-controls input { font: inherit; font-size: 15px; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 7px 9px; width: 100%; min-width: 0; }
+.seg { display: flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.seg button { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--ink); font: inherit; font-size: 14px; padding: 7px 6px; cursor: pointer; white-space: nowrap; }
+.seg button.on { background: var(--ink); color: var(--card); }
+.calc-sliders { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 22px; margin: 6px 0 14px; }
+@media (max-width: 640px) { .calc-sliders { grid-template-columns: 1fr; } }
+.calc-sliders b { color: var(--ink); }
+.calc-sliders input[type=range] { width: 100%; accent-color: var(--accent); }
+.calc-out { display: grid; grid-template-columns: 280px 1fr; gap: 16px; align-items: start; }
+@media (max-width: 800px) { .calc-out { grid-template-columns: 1fr; } }
+.calc-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.stat { background: var(--bg); border-radius: 10px; padding: 8px 10px; }
+.stat .k { font-size: 12px; color: var(--muted); }
+.stat .v { font: 600 16px var(--mono); margin-top: 2px; }
+.stat .v small { font-size: 12px; color: var(--muted); font-weight: 400; }
+.calc-chart-wrap { min-width: 0; }
+#c-chart { width: 100%; display: block; touch-action: pan-y; }
+.calc-readout { font-size: 13px; color: var(--muted); min-height: 20px; margin-top: 4px; }
+#c-table { margin-top: 10px; }
+.calc-controls label[hidden] { display: none; }
+.chip.dim { background: var(--line); color: var(--muted); }
+.linkbtn { border: 0; background: none; color: var(--accent); font: inherit; font-size: 14px; font-weight: 600; padding: 8px 0 0; cursor: pointer; }

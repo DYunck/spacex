@@ -19,7 +19,15 @@ Every hour during market hours (Mon–Fri), GitHub runs the analysis automatical
 4. **Checks whether options are cheap or expensive.** It compares implied volatility (what options assume) with the stock's actual movement, and tracks IV rank over time.
 5. **Watches upcoming events:** earnings, lockup expirations, Fed meetings and monthly options expirations. It warns about *volatility crush*, the sharp drop in option prices that often follows earnings.
 6. **Suggests contracts to look at.** Only liquid contracts make the list (tight bid/ask, real open interest). Each one shows its breakeven, max loss and daily time decay.
-7. **Keeps score.** Every strong signal (score past ±40) is logged along with how the stock moved 1, 5 and 10 days later, so you can see how reliable the signals have been. A backtest runs on SPCX's price history too.
+7. **Writes a one-paragraph summary** of the day in plain English at the top of the dashboard.
+8. **Has a "what if" payoff calculator.** Pick any contract (or a spread) and see estimated profit or loss at different prices and dates, including the effect of time decay and volatility crush.
+9. **Shows how SPCX moved around past earnings and lockups,** and from now on records how big a move options priced in beforehand.
+10. **Grades each signal** on SPCX's history (Helpful, No edge, Misleading or Too few) so you know which reasons in the score to trust.
+11. **Keeps score.** Every strong signal (score past ±40) is logged along with how the stock moved 1, 5 and 10 days later, so you can see how reliable the signals have been. A backtest runs on SPCX's price history too.
+
+## Put it on your phone's Home Screen
+
+On iPhone, open the dashboard in Safari, tap **Share**, then **Add to Home Screen**. On Android, use Chrome's menu and choose **Install app**. It opens full-screen like a regular app.
 
 ## Customize it (all editable right on GitHub)
 
@@ -46,9 +54,11 @@ app/fetch.py        download prices and option chains
 app/indicators.py   RSI, MACD, moving averages, Bollinger bands, volatility
 app/options.py      Greeks, expected move, put/call ratio, contract picks
 app/signals.py      direction score + "options cheap or expensive" + plain-English stance
-app/backtest.py     how the score did on past data
+app/backtest.py     how the score did on past data, and per-signal grading
+app/eventmoves.py   moves around past earnings and lockups
+app/summary.py      the plain-English daily paragraph
 app/run.py          runs everything, writes docs/data/latest.json
-docs/               the dashboard (GitHub Pages)
+docs/               the dashboard (GitHub Pages), payoff calculator (calc.js), app icon and manifest
 .github/workflows/  the hourly schedule
 ```
 

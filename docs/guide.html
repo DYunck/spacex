@@ -2,9 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>How to Use SPCX Signals</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="SPCX">
 <link rel="stylesheet" href="style.css">
 <style>
   .guide { max-width: 780px; margin: 0 auto; padding: 20px 16px 60px; }
@@ -57,6 +61,7 @@
       <li><a href="#tour">Tour of the dashboard</a></li>
       <li><a href="#routine">A simple daily routine</a></li>
       <li><a href="#example">Worked example</a></li>
+      <li><a href="#homescreen">Put it on your Home Screen</a></li>
       <li><a href="#settings">Change events and settings</a></li>
       <li><a href="#mistakes">Common mistakes to avoid</a></li>
       <li><a href="#glossary">Glossary</a></li>
@@ -86,6 +91,9 @@
 
   <h3>The top bar</h3>
   <p>Shows SPCX's latest price, today's change and when the data was last updated. Updates run every hour while the market is open, and prices can be about 15 minutes behind. A yellow banner appears if the data is more than a day old.</p>
+
+  <h3>"Today in one paragraph"</h3>
+  <p>The quickest read. It's written automatically from the numbers each hour: where SPCX is, the trend, the score with its main caution, whether options are cheap or expensive, how big a move options expect, and what event is coming next. On a busy day, this plus the main box is enough.</p>
 
   <h3>"What conditions favor right now" (the main box)</h3>
   <p>This is the summary box. The big colored headline is the app's read on the situation, and the sentence below explains it. The bar underneath shows the <strong>direction score</strong>, from −100 to +100:</p>
@@ -155,7 +163,18 @@
     <tr><td>Spread</td><td>The gap between buy and sell prices. Under 5% is good; above 10% is costly</td></tr>
     <tr><td>Heads-up</td><td>Events (earnings, lockups) before this contract expires. Hover to see which</td></tr>
   </table>
-  <p>These are starting points to look up at your broker, not recommendations.</p>
+  <p>These are starting points to look up at your broker, not recommendations. Tap <strong>Try it</strong> on any row to load that contract into the calculator.</p>
+
+  <h3>"What if" payoff calculator</h3>
+  <p>Shows roughly what an option would be worth at different SPCX prices and dates, so you can see the risk before you buy.</p>
+  <ol>
+    <li>Choose <strong>Call</strong> or <strong>Put</strong>, the <strong>expiration</strong> and the <strong>strike</strong>. The price fills in automatically; change it if your broker shows something different.</li>
+    <li>Move the <strong>"Value on"</strong> slider to see how the option loses value as time passes. Slide it to the end to see the value at expiration.</li>
+    <li>Move the <strong>volatility</strong> slider left to see the effect of volatility crush. After earnings, a drop of 20–40% is common.</li>
+    <li>Touch or hover over the chart to read the profit or loss at any SPCX price.</li>
+  </ol>
+  <p>The <strong>blue line</strong> is the value on your chosen date and the <strong>dashed line</strong> is the value at expiration. The <strong>shaded band</strong> is the typical move options are pricing in by expiration. If the breakeven sits outside that band, you need a bigger-than-usual move to make money.</p>
+  <p>Choose <strong>Spread</strong> to also sell a further-out option. It lowers the cost and caps the gain, which can make sense when options are expensive. All numbers are estimates from a standard pricing model; real prices will differ.</p>
 
   <h3>"Upcoming events"</h3>
   <p>Earnings, lockup expirations (when insiders are allowed to sell shares), Fed meetings and monthly options expirations. Items marked <em>(unconfirmed)</em> are estimates, so check them before relying on the date.</p>
@@ -169,8 +188,21 @@
   <h3>"Market context" and "Key price levels"</h3>
   <p>The Nasdaq-100, the VIX (the market's fear gauge; rising means nervous markets) and Tesla, along with how closely Tesla moves with SPCX. If the whole market is falling, a bullish SPCX signal is less reliable.</p>
 
+  <h3>"How SPCX moved around past events"</h3>
+  <p>What the stock actually did after each earnings report and lockup date: the next-day move and the 3-day move. From now on, the app also records how big a move options were pricing in just before each event, so you can see whether options tend to overprice SPCX's events. If moves keep coming in smaller than priced in, buying options right before earnings has been a losing bet.</p>
+
   <h3>"How has this signal done?"</h3>
   <p>A test of the scoring rules on SPCX's past prices. <strong>Right direction</strong> is how often the stock moved the way the signal said. Around 50% is no better than a coin flip, and that's roughly where it stands today. Check this table occasionally. If a signal type stays near 50% after a few more months of data, give it little weight.</p>
+
+  <h3>"Which signals have actually worked on SPCX?"</h3>
+  <p>The score is built from about a dozen individual signals. This table tests each one on its own against SPCX's history:</p>
+  <ul>
+    <li><strong>Helpful:</strong> right at least 58% of the time, with a positive average move.</li>
+    <li><strong>No edge:</strong> about a coin flip.</li>
+    <li><strong>Misleading:</strong> wrong more often than right. For example, it said "drop" and the stock usually rose.</li>
+    <li><strong>Too few:</strong> under 10 examples, so it can't be judged yet. These rows are hidden until you tap "Show more."</li>
+  </ul>
+  <p>When the "Why" box lists a reason, check here whether that signal has been helpful or misleading on SPCX before giving it weight.</p>
 
   <h3>"Strong-signal history &amp; results"</h3>
   <p>Every time the score crosses ±40, it's logged here with how SPCX moved 1, 5 and 10 trading days later. Green means the signal was right; red means it was wrong. Over time this is the most honest measure of whether the app is helping.</p>
@@ -178,9 +210,9 @@
   <!-- ------------------------------------------------------------ -->
   <h2 id="routine">3. A simple daily routine</h2>
   <div class="step"><div class="n">1</div><div><h3>Open the dashboard (once a day is enough)</h3><p>It updates every hour during market hours. After the close is a calm time to look. If the headline says "No clear signal — wait," you're done.</p></div></div>
-  <div class="step"><div class="n">2</div><div><h3>Check the main box and "Why"</h3><p>Is the score past ±40? Are the top reasons from the daily chart, and do daily and hourly agree?</p></div></div>
+  <div class="step"><div class="n">2</div><div><h3>Check the main box and "Why"</h3><p>Is the score past ±40? Are the top reasons from the daily chart, and do daily and hourly agree? Check "Which signals have actually worked" for the top reasons.</p></div></div>
   <div class="step"><div class="n">3</div><div><h3>Check option prices</h3><p>Look at "Are options cheap or expensive?" and the events list. Expensive options or an event in the next few days means caution.</p></div></div>
-  <div class="step"><div class="n">4</div><div><h3>Look at the suggested contracts</h3><p>Note the cost, breakeven and decay per day. Ask yourself: "Is a move past the breakeven before expiration realistic, given the expected move?"</p></div></div>
+  <div class="step"><div class="n">4</div><div><h3>Test a contract in the calculator</h3><p>Tap <strong>Try it</strong> on a suggested contract. Is the breakeven inside the shaded typical-move band? What happens if SPCX doesn't move for two weeks? If earnings are coming, slide volatility down 30% to see the crush.</p></div></div>
   <div class="step"><div class="n">5</div><div><h3>Decide, then trade at your broker</h3><p>If you trade, use a <strong>limit order</strong> (set your own price) near the mid price rather than a market order. Decide in advance how much you're willing to lose.</p></div></div>
   <div class="callout tip"><strong>Waiting is a valid choice</strong>Most days won't have a strong signal. Buying options without a reason costs money every day through time decay.</div>
 
@@ -197,7 +229,16 @@
   <p><strong>How to read it:</strong> The trend is up, but the stock just leapt 10% and the hourly chart says it's stretched. A lockup the next day could add selling pressure. The score is short of the ±40 strong-signal level. A reasonable reading is "positive, but don't chase the jump; wait to see if it holds after the lockup." If your friend already owned calls from before earnings, the dashboard's mix of a big gain, a stretched price and an upcoming lockup would make taking some profit worth considering.</p>
 
   <!-- ------------------------------------------------------------ -->
-  <h2 id="settings">5. Change events and settings</h2>
+  <h2 id="homescreen">5. Put it on your Home Screen</h2>
+  <p>The dashboard can sit on your phone like a regular app, opening full-screen with its own icon.</p>
+  <ul>
+    <li><strong>iPhone:</strong> open the dashboard in <strong>Safari</strong>, tap the <strong>Share</strong> button, then <strong>Add to Home Screen</strong>. If you opened the link inside another app, first tap the compass icon to open it in Safari.</li>
+    <li><strong>Android:</strong> open it in <strong>Chrome</strong>, tap the <strong>⋮</strong> menu, then <strong>Install app</strong> or <strong>Add to Home screen</strong>. The dashboard may also offer an <strong>Install</strong> button at the top.</li>
+  </ul>
+  <p>It still updates hourly. If your phone is offline, it shows the last version it loaded.</p>
+
+  <!-- ------------------------------------------------------------ -->
+  <h2 id="settings">6. Change events and settings</h2>
   <p>Both files can be edited on GitHub with the pencil icon. The dashboard updates a few minutes after you commit.</p>
   <h3><a href="https://github.com/DYunck/spacex/edit/main/data/events.yaml">data/events.yaml</a></h3>
   <p>Add Starship launches, the next earnings date once SpaceX announces it, or anything else that could move the stock. Change <code>verified: false</code> to <code>true</code> once you've confirmed a date at <a href="https://ir.spacex.com">ir.spacex.com</a>.</p>
@@ -209,7 +250,7 @@
   <p>To refresh immediately instead of waiting for the hour: <a href="https://github.com/DYunck/spacex/actions/workflows/update.yml">Actions → Update SPCX signals</a> → <strong>Run workflow</strong>.</p>
 
   <!-- ------------------------------------------------------------ -->
-  <h2 id="mistakes">6. Common mistakes to avoid</h2>
+  <h2 id="mistakes">7. Common mistakes to avoid</h2>
   <ul>
     <li><strong>Buying right before earnings.</strong> Volatility crush can wipe out gains even when you guess the direction right.</li>
     <li><strong>Buying very short-dated options.</strong> Contracts expiring this week are cheap because they usually expire worthless.</li>
@@ -221,7 +262,7 @@
   </ul>
 
   <!-- ------------------------------------------------------------ -->
-  <h2 id="glossary">7. Glossary</h2>
+  <h2 id="glossary">8. Glossary</h2>
   <dl class="gloss">
     <dt>Bid / ask / mid</dt><dd>The bid is the highest price buyers offer, the ask is the lowest price sellers accept, and the mid is halfway between.</dd>
     <dt>Breakeven</dt><dd>The stock price at expiration where you neither make nor lose money: strike plus the price paid for a call, strike minus the price paid for a put.</dd>
@@ -238,7 +279,9 @@
     <dt>RSI</dt><dd>A 0–100 momentum gauge. Above 70 is overbought; below 30 is oversold.</dd>
     <dt>Strike</dt><dd>The price at which the option lets you buy (call) or sell (put) the shares.</dd>
     <dt>Support / resistance</dt><dd>Price levels where the stock has repeatedly stopped falling (support) or rising (resistance).</dd>
+    <dt>Typical move</dt><dd>About how far SPCX could move by a date, based on option prices (one standard deviation). The stock stays inside it roughly two-thirds of the time.</dd>
     <dt>Theta / time decay</dt><dd>The value an option loses each day just from time passing.</dd>
+    <dt>Black-Scholes</dt><dd>The standard formula for estimating an option's value from the stock price, strike, time left and volatility. The calculator uses it.</dd>
     <dt>Volatility crush</dt><dd>The sharp drop in option prices right after a big expected event like earnings.</dd>
   </dl>
 

@@ -166,3 +166,13 @@ def suggest(c: pd.DataFrame, kind: str, cfg: dict, events: list[dict], today: dt
             "events_before_expiry": inside,
         })
     return out
+
+
+def compact_chain(c: pd.DataFrame, spot: float, width: float = 0.35) -> list[dict]:
+    """Trimmed chain for the payoff calculator: strikes within +/-35% of the price."""
+    if c.empty:
+        return []
+    f = c[(c["strike"] >= spot * (1 - width)) & (c["strike"] <= spot * (1 + width)) & (c["mid"] > 0)]
+    return [{"e": r.expiry, "k": float(r.strike), "t": r.type[0], "b": round(r.bid, 2), "a": round(r.ask, 2),
+             "m": round(r.mid, 2), "iv": round(r.impliedVolatility, 4), "oi": int(r.openInterest)}
+            for r in f.sort_values(["expiry", "type", "strike"]).itertuples()]

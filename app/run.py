@@ -14,7 +14,7 @@ from pathlib import Path
 import pandas as pd
 import yaml
 
-from . import backtest, fetch, indicators as ind, options as opt, signals
+from . import backtest, eventmoves, fetch, indicators as ind, options as opt, signals, summary
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "data"
@@ -131,6 +131,14 @@ def main():
     exp_move = opt.expected_move(chain, spot, em_date)
     flow = opt.flow(chain)
 
+    # Remember the priced-in move before each earnings/lockup, to compare with what actually happened.
+    em_hist = _load_json(OUT / "expected_moves.json", {})
+    if exp_move and next_big and em_date and mode == "intraday" and not a.sample:
+        before_event = today < em_date or (today == em_date and next_big["type"] == "earnings")
+        if before_event:
+            em_hist[next_big["date"]] = {"pct": exp_move["pct"], "dollars": exp_move["dollars"],
+                                         "expiry": exp_move["expiry"], "recorded": now.isoformat(timespec="minutes")}
+
     # ---- signals
     direction = signals.direction(daily, hourly)
     vol = signals.volatility_verdict(iv, rv, iv_rank, days_to_big)
@@ -203,13 +211,21 @@ def main():
         "track_record": track, "signal_min_score": cfg["signal_min_score"],
         "daily": bars(daily, False), "hourly": bars(hourly.tail(7 * 30), True) if not hourly.empty else [],
         "iv_history": iv_hist[-252:],
+        "signal_grades": backtest.grade_all(daily, hourly),
+        "chain": opt.compact_chain(chain, spot), "rate": opt.RATE, "today": today.isoformat(),
     }
+    moves = eventmoves.history(daily, events, em_hist, today)
+    result["event_moves"] = {"rows": moves, "summary": eventmoves.summarize(moves)}
+    recent = [e | {"days": (dt.date.fromisoformat(e["date"]) - today).days} for e in events
+              if e["type"] in ("earnings", "lockup") and -2 <= (dt.date.fromisoformat(e["date"]) - today).days <= 0]
+    result["today_paragraph"] = summary.paragraph(result, mode, today, recent[-1] if recent else None)
 
     (OUT / "latest.json").write_text(json.dumps(result, separators=(",", ":")))
     if not a.sample:
         (OUT / "signals.json").write_text(json.dumps(log, indent=1))
         (OUT / "state.json").write_text(json.dumps(state, indent=1))
         (OUT / "iv_history.json").write_text(json.dumps(iv_hist))
+        (OUT / "expected_moves.json").write_text(json.dumps(em_hist, indent=1))
     print(f"{mode}: ${spot:.2f}  {label} ({score:+d})  options {vol['verdict']}  new strong signal: {new_signal}")
 
 
