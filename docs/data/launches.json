@@ -1,0 +1,149 @@
+{
+ "fetched": "2026-10-21T21:39-04:00",
+ "launches": [
+  {
+   "name": "Falcon 9 Block 5 | Starlink Group 15-15",
+   "net": "2026-10-22T22:40:24Z",
+   "status": "Go",
+   "status_name": "Go for Launch",
+   "rocket": "Falcon 9",
+   "mission": "Starlink Group 15-15",
+   "mission_type": "Communications",
+   "orbit": "LEO",
+   "pad": "Space Launch Complex 4E",
+   "location": "Vandenberg SFB, CA, USA"
+  },
+  {
+   "name": "Falcon 9 Block 5 | Starlink Group 15-16",
+   "net": "2026-10-26T05:00:00Z",
+   "status": "Go",
+   "status_name": "Go for Launch",
+   "rocket": "Falcon 9",
+   "mission": "Starlink Group 15-16",
+   "mission_type": "Communications",
+   "orbit": "LEO",
+   "pad": "Space Launch Complex 4E",
+   "location": "Vandenberg SFB, CA, USA"
+  },
+  {
+   "name": "Falcon 9 Block 5 | Starlink Group 15-18",
+   "net": "2026-10-29T04:17:00Z",
+   "status": "Go",
+   "status_name": "Go for Launch",
+   "rocket": "Falcon 9",
+   "mission": "Starlink Group 15-18",
+   "mission_type": "Communications",
+   "orbit": "LEO",
+   "pad": "Space Launch Complex 4E",
+   "location": "Vandenberg SFB, CA, USA"
+  },
+  {
+   "name": "Falcon 9 Block 5 | NROL-195",
+   "net": "2026-11-05T22:34:00Z",
+   "status": "TBC",
+   "status_name": "To Be Confirmed",
+   "rocket": "Falcon 9",
+   "mission": "NROL-195",
+   "mission_type": "Government/Top Secret",
+   "orbit": "LEO",
+   "pad": "Space Launch Complex 4E",
+   "location": "Vandenberg SFB, CA, USA"
+  },
+  {
+   "name": "Falcon 9 Block 5 | Starlink Group 15-21",
+   "net": "2026-11-10T00:00:00Z",
+   "status": "TBD",
+   "status_name": "To Be Determined",
+   "rocket": "Falcon 9",
+   "mission": "Starlink Group 15-21",
+   "mission_type": "Communications",
+   "orbit": "LEO",
+   "pad": "Space Launch Complex 4E",
+   "location": "Vandenberg SFB, CA, USA"
+  },
+  {
+   "name": "Falcon 9 Block 5 | Cygnus CRS-2 NG-25",
+   "net": "2026-11-30T00:00:00Z",
+   "status": "TBD",
+   "status_name": "To Be Determined",
+   "rocket": "Falcon 9",
+   "mission": "Cygnus CRS-2 NG-25",
+   "mission_type": "Resupply",
+   "orbit": "LEO",
+   "pad": "Space Launch Complex 40",
+   "location": "Cape Canaveral SFS, FL, USA"
+  },
+  {
+   "name": "Falcon 9 Block 5 | SDA Tranche 2 Transport Layer D",
+   "net": "2026-12-31T00:00:00Z",
+   "status": "TBD",
+   "status_name": "To Be Determined",
+   "rocket": "Falcon 9",
+   "mission": "SDA Tranche 2 Transport Layer D",
+   "mission_type": "Government/Top Secret",
+   "orbit": "PO",
+   "pad": "Unknown Pad",
+   "location": "Cape Canaveral SFS, FL, USA"
+  },
+  {
+   "name": "Falcon 9 Block 5 | SDA Tranche 2 Transport Layer E",
+   "net": "2026-12-31T00:00:00Z",
+   "status": "TBD",
+   "status_name": "To Be Determined",
+   "rocket": "Falcon 9",
+   "mission": "SDA Tranche 2 Transport Layer E",
+   "mission_type": "Government/Top Secret",
+   "orbit": "PO",
+   "pad": "Space Launch Complex 4E",
+   "location": "Vandenberg SFB, CA, USA"
+  },
+  {
+   "name": "Falcon 9 Block 5 | Telesat Lightspeed 1",
+   "net": "2026-12-31T00:00:00Z",
+   "status": "TBD",
+   "status_name": "To Be Determined",
+   "rocket": "Falcon 9",
+   "mission": "Telesat Lightspeed 1",
+   "mission_type": "Communications",
+   "orbit": "LEO",
+   "pad": "Unknown Pad",
+   "location": "Cape Canaveral SFS, FL, USA"
+  },
+  {
+   "name": "Falcon Heavy | Griffin Mission One",
+   "net": "2026-12-31T00:00:00Z",
+   "status": "TBD",
+   "status_name": "To Be Determined",
+   "rocket": "Falcon Heavy",
+   "mission": "Griffin Mission One",
+   "mission_type": "Lunar Exploration",
+   "orbit": "LO",
+   "pad": "Launch Complex 39A",
+   "location": "Kennedy Space Center, FL, USA"
+  },
+  {
+   "name": "Falcon 9 Block 5 | BlueBird 14-16 (Block 2 #9-11)",
+   "net": "2026-12-31T00:00:00Z",
+   "status": "TBD",
+   "status_name": "To Be Determined",
+   "rocket": "Falcon 9",
+   "mission": "BlueBird 14-16 (Block 2 #9-11)",
+   "mission_type": "Communications",
+   "orbit": "LEO",
+   "pad": "Space Launch Complex 40",
+   "location": "Cape Canaveral SFS, FL, USA"
+  },
+  {
+   "name": "Falcon 9 Block 5 | CHORUS",
+   "net": "2026-12-31T00:00:00Z",
+   "status": "TBD",
+   "status_name": "To Be Determined",
+   "rocket": "Falcon 9",
+   "mission": "CHORUS",
+   "mission_type": "Earth Science",
+   "orbit": "LEO",
+   "pad": "Unknown Pad",
+   "location": "Cape Canaveral SFS, FL, USA"
+  }
+ ]
+}
