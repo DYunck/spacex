@@ -1,9 +1,9 @@
 {
- "fetched": "2026-10-21T21:58-04:00",
+ "fetched": "2026-10-22T14:09-04:00",
  "launches": [
   {
    "name": "Falcon 9 Block 5 | Starlink Group 15-15",
-   "net": "2026-10-22T22:40:24Z",
+   "net": "2026-10-22T22:51:18Z",
    "status": "Go",
    "status_name": "Go for Launch",
    "rocket": "Falcon 9",
@@ -38,6 +38,18 @@
    "location": "Vandenberg SFB, CA, USA"
   },
   {
+   "name": "Falcon 9 Block 5 | Starlink Group 15-21",
+   "net": "2026-11-05T05:14:00Z",
+   "status": "Go",
+   "status_name": "Go for Launch",
+   "rocket": "Falcon 9",
+   "mission": "Starlink Group 15-21",
+   "mission_type": "Communications",
+   "orbit": "LEO",
+   "pad": "Space Launch Complex 4E",
+   "location": "Vandenberg SFB, CA, USA"
+  },
+  {
    "name": "Falcon 9 Block 5 | NROL-195",
    "net": "2026-11-05T22:34:00Z",
    "status": "TBC",
@@ -45,18 +57,6 @@
    "rocket": "Falcon 9",
    "mission": "NROL-195",
    "mission_type": "Government/Top Secret",
-   "orbit": "LEO",
-   "pad": "Space Launch Complex 4E",
-   "location": "Vandenberg SFB, CA, USA"
-  },
-  {
-   "name": "Falcon 9 Block 5 | Starlink Group 15-21",
-   "net": "2026-11-10T00:00:00Z",
-   "status": "TBD",
-   "status_name": "To Be Determined",
-   "rocket": "Falcon 9",
-   "mission": "Starlink Group 15-21",
-   "mission_type": "Communications",
    "orbit": "LEO",
    "pad": "Space Launch Complex 4E",
    "location": "Vandenberg SFB, CA, USA"

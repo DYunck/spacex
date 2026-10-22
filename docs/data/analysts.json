@@ -1,10 +1,10 @@
 {
  "targets": {
   "low": 70.0,
-  "mean": 255.05882,
-  "median": 235.0,
+  "mean": 256.2353,
+  "median": 237.5,
   "high": 800.0,
-  "current": 159.31
+  "current": 145.455
  },
  "count": 34,
  "rating_key": "buy",
@@ -17,6 +17,24 @@
   "strongSell": 0
  },
  "changes": [
+  {
+   "date": "2026-10-22",
+   "firm": "B of A Securities",
+   "to": "Buy",
+   "from": "Buy",
+   "action": "main",
+   "target": 275.0,
+   "prior_target": 235.0
+  },
+  {
+   "date": "2026-10-22",
+   "firm": "Pivotal Research",
+   "to": "Buy",
+   "from": "Buy",
+   "action": "main",
+   "target": 260.0,
+   "prior_target": 230.0
+  },
   {
    "date": "2026-10-21",
    "firm": "Macquarie",
@@ -88,24 +106,6 @@
    "action": "reit",
    "target": 0.0,
    "prior_target": 0.0
-  },
-  {
-   "date": "2026-10-21",
-   "firm": "Susquehanna",
-   "to": "Neutral",
-   "from": "Neutral",
-   "action": "main",
-   "target": 176.0,
-   "prior_target": 173.0
-  },
-  {
-   "date": "2026-10-21",
-   "firm": "TD Cowen",
-   "to": "Buy",
-   "from": "Buy",
-   "action": "main",
-   "target": 224.0,
-   "prior_target": 200.0
   }
  ]
 }
