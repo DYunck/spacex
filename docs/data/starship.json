@@ -1,0 +1,74 @@
+[
+ {
+  "name": "Starship | Starlink Group 31-1 (Starship Flight 14)",
+  "net": "2026-09-28T12:48:59Z",
+  "status": "Success",
+  "status_name": "Launch Successful",
+  "failreason": "",
+  "mission": "Starlink Group 31-1 (Starship Flight 14)",
+  "description": "14th test flight of the two-stage Starship launch vehicle. 3rd flight of Starship V3 and the first Starship flight to deploy satellites (a group of Starlink satellites known as Starlink Group 31-1) into stable Low Earth Orbit.\r\n\r\nThe ship is expected to fly at an altitude approximately 275 km above Earth and complete approximately 6 orbits around the planet for nearly 10 hours, with splashdown targeted in the Pacific Ocean west of Chile.\r\n\r\nThe booster\u2019s primary test objective on Flight 14 will be executing a successful launch, ascent, stage separation, boostback burn, and landing burn at an offshore landing point in the Gulf.\r\n\r\nStarship will deliver 26 Starlink V3 satellites to orbit for the first time, which aim to greatly expand the network's capacity and user speeds. Each Starlink V3 satellite will add 1 Tbps of capacity to the constellation."
+ },
+ {
+  "name": "Starship | Flight 13",
+  "net": "2026-07-24T22:51:00Z",
+  "status": "Success",
+  "status_name": "Launch Successful",
+  "failreason": "",
+  "mission": "Flight 13",
+  "description": "13th test flight of the two-stage Starship launch vehicle. Second flight of Starship V3.\r\n\r\nFor the first time, Starship will carry 20 V3 Starlink satellites to space, which will extend solar arrays and antennas and will attempt to connect with ground stations in South Africa and the larger Starlink constellation via high-capacity lasers. \r\n\r\n6 of the satellites have been modified with a suite of cameras to scan Starship\u2019s heat shield and transmit imagery down to operators to continue testing methods of analyzing Starship\u2019s heat shield readiness for return to launch site on future missions. Several tiles on Starship have been painted white to simulate missing tiles and serve as imaging targets in the test."
+ },
+ {
+  "name": "Starship | Flight 12",
+  "net": "2026-05-22T22:30:24Z",
+  "status": "Success",
+  "status_name": "Launch Successful",
+  "failreason": "",
+  "mission": "Flight 12",
+  "description": "12th test flight of the two-stage Starship launch vehicle. Maiden Flight of Starship V3.\r\n\r\nThe flight test\u2019s primary goal will be to demonstrate each of these new pieces in the flight environment for the first time, with each element of the Starship architecture featuring significant redesigns to enable full and rapid reuse that incorporate learnings from years of development and test.\r\n\r\nThe Starship upper stage will target multiple in-space and reentry objectives, including a payload deployment of 20 Starlink simulators, similar in size to next-generation Starlink V3 satellites, and two specially modified Starlink satellites. The two modified satellites will test hardware planned for Starlink V3 and will attempt to scan Starship\u2019s heat shield and transmit imagery down to operators to test methods of analyzing Starship\u2019s heat shield readiness for return to launch site on future missions. Several tiles on Starship have been painted white to simulate missing tiles and serve as imaging targets in the test. The Starlink simulators will be on the same suborbital trajectory as Starship. A relight of a single Raptor engine while in space is also planned.\r\n\r\nFor Starship entry, a single heat shield tile has been intentionally removed to measure the aerodynamic load differences on adjacent tiles when there is a tile missing. Finally, the ship will perform experimental actions tested on previous flight tests, including a maneuver to intentionally stress the structural limits of the vehicle\u2019s rear flaps and a dynamic banking maneuver to mimic the trajectory that future missions returning to Starbase will fly."
+ },
+ {
+  "name": "Starship | Flight 11",
+  "net": "2025-10-13T23:23:41Z",
+  "status": "Success",
+  "status_name": "Launch Successful",
+  "failreason": "",
+  "mission": "Flight 11",
+  "description": "11th test flight of the two-stage Starship launch vehicle."
+ },
+ {
+  "name": "Starship | Flight 10",
+  "net": "2025-08-26T23:30:00Z",
+  "status": "Success",
+  "status_name": "Launch Successful",
+  "failreason": "",
+  "mission": "Flight 10",
+  "description": "10th test flight of the two-stage Starship launch vehicle."
+ },
+ {
+  "name": "Starship | Flight 9",
+  "net": "2025-05-27T23:36:00Z",
+  "status": "Failure",
+  "status_name": "Launch Failure",
+  "failreason": "",
+  "mission": "Flight 9",
+  "description": "9th test flight of the two-stage Starship launch vehicle."
+ },
+ {
+  "name": "Starship | Flight 8",
+  "net": "2025-03-06T23:30:00Z",
+  "status": "Failure",
+  "status_name": "Launch Failure",
+  "failreason": "Ship 34 lost 4 out of 6 Raptors at around T+8:00 and entered unrecoverable roll.",
+  "mission": "Flight 8",
+  "description": "Eighth test flight of the two-stage Starship launch vehicle."
+ },
+ {
+  "name": "Starship | Flight 7",
+  "net": "2025-01-16T22:37:00Z",
+  "status": "Failure",
+  "status_name": "Launch Failure",
+  "failreason": "Ship 33 lost all 6 engines gradually late in ascent and was observed to have self-destructed.",
+  "mission": "Flight 7",
+  "description": "Seventh test flight of the two-stage Starship launch vehicle."
+ }
+]

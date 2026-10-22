@@ -1,0 +1,111 @@
+{
+ "targets": {
+  "low": 70.0,
+  "mean": 255.05882,
+  "median": 235.0,
+  "high": 800.0,
+  "current": 159.31
+ },
+ "count": 34,
+ "rating_key": "buy",
+ "rating_mean": 1.78947,
+ "mix": {
+  "strongBuy": 8,
+  "buy": 22,
+  "hold": 5,
+  "sell": 3,
+  "strongSell": 0
+ },
+ "changes": [
+  {
+   "date": "2026-10-21",
+   "firm": "Macquarie",
+   "to": "Outperform",
+   "from": "Outperform",
+   "action": "main",
+   "target": 250.0,
+   "prior_target": 250.0
+  },
+  {
+   "date": "2026-10-21",
+   "firm": "UBS",
+   "to": "Buy",
+   "from": "Buy",
+   "action": "main",
+   "target": 230.0,
+   "prior_target": 210.0
+  },
+  {
+   "date": "2026-10-21",
+   "firm": "Citigroup",
+   "to": "Buy",
+   "from": "Buy",
+   "action": "main",
+   "target": 240.0,
+   "prior_target": 200.0
+  },
+  {
+   "date": "2026-10-21",
+   "firm": "Barclays",
+   "to": "Overweight",
+   "from": "Overweight",
+   "action": "main",
+   "target": 300.0,
+   "prior_target": 254.0
+  },
+  {
+   "date": "2026-10-21",
+   "firm": "JP Morgan",
+   "to": "Overweight",
+   "from": "Overweight",
+   "action": "main",
+   "target": 500.0,
+   "prior_target": 240.0
+  },
+  {
+   "date": "2026-10-21",
+   "firm": "Evercore ISI Group",
+   "to": "Outperform",
+   "from": "Outperform",
+   "action": "main",
+   "target": 300.0,
+   "prior_target": 275.0
+  },
+  {
+   "date": "2026-10-21",
+   "firm": "Wells Fargo",
+   "to": "Overweight",
+   "from": "Overweight",
+   "action": "main",
+   "target": 274.0,
+   "prior_target": 214.0
+  },
+  {
+   "date": "2026-10-21",
+   "firm": "Keybanc",
+   "to": "Sector Weight",
+   "from": "Sector Weight",
+   "action": "reit",
+   "target": 0.0,
+   "prior_target": 0.0
+  },
+  {
+   "date": "2026-10-21",
+   "firm": "Susquehanna",
+   "to": "Neutral",
+   "from": "Neutral",
+   "action": "main",
+   "target": 176.0,
+   "prior_target": 173.0
+  },
+  {
+   "date": "2026-10-21",
+   "firm": "TD Cowen",
+   "to": "Buy",
+   "from": "Buy",
+   "action": "main",
+   "target": 224.0,
+   "prior_target": 200.0
+  }
+ ]
+}
