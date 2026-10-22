@@ -90,6 +90,14 @@ def main():
 
     data = fetch.fetch_sample(cfg) if a.sample else fetch.fetch_live(cfg)
     daily, hourly = data["daily"], data["hourly"]
+    # Yahoo sometimes leaves today's daily bar out; build it from today's hourly bars.
+    if not hourly.empty and not daily.empty and hourly.index[-1].date() > daily.index[-1].date():
+        day = hourly.index[-1].date()
+        hb = hourly[hourly.index.date == day]
+        today_bar = pd.DataFrame({"Open": [hb["Open"].iloc[0]], "High": [hb["High"].max()], "Low": [hb["Low"].min()],
+                                  "Close": [hb["Close"].iloc[-1]], "Volume": [hb["Volume"].sum()]},
+                                 index=pd.DatetimeIndex([pd.Timestamp(day, tz=NY)]))
+        daily = pd.concat([daily, today_bar])
     if daily.empty:
         raise SystemExit("No daily data returned — check the ticker in config.yaml")
 

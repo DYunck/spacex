@@ -150,18 +150,36 @@ function renderSugg() {
 let chart, rsiChart;
 function drawChart() {
   const box = $("chart"), rbox = $("rsi");
+  try { chart && chart.remove(); rsiChart && rsiChart.remove(); } catch (e) { /* already gone */ }
+  chart = rsiChart = null;
   box.innerHTML = ""; rbox.innerHTML = "";
-  if (!window.LightweightCharts) { box.innerHTML = '<div class="empty">Chart library failed to load.</div>'; return; }
+  if (!window.LightweightCharts) { box.innerHTML = '<div class="empty">Chart library failed to load. Try refreshing the page.</div>'; return; }
+  try {
+    drawChartInner(box, rbox);
+  } catch (e) {
+    console.error(e);
+    box.innerHTML = `<div class="empty">The chart couldn't be drawn on this device (${esc(e.message || e)}). The rest of the dashboard is unaffected.</div>`;
+    rbox.innerHTML = "";
+  }
+}
+
+const hexA = (c, a) => (/^#[0-9a-f]{6}$/i.test(c) ? c + a : c);
+const boxW = (el) => Math.max(200, Math.floor(el.getBoundingClientRect().width) || el.parentElement.clientWidth - 36 || 320);
+
+function drawChartInner(box, rbox) {
   const bars = D[tf] || [];
+  const muted = css("--muted") || "#5d6673", grid = css("--chart-grid") || "#eef0f3", lineC = css("--line") || "#e3e6eb";
   const opts = {
-    layout: { background: { color: "transparent" }, textColor: css("--muted"), fontSize: 11 },
-    grid: { vertLines: { color: css("--chart-grid") }, horzLines: { color: css("--chart-grid") } },
-    rightPriceScale: { borderColor: css("--line") },
-    timeScale: { borderColor: css("--line"), timeVisible: tf === "hourly", secondsVisible: false },
-    crosshair: { mode: 0 }, autoSize: true,
+    width: boxW(box), height: box.clientHeight || 380,
+    layout: { background: { type: "solid", color: "rgba(0,0,0,0)" }, textColor: muted, fontSize: 11 },
+    grid: { vertLines: { color: grid }, horzLines: { color: grid } },
+    rightPriceScale: { borderColor: lineC },
+    timeScale: { borderColor: lineC, timeVisible: tf === "hourly", secondsVisible: false },
+    crosshair: { mode: 0 },
+    handleScroll: { vertTouchDrag: false },
   };
   chart = LightweightCharts.createChart(box, opts);
-  const up = css("--up"), down = css("--down");
+  const up = css("--up") || "#0f8a5f", down = css("--down") || "#c23b3b";
   const candles = chart.addCandlestickSeries({ upColor: up, downColor: down, wickUpColor: up, wickDownColor: down, borderVisible: false });
   candles.setData(bars.map((b) => ({ time: b.t, open: b.o, high: b.h, low: b.l, close: b.c })));
   const line = (key, color, w = 2, style = 0) => {
@@ -172,20 +190,33 @@ function drawChart() {
   line("bb_up", "#9aa3ae", 1, 2); line("bb_low", "#9aa3ae", 1, 2);
   const vol = chart.addHistogramSeries({ priceFormat: { type: "volume" }, priceScaleId: "vol", lastValueVisible: false, priceLineVisible: false });
   chart.priceScale("vol").applyOptions({ scaleMargins: { top: 0.82, bottom: 0 } });
-  vol.setData(bars.map((b) => ({ time: b.t, value: b.v, color: b.c >= b.o ? up + "55" : down + "55" })));
+  vol.setData(bars.map((b) => ({ time: b.t, value: b.v, color: b.c >= b.o ? hexA(up, "55") : hexA(down, "55") })));
   for (const l of D.levels) {
-    candles.createPriceLine({ price: l.price, color: l.kind === "IPO price" ? css("--accent") : "#888", lineWidth: 1, lineStyle: 2, axisLabelVisible: true, title: l.kind === "IPO price" ? "IPO" : "" });
+    candles.createPriceLine({ price: l.price, color: l.kind === "IPO price" ? (css("--accent") || "#2457d6") : "#888888", lineWidth: 1, lineStyle: 2, axisLabelVisible: true, title: l.kind === "IPO price" ? "IPO" : "" });
   }
   chart.timeScale().fitContent();
 
-  rsiChart = LightweightCharts.createChart(rbox, { ...opts, timeScale: { ...opts.timeScale, visible: false } });
+  rsiChart = LightweightCharts.createChart(rbox, { ...opts, height: rbox.clientHeight || 110, timeScale: { ...opts.timeScale, visible: false } });
   const r = rsiChart.addLineSeries({ color: "#8a5cf6", lineWidth: 2, priceLineVisible: false });
   r.setData(bars.filter((b) => b.rsi != null).map((b) => ({ time: b.t, value: b.rsi })));
   r.createPriceLine({ price: 70, color: down, lineWidth: 1, lineStyle: 2, axisLabelVisible: false });
   r.createPriceLine({ price: 30, color: up, lineWidth: 1, lineStyle: 2, axisLabelVisible: false });
   rsiChart.timeScale().fitContent();
-  chart.timeScale().subscribeVisibleLogicalRangeChange((rg) => rg && rsiChart.timeScale().setVisibleLogicalRange(rg));
+  chart.timeScale().subscribeVisibleLogicalRangeChange((rg) => rg && rsiChart && rsiChart.timeScale().setVisibleLogicalRange(rg));
 }
+
+// Keep the chart sized to its box (rotation, window resize)
+let lastW = 0, resizeT;
+window.addEventListener("resize", () => {
+  clearTimeout(resizeT);
+  resizeT = setTimeout(() => {
+    if (!chart) return;
+    const w = boxW($("chart"));
+    if (Math.abs(w - lastW) < 2) return;
+    lastW = w;
+    chart.applyOptions({ width: w }); rsiChart && rsiChart.applyOptions({ width: w });
+  }, 150);
+});
 
 document.querySelectorAll("[data-tf]").forEach((b) => b.addEventListener("click", () => {
   tf = b.dataset.tf;
