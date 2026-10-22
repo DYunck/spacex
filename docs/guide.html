@@ -46,7 +46,7 @@
 <div class="guide">
   <a class="back" href="./">← Back to the dashboard</a>
   <h1>How to use SPCX Signals</h1>
-  <p class="lede">A 10-minute walkthrough: what each part of the dashboard means, a simple daily routine, and how to track the options you own. The app never sends messages; everything is on the dashboard.</p>
+  <p class="lede">A 10-minute walkthrough: what each part of the dashboard means, a simple daily routine. The app never sends messages; everything is on the dashboard.</p>
 
   <div class="callout warn"><strong>Read this first</strong>This app gives you information, not instructions. It never buys or sells anything. Its signals come from past price patterns, and in testing so far they've been right only about half the time. Options can lose 100% of what you pay. Every decision is yours.</div>
 
@@ -57,7 +57,6 @@
       <li><a href="#tour">Tour of the dashboard</a></li>
       <li><a href="#routine">A simple daily routine</a></li>
       <li><a href="#example">Worked example</a></li>
-      <li><a href="#positions">Track options you own</a></li>
       <li><a href="#settings">Change events and settings</a></li>
       <li><a href="#mistakes">Common mistakes to avoid</a></li>
       <li><a href="#glossary">Glossary</a></li>
@@ -158,9 +157,6 @@
   </table>
   <p>These are starting points to look up at your broker, not recommendations.</p>
 
-  <h3>"Your positions"</h3>
-  <p>Empty until you list your options (see <a href="#positions">section 5</a>). Then it shows each one's current value, profit or loss, days left and daily decay.</p>
-
   <h3>"Upcoming events"</h3>
   <p>Earnings, lockup expirations (when insiders are allowed to sell shares), Fed meetings and monthly options expirations. Items marked <em>(unconfirmed)</em> are estimates, so check them before relying on the date.</p>
 
@@ -186,7 +182,6 @@
   <div class="step"><div class="n">3</div><div><h3>Check option prices</h3><p>Look at "Are options cheap or expensive?" and the events list. Expensive options or an event in the next few days means caution.</p></div></div>
   <div class="step"><div class="n">4</div><div><h3>Look at the suggested contracts</h3><p>Note the cost, breakeven and decay per day. Ask yourself: "Is a move past the breakeven before expiration realistic, given the expected move?"</p></div></div>
   <div class="step"><div class="n">5</div><div><h3>Decide, then trade at your broker</h3><p>If you trade, use a <strong>limit order</strong> (set your own price) near the mid price rather than a market order. Decide in advance how much you're willing to lose.</p></div></div>
-  <div class="step"><div class="n">6</div><div><h3>Log what you bought</h3><p>Add the position to <code>data/positions.yaml</code> so the dashboard can flag when it may be time to sell.</p></div></div>
   <div class="callout tip"><strong>Waiting is a valid choice</strong>Most days won't have a strong signal. Buying options without a reason costs money every day through time decay.</div>
 
   <!-- ------------------------------------------------------------ -->
@@ -202,45 +197,19 @@
   <p><strong>How to read it:</strong> The trend is up, but the stock just leapt 10% and the hourly chart says it's stretched. A lockup the next day could add selling pressure. The score is short of the ±40 strong-signal level. A reasonable reading is "positive, but don't chase the jump; wait to see if it holds after the lockup." If your friend already owned calls from before earnings, the dashboard's mix of a big gain, a stretched price and an upcoming lockup would make taking some profit worth considering.</p>
 
   <!-- ------------------------------------------------------------ -->
-  <h2 id="positions">5. Track options you own (for sell warnings)</h2>
-  <p>Open <a href="https://github.com/DYunck/spacex/edit/main/data/positions.yaml">data/positions.yaml</a> on GitHub (you need edit access to the repo), replace <code>positions: []</code> with your options, and click <strong>Commit changes</strong>:</p>
-<pre><code>positions:
-  - type: call
-    strike: 165
-    expiry: "2026-11-20"
-    contracts: 2
-    cost_per_contract: 478   # price paid x 100
-
-  - type: put
-    strike: 150
-    expiry: "2026-12-18"
-    contracts: 1
-    cost_per_contract: 610</code></pre>
-  <p>Keep the spacing exactly as shown. Indentation matters in this file. The <strong>Heads-up</strong> column in "Your positions" will flag a position when it:</p>
-  <ul>
-    <li>is up <strong>50%</strong> (consider taking profit)</li>
-    <li>is down <strong>40%</strong> (your stop-loss level)</li>
-    <li>has signals turn strongly against it</li>
-    <li>has <strong>21 days or fewer</strong> left, when time decay speeds up</li>
-    <li>is about to be held through earnings or a lockup</li>
-  </ul>
-  <p>When you sell, delete that position from the file.</p>
-
-  <!-- ------------------------------------------------------------ -->
-  <h2 id="settings">6. Change events and settings</h2>
+  <h2 id="settings">5. Change events and settings</h2>
   <p>Both files can be edited on GitHub with the pencil icon. The dashboard updates a few minutes after you commit.</p>
   <h3><a href="https://github.com/DYunck/spacex/edit/main/data/events.yaml">data/events.yaml</a></h3>
   <p>Add Starship launches, the next earnings date once SpaceX announces it, or anything else that could move the stock. Change <code>verified: false</code> to <code>true</code> once you've confirmed a date at <a href="https://ir.spacex.com">ir.spacex.com</a>.</p>
   <h3><a href="https://github.com/DYunck/spacex/edit/main/config.yaml">config.yaml</a></h3>
   <ul>
     <li><code>signal_min_score: 40</code>: raise it to 50 or 60 so only the strongest signals count; lower it for more.</li>
-    <li><code>take_profit_pct</code>, <code>stop_loss_pct</code>, <code>min_days_left</code>: your sell-warning rules.</li>
     <li><code>min_days_to_expiry</code> / <code>max_days_to_expiry</code>: how far out suggested contracts expire.</li>
   </ul>
   <p>To refresh immediately instead of waiting for the hour: <a href="https://github.com/DYunck/spacex/actions/workflows/update.yml">Actions → Update SPCX signals</a> → <strong>Run workflow</strong>.</p>
 
   <!-- ------------------------------------------------------------ -->
-  <h2 id="mistakes">7. Common mistakes to avoid</h2>
+  <h2 id="mistakes">6. Common mistakes to avoid</h2>
   <ul>
     <li><strong>Buying right before earnings.</strong> Volatility crush can wipe out gains even when you guess the direction right.</li>
     <li><strong>Buying very short-dated options.</strong> Contracts expiring this week are cheap because they usually expire worthless.</li>
@@ -252,7 +221,7 @@
   </ul>
 
   <!-- ------------------------------------------------------------ -->
-  <h2 id="glossary">8. Glossary</h2>
+  <h2 id="glossary">7. Glossary</h2>
   <dl class="gloss">
     <dt>Bid / ask / mid</dt><dd>The bid is the highest price buyers offer, the ask is the lowest price sellers accept, and the mid is halfway between.</dd>
     <dt>Breakeven</dt><dd>The stock price at expiration where you neither make nor lose money: strike plus the price paid for a call, strike minus the price paid for a put.</dd>

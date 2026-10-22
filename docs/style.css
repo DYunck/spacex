@@ -68,5 +68,4 @@ footer a, .card a { color: var(--accent); }
 .empty { color: var(--muted); font-size: 14px; padding: 8px 0; }
 .guide-link { font-size: 13px; font-weight: 600; color: var(--accent); background: var(--accent-bg); padding: 4px 10px; border-radius: 999px; text-decoration: none; white-space: nowrap; }
 .guide-link:hover { text-decoration: underline; }
-#positions td:last-child, #events td:nth-child(3) { white-space: normal; min-width: 180px; }
-#positions td:last-child .chip { margin: 2px 0; }
+#events td:nth-child(3) { white-space: normal; min-width: 180px; }

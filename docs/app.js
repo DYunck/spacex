@@ -89,15 +89,6 @@ function render() {
 
   renderSugg();
 
-  // positions
-  table($("positions"), [["Contract", 0], ["Qty", 1], ["Paid", 1], ["Worth now", 1], ["P/L", 1], ["Days left", 1], ["Decay/day", 1], ["Heads-up", 0]],
-    d.positions.map((p) => [esc(p.contract) + (p.note ? `<br><span class="muted">${esc(p.note)}</span>` : ""), p.contracts ?? "—",
-      money(p.cost_per_contract, 0), money(p.value_per_contract, 0),
-      p.pl_pct == null ? "—" : `<span class="${cls(p.pl_pct)}">${pct(p.pl_pct, 0)} (${money(p.pl_dollars, 0)})</span>`,
-      p.dte ?? "—", p.theta_per_day == null ? "—" : money(p.theta_per_day),
-      (p.warnings || []).map((w) => `<span class="chip warn">${esc(w)}</span>`).join(" ")]),
-    `No positions entered. Add them in <code>data/positions.yaml</code> on GitHub to see sell warnings here.`);
-
   // events
   const evColor = { earnings: "var(--accent)", lockup: "var(--down)", macro: "var(--warn)", opex: "var(--muted)" };
   table($("events"), [["Date", 0], ["", 0], ["Event", 0], ["In", 1]],

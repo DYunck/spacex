@@ -25,9 +25,3 @@ suggest:
   target_delta: 0.45        # roughly "slightly out of the money"
   max_spread_pct: 12        # skip contracts whose bid/ask gap is wider than this % of the mid price
   min_open_interest: 100
-
-# Warning rules for positions listed in data/positions.yaml (shown on the dashboard)
-exit_rules:
-  take_profit_pct: 50       # flag a position on the dashboard when up this much
-  stop_loss_pct: -40        # flag when down this much
-  min_days_left: 21         # flag when time decay starts to speed up

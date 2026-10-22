@@ -52,11 +52,6 @@ def load_events(today: dt.date) -> list[dict]:
     return sorted(ev, key=lambda e: e["date"])
 
 
-def load_positions() -> list[dict]:
-    raw = yaml.safe_load((ROOT / "data" / "positions.yaml").read_text()) or {}
-    return raw.get("positions") or []
-
-
 def bars(df: pd.DataFrame, intraday: bool, cols=("sma20", "sma50", "bb_up", "bb_low")) -> list[dict]:
     out = []
     for ts, r in df.iterrows():
@@ -135,41 +130,6 @@ def main():
     calls = opt.suggest(chain, "call", cfg, events, today)
     puts = opt.suggest(chain, "put", cfg, events, today)
 
-    # ---- positions (warnings are shown on the dashboard only; nothing is sent)
-    pos_out = []
-    rules = cfg["exit_rules"]
-    for p in load_positions():
-        try:
-            exp = str(p["expiry"])
-            k, typ = float(p["strike"]), str(p["type"]).lower()
-            m = chain[(chain["expiry"] == exp) & (chain["strike"] == k) & (chain["type"] == typ)] if not chain.empty else chain
-            dte = (dt.date.fromisoformat(exp) - today).days
-            item = {"contract": f"SPCX {exp} ${k:g} {typ}", "contracts": int(p.get("contracts", 1)),
-                    "cost_per_contract": float(p["cost_per_contract"]), "dte": dte, "warnings": []}
-            w = item["warnings"]
-            if m is not None and not m.empty:
-                r = m.iloc[0]
-                val = r["mid"] * 100
-                pl = (val / item["cost_per_contract"] - 1) * 100
-                item |= {"value_per_contract": round(val, 0), "pl_pct": round(pl, 1),
-                         "pl_dollars": round((val - item["cost_per_contract"]) * item["contracts"], 0),
-                         "delta": _num(r["delta"]), "theta_per_day": _num(r["theta"] * 100)}
-                if pl >= rules["take_profit_pct"]:
-                    w.append(f"Up {pl:.0f}%: profit target reached")
-                if pl <= rules["stop_loss_pct"]:
-                    w.append(f"Down {pl:.0f}%: stop-loss level reached")
-                if (typ == "call" and direction["score"] <= -40) or (typ == "put" and direction["score"] >= 40):
-                    w.append(f"Signals have turned against it ({direction['label']})")
-            else:
-                item["note"] = "Contract not found in downloaded chain"
-            if dte <= rules["min_days_left"]:
-                w.append(f"{dte} days left: time decay speeds up from here")
-            if next_big and dt.date.fromisoformat(next_big["date"]) <= dt.date.fromisoformat(exp) and days_to_big is not None and days_to_big <= 3:
-                w.append(f"Will be held through: {next_big['title'].split(' — ')[0]}")
-            pos_out.append(item)
-        except Exception as e:
-            pos_out.append({"contract": str(p), "note": f"Couldn't read this position: {e}", "warnings": []})
-
     # ---- strong-signal log + outcomes (recorded for the dashboard; nothing is sent)
     state = _load_json(OUT / "state.json", {})
     log = _load_json(OUT / "signals.json", [])
@@ -230,7 +190,7 @@ def main():
         "events": [e | {"days": (dt.date.fromisoformat(e["date"]) - today).days} for e in events
                    if (dt.date.fromisoformat(e["date"]) - today).days >= -7],
         "next_big_event": next_big | {"days": days_to_big} if next_big else None,
-        "positions": pos_out, "context": ctx,
+        "context": ctx,
         "backtest": backtest.all_tests(daily, hourly, cfg["signal_min_score"]),
         "track_record": track, "signal_min_score": cfg["signal_min_score"],
         "daily": bars(daily, False), "hourly": bars(hourly.tail(7 * 30), True) if not hourly.empty else [],

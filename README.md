@@ -19,16 +19,14 @@ Every hour during market hours (Mon–Fri), GitHub runs the analysis automatical
 4. **Checks whether options are cheap or expensive.** It compares implied volatility (what options assume) with the stock's actual movement, and tracks IV rank over time.
 5. **Watches upcoming events:** earnings, lockup expirations, Fed meetings and monthly options expirations. It warns about *volatility crush*, the sharp drop in option prices that often follows earnings.
 6. **Suggests contracts to look at.** Only liquid contracts make the list (tight bid/ask, real open interest). Each one shows its breakeven, max loss and daily time decay.
-7. **Watches your positions,** if you list them, and flags on the dashboard when it may be time to **sell**: profit target hit, stop-loss hit, signals turned against you, under 21 days left, or an earnings date ahead.
-8. **Keeps score.** Every strong signal (score past ±40) is logged along with how the stock moved 1, 5 and 10 days later, so you can see how reliable the signals have been. A backtest runs on SPCX's price history too.
+7. **Keeps score.** Every strong signal (score past ±40) is logged along with how the stock moved 1, 5 and 10 days later, so you can see how reliable the signals have been. A backtest runs on SPCX's price history too.
 
 ## Customize it (all editable right on GitHub)
 
 | File | What to change |
 |---|---|
-| `data/positions.yaml` | Options you own, so the dashboard shows **sell** warnings |
 | `data/events.yaml` | Earnings dates, lockups, Starship launches and other events |
-| `config.yaml` | What counts as a strong signal (`signal_min_score`), profit target, stop-loss, which contracts get suggested |
+| `config.yaml` | What counts as a strong signal (`signal_min_score`) and which contracts get suggested |
 
 Click the file, then the pencil icon, edit, and **Commit changes**. The dashboard updates within a few minutes.
 
