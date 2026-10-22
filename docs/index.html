@@ -16,8 +16,47 @@
 <meta name="apple-mobile-web-app-title" content="SPCX">
 <link rel="stylesheet" href="style.css">
 <script src="vendor/lightweight-charts-4.1.3.js"></script>
+<script>
+  // Show the launch splash once per visit (skip it on later page loads in the same session)
+  try { if (sessionStorage.getItem("splashSeen") === "1") document.documentElement.classList.add("no-splash"); } catch (e) {}
+</script>
 </head>
 <body>
+<div id="splash" role="status" aria-label="Loading SPCX Signals">
+  <div class="sp-stars"></div>
+  <div class="sp-stars sp-stars2"></div>
+  <div class="sp-glow"></div>
+  <div class="sp-stage">
+    <div class="sp-rocket">
+      <svg viewBox="0 0 60 170" width="60" height="170" aria-hidden="true">
+        <defs>
+          <linearGradient id="spBody" x1="0" x2="1">
+            <stop offset="0" stop-color="#c9d1dc"/><stop offset=".45" stop-color="#ffffff"/><stop offset="1" stop-color="#aeb8c6"/>
+          </linearGradient>
+          <linearGradient id="spFlame" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#fff6c9"/><stop offset=".35" stop-color="#ffc24a"/><stop offset=".75" stop-color="#ff6a2b"/><stop offset="1" stop-color="#ff6a2b" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <g class="sp-flame"><path d="M21 126 Q30 172 39 126 Z" fill="url(#spFlame)"/><path d="M25 126 Q30 150 35 126 Z" fill="#fffbe8"/></g>
+        <path d="M14 96 L2 128 L15 121 Z" fill="#f07070"/><path d="M46 96 L58 128 L45 121 Z" fill="#f07070"/>
+        <path d="M30 4 C44 24 46 56 46 96 L46 122 L14 122 L14 96 C14 56 16 24 30 4 Z" fill="url(#spBody)"/>
+        <path d="M30 4 C36 12 40 22 42 32 L18 32 C20 22 24 12 30 4 Z" fill="#3fcf95"/>
+        <rect x="14" y="100" width="32" height="6" fill="#7aa2ff"/>
+        <circle cx="30" cy="58" r="7.5" fill="#1b2a52" stroke="#7aa2ff" stroke-width="2.5"/>
+        <circle cx="27.5" cy="55.5" r="2" fill="#cfe0ff"/>
+        <rect x="22" y="121" width="16" height="7" rx="2" fill="#7c8695"/>
+      </svg>
+    </div>
+    <div class="sp-smoke"><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="sp-pad"></div>
+  </div>
+  <div class="sp-text">
+    <div class="sp-title">SPCX <span>Signals</span></div>
+    <div class="sp-sub">Options dashboard</div>
+    <div class="sp-bar"><i></i></div>
+  </div>
+  <div class="sp-skip">Tap to skip</div>
+</div>
 <div class="wrap">
   <header class="top">
     <h1>SpaceX (SPCX) options signals</h1>

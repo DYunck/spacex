@@ -1,5 +1,5 @@
 // Network-first service worker: always tries for fresh data, falls back to the last copy when offline.
-const CACHE = "spcx-v1";
+const CACHE = "spcx-v2";
 const SHELL = ["./", "index.html", "guide.html", "style.css", "app.js", "calc.js",
   "vendor/lightweight-charts-4.1.3.js", "manifest.webmanifest", "icons/icon-192.png", "icons/apple-touch-icon.png"];
 

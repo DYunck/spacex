@@ -301,10 +301,34 @@ document.querySelectorAll("[data-sg]").forEach((b) => b.addEventListener("click"
   renderSugg();
 }));
 
+// ---------------------------------------------------------------- launch splash
+const Splash = (() => {
+  const el = $("splash");
+  const active = el && !document.documentElement.classList.contains("no-splash");
+  if (!active) { if (el) el.remove(); return { ready() {} }; }
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const minMs = reduce ? 700 : 2350, start = Date.now();
+  let gone = false;
+  const hide = () => {
+    if (gone) return; gone = true;
+    try { sessionStorage.setItem("splashSeen", "1"); } catch (e) { /* storage blocked */ }
+    el.classList.add("done");
+    setTimeout(() => el.remove(), 600);
+  };
+  el.addEventListener("click", hide);
+  setTimeout(hide, 6000); // never block the app for long
+  return {
+    ready() {
+      el.classList.add("ready");
+      setTimeout(hide, Math.max(0, minMs - (Date.now() - start)));
+    },
+  };
+})();
+
 fetch("data/latest.json?ts=" + Date.now())
   .then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); })
-  .then((d) => { D = d; render(); })
-  .catch((e) => { $("updated").textContent = "No data yet"; $("banners").innerHTML = `<div class="banner warn">No data yet (${esc(e.message)}). The first update runs on GitHub — check the Actions tab.</div>`; });
+  .then((d) => { D = d; try { render(); } finally { Splash.ready(); } })
+  .catch((e) => { Splash.ready(); $("updated").textContent = "No data yet"; $("banners").innerHTML = `<div class="banner warn">No data yet (${esc(e.message)}). The first update runs on GitHub — check the Actions tab.</div>`; });
 
 // Reload every 10 minutes so an open tab stays fresh
 setInterval(() => location.reload(), 10 * 60 * 1000);
