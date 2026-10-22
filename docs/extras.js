@@ -30,7 +30,7 @@
     oi: ["Open interest", "How many of these contracts currently exist. Higher open interest usually means easier, cheaper trading."],
     volume: ["Volume", "How many contracts traded today."],
     calc: ["Payoff calculator", "Estimates an option's value at different SPCX prices and dates using the Black-Scholes model. Use the sliders to see time decay and volatility crush. Real prices will differ."],
-    heatmap: ["Option chain heat map", "Every strike and expiration in one grid. Darker cells have more contracts traded today (volume) or outstanding (open interest), showing where traders are placing their bets."],
+    heatmap: ["Option chain heat map", "Every strike and expiration in one grid. Cells with stronger color have more contracts traded today (volume) or outstanding (open interest), showing where traders are placing their bets."],
     events: ["Upcoming events", "Dates that can move SPCX or its option prices: earnings, lockups (insiders allowed to sell), Fed meetings, options expirations and big launches."],
     levels: ["Support and resistance", "Prices where SPCX has repeatedly turned around before. Support is where buyers stepped in; resistance is where sellers did. The $135 IPO price is watched by many traders."],
     launches: ["Upcoming launches", "SpaceX's scheduled launches. Starship test flights and other big missions can move the stock, especially if something goes very right or very wrong."],
