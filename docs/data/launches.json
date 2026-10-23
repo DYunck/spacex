@@ -1,11 +1,11 @@
 {
- "fetched": "2026-10-23T17:37-04:00",
+ "fetched": "2026-10-23T19:58-04:00",
  "launches": [
   {
    "name": "Falcon 9 Block 5 | Starlink Group 15-15",
    "net": "2026-10-23T22:48:44Z",
-   "status": "Go",
-   "status_name": "Go for Launch",
+   "status": "Success",
+   "status_name": "Launch Successful",
    "rocket": "Falcon 9",
    "mission": "Starlink Group 15-15",
    "mission_type": "Communications",
