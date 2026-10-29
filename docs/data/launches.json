@@ -1,5 +1,5 @@
 {
- "fetched": "2026-10-28T19:29-04:00",
+ "fetched": "2026-10-29T15:11-04:00",
  "launches": [
   {
    "name": "Falcon 9 Block 5 | Starlink Group 15-18",
@@ -51,9 +51,9 @@
   },
   {
    "name": "Falcon 9 Block 5 | Cygnus CRS-2 NG-25",
-   "net": "2026-11-30T00:00:00Z",
-   "status": "TBD",
-   "status_name": "To Be Determined",
+   "net": "2026-11-29T16:00:00Z",
+   "status": "TBC",
+   "status_name": "To Be Confirmed",
    "rocket": "Falcon 9",
    "mission": "Cygnus CRS-2 NG-25",
    "mission_type": "Resupply",
@@ -70,6 +70,18 @@
    "mission": "NROL-195",
    "mission_type": "Government/Top Secret",
    "orbit": "LEO",
+   "pad": "Space Launch Complex 4E",
+   "location": "Vandenberg SFB, CA, USA"
+  },
+  {
+   "name": "Falcon 9 Block 5 | OneWeb 21",
+   "net": "2026-11-30T00:00:00Z",
+   "status": "TBD",
+   "status_name": "To Be Determined",
+   "rocket": "Falcon 9",
+   "mission": "OneWeb 21",
+   "mission_type": "Communications",
+   "orbit": "PO",
    "pad": "Space Launch Complex 4E",
    "location": "Vandenberg SFB, CA, USA"
   },
@@ -132,18 +144,6 @@
    "orbit": "LO",
    "pad": "Launch Complex 39A",
    "location": "Kennedy Space Center, FL, USA"
-  },
-  {
-   "name": "Falcon 9 Block 5 | BlueBird 14-16 (Block 2 #9-11)",
-   "net": "2026-12-31T00:00:00Z",
-   "status": "TBD",
-   "status_name": "To Be Determined",
-   "rocket": "Falcon 9",
-   "mission": "BlueBird 14-16 (Block 2 #9-11)",
-   "mission_type": "Communications",
-   "orbit": "LEO",
-   "pad": "Space Launch Complex 40",
-   "location": "Cape Canaveral SFS, FL, USA"
   }
  ]
 }
