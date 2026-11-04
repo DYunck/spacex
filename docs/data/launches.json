@@ -1,5 +1,5 @@
 {
- "fetched": "2026-11-03T15:16-05:00",
+ "fetched": "2026-11-03T19:51-05:00",
  "launches": [
   {
    "name": "Falcon 9 Block 5 | USSF-432",
@@ -14,24 +14,24 @@
    "location": "Vandenberg SFB, CA, USA"
   },
   {
-   "name": "Falcon 9 Block 5 | USSF-xxx (\"R-5\")",
+   "name": "Falcon 9 Block 5 | USSF-627",
    "net": "2026-11-10T03:03:00Z",
-   "status": "TBC",
-   "status_name": "To Be Confirmed",
+   "status": "Go",
+   "status_name": "Go for Launch",
    "rocket": "Falcon 9",
-   "mission": "USSF-xxx (\"R-5\")",
+   "mission": "USSF-627",
    "mission_type": "Government/Top Secret",
    "orbit": "LEO",
    "pad": "Space Launch Complex 4E",
    "location": "Vandenberg SFB, CA, USA"
   },
   {
-   "name": "Falcon 9 Block 5 | USSF-xxx (\"R-6\")",
+   "name": "Falcon 9 Block 5 | USSF-317",
    "net": "2026-11-13T04:23:00Z",
-   "status": "TBC",
-   "status_name": "To Be Confirmed",
+   "status": "Go",
+   "status_name": "Go for Launch",
    "rocket": "Falcon 9",
-   "mission": "USSF-xxx (\"R-6\")",
+   "mission": "USSF-317",
    "mission_type": "Government/Top Secret",
    "orbit": "LEO",
    "pad": "Space Launch Complex 4E",
