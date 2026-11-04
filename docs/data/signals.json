@@ -1,1 +1,10 @@
-[]
+[
+ {
+  "time": "2026-11-04T15:31-05:00",
+  "label": "Bearish",
+  "score": -53,
+  "price": 134.46,
+  "direction": "down",
+  "headline": "Conditions favor buying puts / selling calls you own"
+ }
+]
