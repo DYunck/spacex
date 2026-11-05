@@ -1,5 +1,5 @@
 {
- "fetched": "2026-11-04T20:02-05:00",
+ "fetched": "2026-11-05T15:48-05:00",
  "launches": [
   {
    "name": "Falcon 9 Block 5 | USSF-432",
@@ -98,6 +98,30 @@
    "location": "SpaceX Starbase, TX, USA"
   },
   {
+   "name": "Falcon 9 Block 5 | CHORUS",
+   "net": "2026-12-31T00:00:00Z",
+   "status": "TBD",
+   "status_name": "To Be Determined",
+   "rocket": "Falcon 9",
+   "mission": "CHORUS",
+   "mission_type": "Earth Science",
+   "orbit": "LEO",
+   "pad": "Unknown Pad",
+   "location": "Cape Canaveral SFS, FL, USA"
+  },
+  {
+   "name": "Falcon 9 Block 5 | Globalstar 2-R Mission 2 (x 9)",
+   "net": "2026-12-31T00:00:00Z",
+   "status": "TBD",
+   "status_name": "To Be Determined",
+   "rocket": "Falcon 9",
+   "mission": "Globalstar 2-R Mission 2 (x 9)",
+   "mission_type": "Communications",
+   "orbit": "LEO",
+   "pad": "Space Launch Complex 40",
+   "location": "Cape Canaveral SFS, FL, USA"
+  },
+  {
    "name": "Falcon 9 Block 5 | SDA Tranche 2 Transport Layer D",
    "net": "2026-12-31T00:00:00Z",
    "status": "TBD",
@@ -120,30 +144,6 @@
    "orbit": "PO",
    "pad": "Space Launch Complex 4E",
    "location": "Vandenberg SFB, CA, USA"
-  },
-  {
-   "name": "Falcon 9 Block 5 | BlueBird 14-16 (Block 2 #9-11)",
-   "net": "2026-12-31T00:00:00Z",
-   "status": "TBD",
-   "status_name": "To Be Determined",
-   "rocket": "Falcon 9",
-   "mission": "BlueBird 14-16 (Block 2 #9-11)",
-   "mission_type": "Communications",
-   "orbit": "LEO",
-   "pad": "Space Launch Complex 40",
-   "location": "Cape Canaveral SFS, FL, USA"
-  },
-  {
-   "name": "Falcon 9 Block 5 | CHORUS",
-   "net": "2026-12-31T00:00:00Z",
-   "status": "TBD",
-   "status_name": "To Be Determined",
-   "rocket": "Falcon 9",
-   "mission": "CHORUS",
-   "mission_type": "Earth Science",
-   "orbit": "LEO",
-   "pad": "Unknown Pad",
-   "location": "Cape Canaveral SFS, FL, USA"
   }
  ]
 }

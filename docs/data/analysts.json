@@ -4,7 +4,7 @@
   "mean": 257.11444,
   "median": 247.5,
   "high": 800.0,
-  "current": 135.92
+  "current": 125.09
  },
  "count": 36,
  "rating_key": "buy",
@@ -17,6 +17,15 @@
   "strongSell": 0
  },
  "changes": [
+  {
+   "date": "2026-11-05",
+   "firm": "China Renaissance",
+   "to": "Buy",
+   "from": "",
+   "action": "init",
+   "target": 194.2,
+   "prior_target": 0.0
+  },
   {
    "date": "2026-10-22",
    "firm": "B of A Securities",
@@ -97,15 +106,6 @@
    "action": "main",
    "target": 274.0,
    "prior_target": 214.0
-  },
-  {
-   "date": "2026-10-21",
-   "firm": "Keybanc",
-   "to": "Sector Weight",
-   "from": "Sector Weight",
-   "action": "reit",
-   "target": 0.0,
-   "prior_target": 0.0
   }
  ]
 }
