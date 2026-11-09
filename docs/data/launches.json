@@ -1,21 +1,9 @@
 {
- "fetched": "2026-11-06T19:17-05:00",
+ "fetched": "2026-11-09T18:08-05:00",
  "launches": [
   {
-   "name": "Falcon 9 Block 5 | USSF-432",
-   "net": "2026-11-07T00:48:42Z",
-   "status": "Go",
-   "status_name": "Go for Launch",
-   "rocket": "Falcon 9",
-   "mission": "USSF-432",
-   "mission_type": "Government/Top Secret",
-   "orbit": "LEO",
-   "pad": "Space Launch Complex 4E",
-   "location": "Vandenberg SFB, CA, USA"
-  },
-  {
    "name": "Falcon 9 Block 5 | USSF-627",
-   "net": "2026-11-10T03:03:00Z",
+   "net": "2026-11-11T02:49:00Z",
    "status": "Go",
    "status_name": "Go for Launch",
    "rocket": "Falcon 9",
@@ -26,26 +14,38 @@
    "location": "Vandenberg SFB, CA, USA"
   },
   {
-   "name": "Starship | Flight 15",
-   "net": "2026-11-13T00:00:00Z",
-   "status": "TBD",
-   "status_name": "To Be Determined",
+   "name": "Starship | Starlink Group 31-2 (Starship Flight 15)",
+   "net": "2026-11-13T22:45:00Z",
+   "status": "TBC",
+   "status_name": "To Be Confirmed",
    "rocket": "Starship",
-   "mission": "Flight 15",
-   "mission_type": "Test Flight",
+   "mission": "Starlink Group 31-2 (Starship Flight 15)",
+   "mission_type": "Communications",
    "orbit": "LEO",
    "pad": "Orbital Launch Pad 2",
    "location": "SpaceX Starbase, TX, USA"
   },
   {
    "name": "Falcon 9 Block 5 | USSF-317",
-   "net": "2026-11-13T04:23:00Z",
+   "net": "2026-11-14T04:09:00Z",
    "status": "Go",
    "status_name": "Go for Launch",
    "rocket": "Falcon 9",
    "mission": "USSF-317",
    "mission_type": "Government/Top Secret",
    "orbit": "LEO",
+   "pad": "Space Launch Complex 4E",
+   "location": "Vandenberg SFB, CA, USA"
+  },
+  {
+   "name": "Falcon 9 Block 5 | USSF-266",
+   "net": "2026-11-17T16:58:00Z",
+   "status": "Go",
+   "status_name": "Go for Launch",
+   "rocket": "Falcon 9",
+   "mission": "USSF-266",
+   "mission_type": "Government/Top Secret",
+   "orbit": "PO",
    "pad": "Space Launch Complex 4E",
    "location": "Vandenberg SFB, CA, USA"
   },

@@ -1,17 +1,17 @@
 {
  "targets": {
   "low": 70.0,
-  "mean": 257.11444,
-  "median": 247.5,
+  "mean": 255.0627,
+  "median": 245.0,
   "high": 800.0,
-  "current": 134.27
+  "current": 142.07
  },
- "count": 36,
+ "count": 37,
  "rating_key": "buy",
- "rating_mean": 1.71795,
+ "rating_mean": 1.7,
  "mix": {
   "strongBuy": 8,
-  "buy": 23,
+  "buy": 24,
   "hold": 6,
   "sell": 2,
   "strongSell": 0
