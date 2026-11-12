@@ -7,6 +7,8 @@
   "direction": "down",
   "headline": "Conditions favor buying puts / selling calls you own",
   "after_1d": -6.97,
-  "right_1d": true
+  "right_1d": true,
+  "after_5d": 4.0,
+  "right_5d": false
  }
 ]
