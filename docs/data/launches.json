@@ -1,5 +1,5 @@
 {
- "fetched": "2026-11-12T16:03-05:00",
+ "fetched": "2026-11-12T21:05-05:00",
  "launches": [
   {
    "name": "Falcon 9 Block 5 | USSF-627",
@@ -27,7 +27,7 @@
   },
   {
    "name": "Falcon 9 Block 5 | USSF-317",
-   "net": "2026-11-15T03:55:00Z",
+   "net": "2026-11-18T03:14:00Z",
    "status": "Go",
    "status_name": "Go for Launch",
    "rocket": "Falcon 9",
