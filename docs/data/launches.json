@@ -1,9 +1,9 @@
 {
- "fetched": "2026-11-16T18:00-05:00",
+ "fetched": "2026-11-18T16:33-05:00",
  "launches": [
   {
    "name": "Falcon 9 Block 5 | USSF-317",
-   "net": "2026-11-19T03:00:00Z",
+   "net": "2026-11-20T02:46:00Z",
    "status": "Go",
    "status_name": "Go for Launch",
    "rocket": "Falcon 9",
@@ -34,6 +34,18 @@
    "mission": "USSF-266",
    "mission_type": "Government/Top Secret",
    "orbit": "PO",
+   "pad": "Space Launch Complex 4E",
+   "location": "Vandenberg SFB, CA, USA"
+  },
+  {
+   "name": "Falcon 9 Block 5 | USSF-380",
+   "net": "2026-11-28T04:53:00Z",
+   "status": "Go",
+   "status_name": "Go for Launch",
+   "rocket": "Falcon 9",
+   "mission": "USSF-380",
+   "mission_type": "Government/Top Secret",
+   "orbit": "LEO",
    "pad": "Space Launch Complex 4E",
    "location": "Vandenberg SFB, CA, USA"
   },
@@ -132,18 +144,6 @@
    "orbit": "PO",
    "pad": "Space Launch Complex 4E",
    "location": "Vandenberg SFB, CA, USA"
-  },
-  {
-   "name": "Falcon 9 Block 5 | BlueBird 14-16 (Block 2 #9-11)",
-   "net": "2026-12-31T00:00:00Z",
-   "status": "TBD",
-   "status_name": "To Be Determined",
-   "rocket": "Falcon 9",
-   "mission": "BlueBird 14-16 (Block 2 #9-11)",
-   "mission_type": "Communications",
-   "orbit": "LEO",
-   "pad": "Space Launch Complex 40",
-   "location": "Cape Canaveral SFS, FL, USA"
   }
  ]
 }
